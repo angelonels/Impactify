@@ -16,15 +16,7 @@ Users can **upload datasets, clean data interactively**, and **ask questions in 
 5. [🧱 Database Schema](#-database-schema)
 6. [🧩 Tech Stack](#-tech-stack)
 7. [⚙️ Workflow](#️-workflow)
-8. [🗂️ Folder Structure](#️-folder-structure)
-9. [🧰 Installation & Setup](#-installation--setup)
-10. [🔑 Environment Variables](#-environment-variables)
-11. [🧠 AI Query Example](#-ai-query-example)
-12. [📡 API Endpoints](#-api-endpoints)
-13. [💾 Expected Outcomes](#-expected-outcomes)
-14. [🤝 Contributing](#-contributing)
-15. [📜 License](#-license)
-16. [❤️ Acknowledgments](#️-acknowledgments)
+8. [🧑‍💻 Built with Passion](#-built-with-passion)
 
 ---
 
