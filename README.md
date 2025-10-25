@@ -16,7 +16,7 @@ Users can **upload datasets, clean data interactively**, and **ask questions in 
 5. [🧱 Database Schema](#-database-schema)
 6. [🧩 Tech Stack](#-tech-stack)
 7. [⚙️ Workflow](#️-workflow)
-8. [🧑‍💻 Built with Passion](#-built-with-passion)
+8. [🧑‍💻 Our Team](#-our-team)
 
 ---
 
@@ -144,7 +144,8 @@ The backend then securely converts these questions into SQL queries and visualiz
 
 ---
 
-### 🧑‍💻 Built with Passion by **Team CodeBrewers**
+### 🧑‍💻 Our Team
+**Team CodeBrewers**
 
 **Angelo Nelson** • **Ayush Kumar Singh** • **Isha Singh** • **Rohit Nair P**
 
