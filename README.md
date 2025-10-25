@@ -1,142 +1,154 @@
-# 🌐 Impactify — Your AI-Powered Data Analyst
+# 🌟 Impactify — Your AI-Powered Data Analyst
 
-> **Impactify** bridges the gap between raw data and actionable insights.  
-> Upload. Clean. Ask in English. Visualize. All powered by an AI that understands your data.
+> **Empowering everyone to become a data analyst — without writing a single line of SQL.**
 
----
-
-## 🚀 Overview
-
-**Impactify** is a full-stack web application designed to make data analysis accessible to everyone — even without SQL or data science expertise.  
-
-Users can:
-- Upload datasets (CSV files)
-- Interactively clean and fix issues
-- Ask questions in plain English (like *“Show me top 10 products by revenue last quarter”*)
-- Get the results as dynamic D3.js visualizations
-
-Behind the scenes, Impactify’s **AI engine** translates natural language queries into **secure SQL** and executes them on the user’s private dataset.
+Impactify is a **full-stack AI-powered web application** that bridges the gap between raw data and actionable insights.  
+Users can **upload datasets, clean data interactively**, and **ask questions in plain English** — Impactify automatically converts them into **SQL queries** and **renders visualizations** like bar, line, or pie charts instantly.
 
 ---
 
-## 🧩 Key Features
+## 📖 Table of Contents
 
-### 🗂️ File Ingestion
-- **In-browser parsing:** CSVs parsed chunk-by-chunk using **Papa Parse**  
-- **Streaming upload:** Frontend streams data chunks to backend for smooth, large uploads  
+1. [✨ Overview](#-overview)
+2. [🚀 Key Features](#-key-features)
+3. [👤 User Roles](#-user-roles)
+4. [🖥️ Frontend Pages](#️-frontend-pages)
+5. [🧱 Database Schema](#-database-schema)
+6. [🧩 Tech Stack](#-tech-stack)
+7. [⚙️ Workflow](#️-workflow)
+8. [🗂️ Folder Structure](#️-folder-structure)
+9. [🧰 Installation & Setup](#-installation--setup)
+10. [🔑 Environment Variables](#-environment-variables)
+11. [🧠 AI Query Example](#-ai-query-example)
+12. [📡 API Endpoints](#-api-endpoints)
+13. [💾 Expected Outcomes](#-expected-outcomes)
+14. [🤝 Contributing](#-contributing)
+15. [📜 License](#-license)
+16. [❤️ Acknowledgments](#️-acknowledgments)
 
-### 📊 Automated Data Profiling
-- Backend automatically infers column types, missing values, and inconsistencies  
-- Generates a **“Data Report Card”** showing data health and stats  
+---
 
-### 🧼 Interactive Data Cleaning (“Cleaning Room”)
-- Fix missing values (mean, median, custom)
-- Merge inconsistent text entries (e.g., “USA” vs “U.S.A.”)
-- Correct wrongly inferred data types
-- Preview and commit cleaned dataset
+## ✨ Overview
 
-### 🧠 Natural Language → SQL
-- Users can ask queries in plain English  
-- Backend uses **Google Gemini API** with schema-aware prompting  
-- Returns validated SQL + chart type (JSON format)
-- Backend validates SQL for safety before execution  
+**Impactify** is a next-generation data analysis platform designed to simplify how people interact with data.  
+Instead of learning SQL or data visualization tools, users can **ask questions in natural language**.  
+The backend then securely converts these questions into SQL queries and visualizes the results dynamically.
 
-### 📈 AI Visualization Workbench
-- Dynamic charts rendered via **D3.js**
-- Pin favorite queries and visualizations to a **drag-and-drop dashboard**
-- Persistent layouts using **react-grid-layout**
+### 🎯 Mission
+> To make data-driven decision-making accessible to everyone — not just data scientists.
+
+---
+
+## 🚀 Key Features
+
+### 1. 🧾 File Ingestion
+- **In-browser parsing** using [Papa Parse](https://www.papaparse.com/).  
+- **Chunked streaming** to backend for reliable ingestion.
+
+### 2. 🤖 Automated Data Profiling
+- Detects column types, missing values, and text inconsistencies.  
+- Generates a **Data Report Card** highlighting issues and suggestions.
+
+### 3. 🧹 Interactive Data Cleaning
+- View and fix issues from the Data Report Card.  
+- Fill missing values (mean, median, custom).  
+- Merge inconsistent text entries.  
+- Correct inferred data types.
+
+### 4. 💬 Natural Language → SQL
+- AI translates plain English into optimized SQL queries.  
+- Example: _“Show me the top 10 customers by sales last quarter as a bar chart.”_  
+- Secure validation before execution.  
+- Outputs chart-ready data and visualization type.
+
+### 5. 📊 AI-Driven Visualization Workbench
+- Dynamic rendering via **D3.js**.  
+- Supports bar, line, pie, scatter charts, etc.  
+- Pin and save charts to a customizable dashboard using `react-grid-layout`.
 
 ---
 
 ## 👤 User Roles
 
-### Registered User
-- Can upload, clean, and analyze their datasets  
-- Full CRUD access to their own data and dashboards  
-
-### Guest (Future Scope)
-- Can browse shared public dashboards (read-only)
-
----
-
-## 🧱 Tech Stack
-
-### Frontend
-- **React (Vite)**  
-- **Tailwind CSS**  
-- **D3.js** (visualizations)  
-- **Zustand** (state management)  
-- **react-grid-layout** (dashboards)  
-- **Papa Parse** (file parsing)
-
-### Backend
-- **Node.js** + **Fastify** (API framework)  
-- **PostgreSQL** (database)  
-- **JWT Authentication**  
-- **Google Gemini API** (LLM for SQL generation)
-
-### Optional / Extensions
-- **Prisma ORM** (for schema handling)  
-- **TimescaleDB** (for time-series data)
+| Role | Permissions | Data Access |
+|------|--------------|--------------|
+| **Admin** | Manage users, view system metrics, control public content | Read-only metadata (no user data) |
+| **Registered User** | Upload, clean, analyze data, manage dashboards | Full access to their own data |
+| **Guest (Future)** | Browse public dashboards | Read-only |
 
 ---
 
-## 🗃️ Database Schema (Simplified)
+## 🖥️ Frontend Pages
 
-**Users**
-| Field | Type | Description |
+| Route | Description |
+|--------|--------------|
+| `/login` & `/signup` | Authentication pages |
+| `/dashboard` | User's project hub |
+| `/upload` | Upload CSV datasets |
+| `/dataset/{id}/clean` | Data cleaning interface |
+| `/dataset/{id}/analyze` | Natural language querying + visualization workbench |
+| `/admin/dashboard` | Admin control panel |
+| `/profile` | Manage user profile |
+
+---
+
+## 🧱 Database Schema (PostgreSQL)
+
+### **User**
+| Column | Type | Description |
 |--------|------|-------------|
 | id | UUID | Primary Key |
 | email | String | Unique |
-| password_hash | String | Secure password storage |
-| created_at | Timestamp | Account creation date |
+| password_hash | String | Securely stored |
+| role | Enum(`ADMIN`, `USER`) | Access control |
+| auth_provider | Enum(`EMAIL`, `GOOGLE`) | Login type |
+| google_id | String | Nullable |
+| created_at | Timestamp | Creation date |
 
-**Datasets**
-| Field | Type | Description |
+### **Dataset**
+| Column | Type | Description |
 |--------|------|-------------|
 | id | UUID | Primary Key |
-| user_id | UUID | Foreign Key |
-| dataset_name | String | File name |
-| status | Enum | uploading / profiling / cleaning / ready / error |
-| data_table_name | String | Private table name |
+| user_id | UUID | FK → User |
+| dataset_name | String | Name of dataset |
+| status | Enum | `uploading`, `profiling`, `cleaning`, `ready`, `error` |
+| data_table_name | String | Private table name per dataset |
 
-**Dataset Schema**
-| Field | Type | Description |
+### **Dataset_Schema**
+| Column | Type | Description |
 |--------|------|-------------|
+| id | UUID | Primary Key |
+| dataset_id | UUID | FK → Dataset |
 | column_name | String | Column name |
-| data_type | String | Data type (TEXT, FLOAT, etc.) |
-| description | Text | Optional hints for AI |
-
-**Dashboards / Charts**
-| Table | Description |
-|--------|-------------|
-| Dashboard | User’s saved dashboard layout |
-| Chart | Saved chart widget (NL query + SQL + chart type) |
+| data_type | String | FLOAT / TEXT / TIMESTAMP |
+| description | Text | Optional column notes for AI |
 
 ---
 
-## 🧠 Workflow
+## 🧩 Tech Stack
 
-1. **Login / Signup**
-2. **Upload CSV** → parsed with Papa Parse → streamed to backend
-3. **Data Profiling** → backend analyzes columns and missing data
-4. **Cleaning Room** → fix issues interactively
-5. **Commit Clean Data** → stored securely in private table
-6. **Ask Query in English** → AI generates and validates SQL
-7. **Visualize** → Chart auto-rendered via D3.js
-8. **Pin to Dashboard** → Save chart for future insights
+| Layer | Technologies |
+|-------|---------------|
+| **Frontend** | React, Tailwind CSS, Zustand, D3.js, React Router, react-grid-layout, Papa Parse |
+| **Backend** | Node.js, Express, Fastify (optional), JWT Auth, Google OAuth |
+| **AI / LLM** | Google Gemini API (Schema-Aware Prompting) |
+| **Database** | PostgreSQL (with TimescaleDB extension optional) |
+| **Deployment** | Vercel (Frontend), Render/Railway (Backend), Neon.tech (DB) |
 
 ---
 
-## 🧰 Installation & Setup
+## ⚙️ Workflow
 
-### Prerequisites
-- Node.js (v18+)
-- PostgreSQL
-- npm / pnpm / yarn
-- Google Gemini API key
+1. **Login/Upload** — User signs in and uploads a CSV.  
+2. **Parsing** — Browser parses CSV with Papa Parse, streams to backend.  
+3. **Profiling** — Backend analyzes data, creates schema, sets dataset status = `cleaning`.  
+4. **Cleaning** — User fixes missing values, text inconsistencies, etc.  
+5. **Commit** — Backend applies cleaning rules and finalizes dataset.  
+6. **Analyze** — User queries data in plain English.  
+7. **AI Processing** — Backend retrieves schema and queries LLM for SQL + chart type.  
+8. **Execution** — SQL is validated and executed on user’s private dataset.  
+9. **Visualization** — Frontend dynamically renders the chart.  
+10. **Dashboard Save** — Users can pin, save, and manage dashboards.
 
-### Clone & Install
-```bash
-git clone https://github.com/<your-username>/impactify.git
-cd impactify
+---
+
