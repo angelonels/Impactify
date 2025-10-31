@@ -114,19 +114,19 @@ This schema separates application metadata from the user's ingested data, which 
 
 1.  **Angelo Nelson (Data & AI Pipeline Lead):**
     * **Focus:** Data flow, AI translation, & visualization.
-    * **Tasks:** Implements frontend parsing/streaming (Papa Parse). Develops backend ingestion to staging. Manages the NL-to-SQL module (Gemini prompting) and secure SQL execution. Renders frontend charts (D3.js/Nivo).
+    * **Tasks:** Implements frontend parsing/streaming. Develops backend ingestion to staging. Builds the **NL query API route** (Gemini prompting & secure SQL execution). Renders frontend charts (D3.js/Nivo).
 
 2.  **Isha Singh (Auth & Database Lead):**
     * **Focus:** Auth & database architecture.
     * **Tasks:** Implements full-stack auth (email/Google OAuth, JWT). Sets up PostgreSQL DB and Prisma schemas (User, Dataset, etc.). Builds frontend auth pages (`/login`, `/signup`).
 
-3.  **Rohit Nair P (Full-Stack Developer - Data Quality & Logic):**
-    * **Focus:** Data profiling, cleaning, & core data logic.
-    * **Tasks:** Develops backend dashboard routes (Dataset CRUD). Builds the **automated data profiling service**. Implements the full-stack "Interactive Data Cleaning" module (`/dataset/{id}/clean` UI + API). Manages backend logic for committing cleaned data.
+3.  **Rohit Nair P (Full-Stack Developer - Data Ingestion & Quality):**
+    * **Focus:** Data upload, profiling & cleaning.
+    * **Tasks:** Builds the **`/upload` page UI**. Builds the **automated data profiling service** (backend). Implements the full-stack "Interactive Data Cleaning" module (`/dataset/{id}/clean` UI + API). Manages backend logic for committing cleaned data.
 
-4.  **Ayush Kumar Singh (Full-Stack Developer - UI & User Features):**
-    * **Focus:** Main UI/UX, user features, & admin.
-    * **Tasks:** Implements the full-stack Admin module (`/admin/dashboard` + API) and User Profile feature (`/profile` + API). Builds the main "Impact" Workbench UI (`/dataset/{id}/analyze`) plus the `/dashboard` & `/upload` pages. Manages global frontend (routing, CSS).
+4.  **Ayush Kumar Singh (Full-Stack Developer - UI & App Logic):**
+    * **Focus:** Main UI, user features, & core app logic.
+    * **Tasks:** Implements the full-stack Admin module (`/admin/dashboard` + API) and User Profile feature (`/profile` + API). Develops the **backend dashboard routes (Dataset CRUD)**. Builds all main UI pages (`/dashboard`, `/dataset/{id}/analyze`). Manages global frontend (routing, state, CSS).
           
 # **Expected Outcomes**
 
