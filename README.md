@@ -143,13 +143,18 @@ The backend then securely converts these questions into SQL queries and visualiz
 10. **Dashboard Save** — Users can pin, save, and manage dashboards.
 
 ---
+## ☕ Team CodeBrewers
 
 ### 🧑‍💻 Our Team
-**Team CodeBrewers**
+Thanks to these amazing people for contributing to **Impactify** 🔥
 
-**Angelo Nelson** • **Ayush Kumar Singh** • **Isha Singh** • **Rohit Nair P**
+<p align="center">
+  <a href="https://github.com/angelonels/Impactify/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=angelonels/Impactify" />
+  </a>
+</p>
 
-> A collaborative effort fueled by creativity, curiosity, and coffee ☕  
-> Building impactful tech — one line of code at a time 🚀
+<p align="center">
+  <b>Ayush Kumar Singh</b> • <b>Angelo Nelson</b> • <b>Rohit Nair P</b> • <b>Isha Singh</b>
+</p>
 
----
