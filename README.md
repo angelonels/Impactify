@@ -177,6 +177,86 @@ The backend then securely converts these questions into SQL queries and visualiz
 
 ---
 
+## 🚀 Getting Started (Local Development)
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm or yarn
+- Docker Desktop (for PostgreSQL) or a PostgreSQL instance
+
+### Installation Steps
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/angelonels/Impactify.git
+   cd Impactify
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+   This will install dependencies for both `client` and `server` workspaces.
+
+3. **Set up environment variables**
+   
+   Create a `.env` file in the root directory:
+   ```env
+   # Client
+   NEXT_PUBLIC_API_BASE=http://localhost:4000
+   
+   # Server
+   PORT=4000
+   DATABASE_URL=postgresql://postgres:postgres@localhost:5432/impactify
+   LOG_LEVEL=info
+   GEMINI_API_KEY=your_gemini_api_key_here
+   ```
+
+4. **Start PostgreSQL database**
+   
+   Using Docker Compose (recommended):
+   ```bash
+   docker compose up -d
+   ```
+   
+   Or use your existing PostgreSQL instance and update `DATABASE_URL` accordingly.
+
+5. **Generate Prisma Client**
+   ```bash
+   npx -w server prisma generate
+   ```
+
+6. **Run database migrations** (when migrations are ready)
+   ```bash
+   npx -w server prisma migrate dev
+   ```
+
+7. **Start development servers**
+   ```bash
+   npm run dev
+   ```
+   
+   This will start both:
+   - **Client (Next.js)**: http://localhost:3000
+   - **Server (Express)**: http://localhost:4000
+
+### Available Scripts
+
+- `npm run dev` - Start both client and server in development mode
+- `npm run dev:client` - Start only the Next.js client
+- `npm run dev:server` - Start only the Express server
+- `npm run build` - Build the client for production
+- `npm run start` - Start the server in production mode
+
+### Troubleshooting
+
+- **Port already in use**: Make sure ports 3000 and 4000 are available, or update the configuration.
+- **Database connection errors**: Ensure PostgreSQL is running and `DATABASE_URL` is correct.
+- **Module not found**: Run `npm install` again to ensure all dependencies are installed.
+
+---
+
 ## ⚙️ Workflow
 
 1. **Login/Upload** — User signs in and uploads a CSV.  
