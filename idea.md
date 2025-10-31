@@ -85,13 +85,13 @@ This schema separates application metadata from the user's ingested data, which 
 
 * **Frontend:**  
   * **Framework:** React  
-  * **Data Visualization:** D3.js (for rendering)  
-  * **State Management:** Zustand  
+  * **Data Visualization:** D3.js/Nivo (for rendering)  
   * **File Parsing:** Papa Parse  
   * **UI/Layout:** CSS/Tailwind CSS  
 * **Backend:**  
   * **Framework:** Node.js with **Express**  
-  * **AI / LLM:** **Google Gemini API** (for natural language-to-SQL)  
+  * **AI / LLM:** **Google Gemini API** (for natural language-to-SQL)
+  * **ORM:** **Prisma**
   * **Authentication:** JWT (JSON Web Tokens), **Google OAuth 2.0**  
 * **Database:**  
   * **Primary DB:** PostgreSQL
@@ -110,6 +110,24 @@ This schema separates application metadata from the user's ingested data, which 
 10. **Execute & Send:** The backend validates the SQL, runs it against the user's private data\_... table, and sends the resulting data and chartType to the frontend.  
 11. **Render:** The frontend receives the payload and dynamically renders a \<LineChart\> component (using React \+ D3).
 
+## **Team Members & Roles**
+
+1.  **Angelo Nelson (Data & AI Pipeline Lead):**
+    * **Focus:** Data flow, AI translation, & visualization.
+    * **Tasks:** Implements frontend parsing/streaming (Papa Parse). Develops backend ingestion to staging. Manages the NL-to-SQL module (Gemini prompting) and secure SQL execution. Renders frontend charts (D3.js/Nivo).
+
+2.  **Isha Singh (Auth & Database Lead):**
+    * **Focus:** Auth & database architecture.
+    * **Tasks:** Implements full-stack auth (email/Google OAuth, JWT). Sets up PostgreSQL DB and Prisma schemas (User, Dataset, etc.). Builds frontend auth pages (`/login`, `/signup`).
+
+3.  **Rohit Nair P (Full-Stack Developer - Data Quality & Logic):**
+    * **Focus:** Data profiling, cleaning, & core data logic.
+    * **Tasks:** Develops backend dashboard routes (Dataset CRUD). Builds the **automated data profiling service**. Implements the full-stack "Interactive Data Cleaning" module (`/dataset/{id}/clean` UI + API). Manages backend logic for committing cleaned data.
+
+4.  **Ayush Kumar Singh (Full-Stack Developer - UI & User Features):**
+    * **Focus:** Main UI/UX, user features, & admin.
+    * **Tasks:** Implements the full-stack Admin module (`/admin/dashboard` + API) and User Profile feature (`/profile` + API). Builds the main "Impact" Workbench UI (`/dataset/{id}/analyze`) plus the `/dashboard` & `/upload` pages. Manages global frontend (routing, CSS).
+          
 # **Expected Outcomes**
 
 * A functional and scalable web application that provides a seamless, end-to-end experience for users, from data upload to final visualization.  
