@@ -1,22 +1,70 @@
-# 🌟 Impactify — Your AI-Powered Data Analyst
+<h1 align="center">📊 Impactify — Your AI-Powered Data Analyst</h1>
+<p align="center">
+  <img src="https://media.giphy.com/media/qgQUggAC3Pfv687qPC/giphy.gif" width="400" alt="AI animation" />
+</p>
 
-> **Empowering everyone to become a data analyst — without writing a single line of SQL.**
+<h3 align="center">
+  <em>Empowering everyone to become a data analyst — without writing a single line of SQL.</em>
+  
+</h3>
 
-Impactify is a **full-stack AI-powered web application** that bridges the gap between raw data and actionable insights.  
-Users can **upload datasets, clean data interactively**, and **ask questions in plain English** — Impactify automatically converts them into **SQL queries** and **renders visualizations** like bar, line, or pie charts instantly.
+<br/>
+
+<p align="center">
+  <a href="https://github.com/angelonels/Impactify/stargazers">
+    <img src="https://img.shields.io/github/stars/angelonels/Impactify?color=gold&style=for-the-badge" alt="Stars Badge"/>
+  </a>
+  <a href="https://github.com/angelonels/Impactify/forks">
+    <img src="https://img.shields.io/github/forks/angelonels/Impactify?color=teal&style=for-the-badge" alt="Forks Badge"/>
+  </a>
+  <a href="https://github.com/angelonels/Impactify/issues">
+    <img src="https://img.shields.io/github/issues/angelonels/Impactify?color=orange&style=for-the-badge" alt="Issues Badge"/>
+  </a>
+  <a href="https://github.com/angelonels/Impactify/pulls">
+    <img src="https://img.shields.io/github/issues-pr/angelonels/Impactify?color=brightgreen&style=for-the-badge" alt="Pull Requests Badge"/>
+  </a>
+  <a href="https://github.com/angelonels/Impactify/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/angelonels/Impactify?color=purple&style=for-the-badge" alt="Contributors Badge"/>
+  </a>
+<a href="https://github.com/angelonels/Impactify/commits/main">
+  <img src="https://img.shields.io/github/commit-activity/m/angelonels/Impactify?color=ff69b4&style=for-the-badge" alt="Commit Activity Badge"/>
+</a>
+
+  <a href="https://github.com/angelonels/Impactify/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/angelonels/Impactify?color=blue&style=for-the-badge" alt="License Badge"/>
+  </a>
+  <img src="https://img.shields.io/badge/Frontend-React-blue?style=for-the-badge&logo=react&logoColor=white" alt="React Badge"/>
+  <img src="https://img.shields.io/badge/Backend-Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js Badge"/>
+  <img src="https://img.shields.io/badge/Database-PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL Badge"/>
+  <img src="https://img.shields.io/badge/AI-Google%20Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Gemini Badge"/>
+  <img src="https://img.shields.io/badge/Auth-Google%20OAuth%20%7C%20JWT-FF4081?style=for-the-badge&logo=google&logoColor=white" alt="Auth Badge"/>
+  <img src="https://img.shields.io/badge/Deployed%20On-Vercel%20%26%20Render-black?style=for-the-badge&logo=vercel&logoColor=white" alt="Deploy Badge"/>
+</p>
 
 ---
 
-## 📖 Table of Contents
+<p align="center">
+Impactify is a <b>full-stack AI-powered web application</b> that bridges the gap between raw data and actionable insights.  
+Users can <b>upload datasets</b>, <b>clean data interactively</b>, and <b>ask questions in plain English</b> — Impactify automatically converts them into <b>SQL queries</b> and renders <b>dynamic visualizations</b> like bar, line, or pie charts instantly.
+</p>
 
-1. [✨ Overview](#-overview)
-2. [🚀 Key Features](#-key-features)
-3. [👤 User Roles](#-user-roles)
-4. [🖥️ Frontend Pages](#️-frontend-pages)
-5. [🧱 Database Schema](#-database-schema)
-6. [🧩 Tech Stack](#-tech-stack)
-7. [⚙️ Workflow](#️-workflow)
-8. [🧑‍💻 Our Team](#-our-team)
+---
+## 📖 **Table of Contents**
+
+<div align="center">
+
+| 🔹 | Section | Description |
+|:--:|:---------|:-------------|
+| 1️⃣ | [✨ **Overview**](#-overview) | Learn what this project is all about |
+| 2️⃣ | [🚀 **Key Features**](#-key-features) | Explore the unique and powerful functionalities |
+| 3️⃣ | [👤 **User Roles**](#-user-roles) | Understand the roles and permissions in the system |
+| 4️⃣ | [🖥️ **Frontend Pages**](#️-frontend-pages) | See what the user interface includes |
+| 5️⃣ | [🧱 **Database Schema**](#-database-schema) | Visualize the data structure and relationships |
+| 6️⃣ | [🧩 **Tech Stack**](#-tech-stack) | Discover the technologies powering this project |
+| 7️⃣ | [⚙️ **Workflow**](#️-workflow) | Understand how the frontend, backend, and DB interact |
+| 8️⃣ | [🧑‍💻 **Our Team**](#-our-team) | Meet the developers behind the project |
+
+</div>
 
 ---
 
@@ -138,7 +186,7 @@ The backend then securely converts these questions into SQL queries and visualiz
 5. **Commit** — Backend applies cleaning rules and finalizes dataset.  
 6. **Analyze** — User queries data in plain English.  
 7. **AI Processing** — Backend retrieves schema and queries LLM for SQL + chart type.  
-8. **Execution** — SQL is validated and executed on user’s private dataset.  
+8. **Execution** — SQL is validated and executed on the user’s private dataset.  
 9. **Visualization** — Frontend dynamically renders the chart.  
 10. **Dashboard Save** — Users can pin, save, and manage dashboards.
 
@@ -153,8 +201,10 @@ Thanks to these amazing people for contributing to **Impactify** 🔥
     <img src="https://contrib.rocks/image?repo=angelonels/Impactify" />
   </a>
 </p>
-
 <p align="center">
   <b>Ayush Kumar Singh</b> • <b>Angelo Nelson</b> • <b>Rohit Nair P</b> • <b>Isha Singh</b>
 </p>
 
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=100&section=footer" />
+</p>
