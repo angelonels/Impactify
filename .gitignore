@@ -1,3 +1,16 @@
+node_modules
+.next
+.turbo
+.vercel
+dist
+build
+.DS_Store
+.env
+.env.*
+server/.env
+client/.env
+coverage
+
 # Logs
 logs
 *.log
