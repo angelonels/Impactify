@@ -106,7 +106,7 @@ export default function Login(){
                   Remember me
                   </label>
               </div>
-              <a href="#" className="text-indigo-600 hover:text-indigo-700 transition-colors">
+              <a href="/forgot_password" className="text-indigo-600 hover:text-indigo-700 transition-colors">
                 Forgot password?
                 </a>
             </div>
