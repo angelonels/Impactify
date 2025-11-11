@@ -31,7 +31,7 @@ export default function Login(){
             <div className= "flex items-center justify-center gap-2 mb-6">
               <div className="w-12 h-12 bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-xl" />
             </div>
-            <h1 className="text-slate-900">Welcome Back!</h1>
+            <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Welcome back!</h1>
             <p className="text-slate-600">Enter your credentials to access your account</p>
           </div>
 
