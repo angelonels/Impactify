@@ -1,9 +1,10 @@
+"use client"
 import {useState} from 'react';
 import {AiOutlineEye,AiOutlineEyeInvisible} from 'react-icons/ai';
 import {MdLock,MdEmail,MdPerson} from 'react-icons/md';
 import {FaGoogle,FaGithub} from 'react-icons/fa';
 
-export default function SignUp({onswitchToLogin}){
+export default function SignUp({onSwitchToLogin}){
   const[showPassword,setShowPassword]=useState(false);
   const[showConfirmPassword,setShowConfirmPassword]=useState(false);
   const[name,setName]=useState('');
@@ -80,15 +81,141 @@ export default function SignUp({onswitchToLogin}){
               </div>
             </div>
 
+            <div className='space-y-2'>
+              <label htmlFor='password' className='block text-slate-900'>
+                Password
+              </label>
+              <div className='relative'>
+                <MdLock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"/>
+                <input
+                  id="password"
+                  type={showPassword?'text':'password'}
+                  placeholder="Create a password"
+                  value={password}
+                  onChange={(e)=>setPassword(e.target.value)}
+                  className="w-full h-10 pl-10 pr-10 border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                  required
+                  />
+                  <button
+                  type="button"
+                  onClick={()=>setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                  >
+                    {showPassword?
+                    (<AiOutlineEyeInvisible className="w-5 h-5"/>):
+                    (<AiOutlineEye className='w-5 h-5'/>
+
+                    )}
+
+                  </button>
+                </div>
+              </div>
             
+
+              <div className='space-y-2'>
+                <label htmlFor='confirmPassword' className='block text-slate-900'>
+                  Confirm Password
+                </label>
+                <div className='relative'>
+                  <MdLock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"/>
+                  <input
+                    id="confirmPassword"
+                    type={showConfirmPassword?'text':'password'}
+                    placeholder="Confirm your password"
+                    value={confirmPassword}
+                    onChange={(e)=>setConfirmPassword(e.target.value)}
+                    className="w-full h-10 pl-10 pr-10 border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                    required
+                    />
+                    <button
+                    type="button"
+                    onClick={()=>setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                    >
+                      {showConfirmPassword?
+                      (<AiOutlineEyeInvisible className="w-5 h-5"/>):
+                      (<AiOutlineEye className='w-5 h-5'/>
+
+                      )}
+
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            
+            <div  className="flex items-start space-x-2">
+              <input
+              id="terms"
+              type='checkbox'
+              checked={agreeToTerms}
+              
+              onChange={(e)=>setAgreeToTerms(e.target.checked)}
+              className="w-4 h-4 mt-1 border-slate-300 rounded text-indigo-600 focus:ring-2 focus:ring-indigo-500 cursor-pointer"
+              required
+
+              />
+              <label 
+              htmlFor="terms"
+              className="text-slate-700 cursor-pointer select-none">
+                I agree to the{' '}
+                <a href='#' className="text-indigo-600 hover:text-indigo-700">Terms and Conditions</a>
+                {' '}
+                and{' '}
+                <a href='#' className='text-indigo-600 hover:text-indigo-700'>Privacy Policy</a>
+              </label>
+
+          </div>
+
+
+          <button
+          type='submit'
+          className="w-full h-10 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors flex items-center justify-center">
+            Sign up
+          </button>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-slate-200"/>
+            </div>
+            <div className="relative flex justify-center">
+              <span className="px-4 bg-white text-slate-500">Or continue with</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <button
+            type="button"
+            className="h-10 flex items-center justify-center border border-slate-200 rounded-md hover:bg-slate-50 transition-colors"
+            >
+              <FaGoogle className="w-5 h-5 mr-2 text-slate-600" />
+                Google
+              
+              </button>
+
+              <button
+              type='button'
+              className="h-10 flex items-center justify-center border border-slate-200 rounded-md hover:bg-slate-50 transition-colors"
+              >
+                <FaGithub className="w-5 h-5 mr-2 text-slate-600"/>
+                Github
+            </button>
           </div>
         </form>
+
+        <p className='text-center text-slate-600'>
+            Already have an account? {' '}
+            <button
+            onClick={onSwitchToLogin}
+            className="text-indigo-600 hover:text-indigo-700 transition-colors"
+            >Sign in</button>
+          </p>
 
       </div>
     
     </div>
 
-  )
+  );
 
 
 
