@@ -152,7 +152,7 @@ export default function Login(){
 
           <p className='text-center text-slate-600'>
             Don't have an account? {' '}
-            <a href='#' className="text-indigo-600 hover:text-indigo-700 transition-colors">
+            <a href='/signup' className="text-indigo-600 hover:text-indigo-700 transition-colors">
               Sign up
             </a>
           </p>
