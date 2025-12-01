@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enum for User Roles
+enum Role {
+  ADMIN
+  USER
+  GUEST
+}
+
+// Enum for Auth Providers
+enum AuthProvider {
+  EMAIL
+  GOOGLE
+}
+
+// User Model
+model User {
+  id            String       @id @default(uuid())
+  email         String       @unique
+  passwordHash  String?      
+  name          String?
+  role          Role         @default(USER)
+  authProvider  AuthProvider @default(EMAIL)
+  googleId      String?      @unique
+  createdAt     DateTime     @default(now())
+  
+  datasets      Dataset[]
+}
+
+// Dataset Model
+model Dataset {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  datasetName   String
+  tableName     String   // The private SQL table name
+  status        String   // uploading, profiling, cleaning, ready, error
+  createdAt     DateTime @default(now())
+  
+  schema        DatasetSchema[]
+}
+
+// Dataset Schema Model (For AI Context)
+model DatasetSchema {
+  id          String   @id @default(uuid())
+  datasetId   String
+  dataset     Dataset  @relation(fields: [datasetId], references: [id])
+  columnName  String
+  dataType    String   // FLOAT, TEXT, TIMESTAMP
+  description String?
+}
