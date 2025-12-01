@@ -4,12 +4,10 @@ import '../styles/Hero.css'
 const Hero = () => {
     return (
         <section className="hero-container">
-            <div className="hero-glow" />
-
-             <div className="hero-content"> 
-                {/* <div className="hero-badge">
-                     AI-Powered Data Analytics
-                </div> */}
+            <div className="hero-content">
+                <div className="hero-badge">
+                    AI-Powered Data Analytics
+                </div>
 
                 <h1 className="hero-title">
                     Turn Raw Data into <br />
