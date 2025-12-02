@@ -79,7 +79,7 @@ const Upload = () => {
         <div className="min-h-screen flex flex-col bg-white text-black relative font-sans selection:bg-black selection:text-white pt-24 justify-center">
 
             {/* Main Content */}
-            <div className="flex flex-col items-center justify-center px-4 w-full max-w-4xl mx-auto gap-24">
+            <div className="flex flex-col items-center justify-center px-4 w-full max-w-4xl mx-auto gap-32">
                 
                 {/* Heading */}
                 <motion.h1 
@@ -111,7 +111,7 @@ const Upload = () => {
                     transition={{ delay: 0.2 }}
                     className="w-full max-w-2xl relative"
                 >
-                    <div className="bg-white border-2 border-gray-100 rounded-3xl shadow-2xl p-6 min-h-[400px] flex flex-col relative focus-within:border-gray-300 transition-colors">
+                    <div className="bg-white border-2 border-gray-100 rounded-3xl shadow-2xl p-6 min-h-[450px] flex flex-col relative focus-within:border-gray-300 transition-colors">
                         <textarea
                             ref={textareaRef}
                             value={query}
