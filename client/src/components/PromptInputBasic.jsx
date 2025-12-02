@@ -6,7 +6,7 @@ import { cn } from "../utils/cn";
 
 const PromptInput = ({ value, onValueChange, isLoading, onSubmit, className, children }) => {
   return (
-    <div className={cn("relative flex w-full border border-gray-200 rounded-[32px] bg-white shadow-sm overflow-hidden", className)}>
+    <div className={cn("relative flex w-full border border-white/10 rounded-[32px] bg-zinc-950/80 backdrop-blur-xl shadow-2xl overflow-hidden transition-all duration-300 hover:border-white/20 hover:shadow-[0_0_40px_rgba(255,255,255,0.05)]", className)}>
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
           return React.cloneElement(child, { value, onValueChange, onSubmit, isLoading });
@@ -43,7 +43,7 @@ const PromptInputTextarea = ({ value, onValueChange, onSubmit, placeholder, clas
       onKeyDown={handleKeyDown}
       placeholder={placeholder}
       className={cn(
-        "w-full resize-none border-none bg-transparent px-6 py-5 text-lg focus:outline-none focus:ring-0 min-h-[120px] max-h-[400px] text-black placeholder:text-gray-400",
+        "w-full resize-none border-none bg-transparent px-6 py-5 text-lg focus:outline-none focus:ring-0 min-h-[120px] max-h-[400px] text-white placeholder:text-zinc-500 selection:bg-white/20",
         className
       )}
       rows={1}
@@ -125,7 +125,7 @@ export function PromptInputBasic({ onSubmit }) { // Added onSubmit prop to lift 
       onValueChange={handleValueChange}
       isLoading={isLoading}
       onSubmit={handleSubmit}
-      className="w-full max-w-none mx-auto border-gray-200" // Adjusted max-w to be reasonable
+      className="w-full max-w-none mx-auto border-white/10" // Adjusted max-w to be reasonable
     >
       <PromptInputTextarea placeholder="Ask me anything..." />
       <PromptInputActions className="justify-end">
@@ -135,14 +135,14 @@ export function PromptInputBasic({ onSubmit }) { // Added onSubmit prop to lift 
           <Button
             variant="default"
             size="icon"
-            className="h-10 w-10 rounded-full bg-black text-white hover:bg-gray-800"
+            className="h-10 w-10 rounded-full text-white hover:bg-white/10 hover:scale-110 transition-all duration-300 bg-transparent"
             onClick={handleSubmit}
             disabled={!input.trim() || isLoading}
           >
             {isLoading ? (
               <Square className="size-5 fill-current" />
             ) : (
-              <ArrowUp className="size-5" />
+              <ArrowUp className="size-6" />
             )}
           </Button>
         </PromptInputAction>
