@@ -3,6 +3,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import Login from './pages/Login'
+import Signup from './pages/Signup'
+import Dashboard from './pages/Dashboard'
+import Upload from './pages/Upload'
+import DataCleaning from './pages/DataCleaning'
+import Workbench from './pages/Workbench'
 import AuthSuccess from './pages/AuthSuccess'
 import Footer from './components/Footer'
 import LiquidEther from './components/LiquidEther'
@@ -36,6 +41,10 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/upload" element={<Upload />} />
+            <Route path="/dataset/:id/analyze" element={<Workbench />} />
             <Route path="/auth/success" element={<AuthSuccess />} />
           </Routes>
           <Footer />

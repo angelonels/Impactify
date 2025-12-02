@@ -1,4 +1,4 @@
-import React from 'react'
+import { Link } from 'react-router-dom'
 import '../styles/Hero.css'
 
 const Hero = () => {
@@ -20,7 +20,7 @@ const Hero = () => {
                 </p>
 
                 <div className="hero-actions">
-                    <a href="#upload" className="btn-primary">Start Analyzing</a>
+                    <Link to="/upload" className="btn-primary">Start Analyzing</Link>
                     <a href="#demo" className="btn-secondary">View Demo</a>
                 </div>
             </div>
