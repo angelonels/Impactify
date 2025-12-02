@@ -6,8 +6,8 @@
     align-items: center;
     text-align: center;
     padding: 0 2rem;
-    position: relative; 
-    width: 100%; 
+    position: relative;
+    width: 100%;
     overflow: hidden;
 }
 
@@ -112,7 +112,7 @@
         opacity: 0;
         transform: translateY(30px);
     }
-    
+
     to {
         opacity: 1;
         transform: translateY(0);

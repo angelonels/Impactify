@@ -76,13 +76,12 @@ const Upload = () => {
     };
 
     return (
-        <div className="min-h-screen flex flex-col bg-white text-black relative font-sans selection:bg-black selection:text-white pt-24 justify-center">
-
+        <div className="min-h-screen bg-white text-black relative font-sans selection:bg-black selection:text-white" style={{ paddingTop: '200px' }}>
             {/* Main Content */}
-            <div className="flex flex-col items-center justify-center px-4 w-full max-w-4xl mx-auto gap-32">
-                
+            <div className="flex flex-col items-center px-4 w-full max-w-4xl mx-auto gap-16">
+
                 {/* Heading */}
-                <motion.h1 
+                <motion.h1
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="text-5xl md:text-6xl font-bold text-center tracking-tight"
@@ -105,7 +104,7 @@ const Upload = () => {
                 <input {...getInputProps()} />
 
                 {/* AI Prompt Box */}
-                <motion.div 
+                <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
@@ -123,7 +122,7 @@ const Upload = () => {
                         {/* File Status & Error */}
                         <AnimatePresence>
                             {isParsing && (
-                                <motion.div 
+                                <motion.div
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     className="absolute bottom-20 left-6 flex items-center gap-2 text-gray-400"
@@ -133,7 +132,7 @@ const Upload = () => {
                                 </motion.div>
                             )}
                             {error && (
-                                <motion.div 
+                                <motion.div
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     className="absolute bottom-20 left-6 text-red-500 text-sm font-medium"
@@ -150,8 +149,8 @@ const Upload = () => {
                                 disabled={!file}
                                 className={`
                                     flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300
-                                    ${file 
-                                        ? 'bg-black text-white hover:bg-gray-800 shadow-lg hover:shadow-xl translate-y-0' 
+                                    ${file
+                                        ? 'bg-black text-white hover:bg-gray-800 shadow-lg hover:shadow-xl translate-y-0'
                                         : 'bg-gray-100 text-gray-300 cursor-not-allowed'
                                     }
                                 `}
