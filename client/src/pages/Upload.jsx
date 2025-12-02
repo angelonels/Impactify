@@ -76,7 +76,7 @@ const Upload = () => {
     };
 
     return (
-        <div className="min-h-screen flex flex-col bg-white text-black relative font-sans selection:bg-black selection:text-white pt-24">
+        <div className="h-screen overflow-hidden flex flex-col bg-white text-black relative font-sans selection:bg-black selection:text-white pt-32">
 
             {/* Main Content */}
             <div className="flex-1 flex flex-col items-center justify-center w-full max-w-4xl mx-auto px-4">
