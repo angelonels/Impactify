@@ -6,7 +6,7 @@ import { cn } from "../utils/cn";
 
 const PromptInput = ({ value, onValueChange, isLoading, onSubmit, className, children }) => {
   return (
-    <div className={cn("flex flex-col w-full border rounded-xl bg-white shadow-sm overflow-hidden", className)}>
+    <div className={cn("relative flex w-full border border-gray-200 rounded-[32px] bg-white shadow-sm overflow-hidden", className)}>
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
           return React.cloneElement(child, { value, onValueChange, onSubmit, isLoading });
@@ -43,7 +43,7 @@ const PromptInputTextarea = ({ value, onValueChange, onSubmit, placeholder, clas
       onKeyDown={handleKeyDown}
       placeholder={placeholder}
       className={cn(
-        "w-full resize-none border-none bg-transparent px-4 py-3 text-sm focus:outline-none focus:ring-0 min-h-[60px] max-h-[200px] text-black placeholder:text-gray-400",
+        "w-full resize-none border-none bg-transparent px-6 py-5 text-lg focus:outline-none focus:ring-0 min-h-[120px] max-h-[400px] text-black placeholder:text-gray-400",
         className
       )}
       rows={1}
@@ -52,7 +52,7 @@ const PromptInputTextarea = ({ value, onValueChange, onSubmit, placeholder, clas
 };
 
 const PromptInputActions = ({ className, children }) => {
-  return <div className={cn("flex items-center p-2 bg-white", className)}>{children}</div>;
+  return <div className={cn("absolute bottom-3 right-3 flex items-center p-0 bg-transparent", className)}>{children}</div>;
 };
 
 const PromptInputAction = ({ children, tooltip }) => {
@@ -125,17 +125,17 @@ export function PromptInputBasic({ onSubmit }) { // Added onSubmit prop to lift 
       onValueChange={handleValueChange}
       isLoading={isLoading}
       onSubmit={handleSubmit}
-      className="w-full max-w-2xl mx-auto border-gray-200" // Adjusted max-w to be reasonable
+      className="w-full max-w-none mx-auto border-gray-200" // Adjusted max-w to be reasonable
     >
       <PromptInputTextarea placeholder="Ask me anything..." />
-      <PromptInputActions className="justify-end pt-2 border-t border-gray-100">
+      <PromptInputActions className="justify-end">
         <PromptInputAction
           tooltip={isLoading ? "Stop generation" : "Send message"}
         >
           <Button
             variant="default"
             size="icon"
-            className="h-8 w-8 rounded-full"
+            className="h-10 w-10 rounded-full bg-black text-white hover:bg-gray-800"
             onClick={handleSubmit}
             disabled={!input.trim() || isLoading}
           >

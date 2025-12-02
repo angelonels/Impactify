@@ -84,7 +84,7 @@ const Upload = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="w-full max-w-2xl"
+                    className="w-[70%] max-w-none"
                 >
                     <PromptInputBasic onSubmit={handleGenerate} />
                 </motion.div>
