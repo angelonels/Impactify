@@ -1,0 +1,3870 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+The content has been processed where security check has been disabled.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Security check has been disabled - content may contain sensitive information
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+client/
+  public/
+    vite.svg
+  src/
+    components/
+      Features.jsx
+      Footer.jsx
+      Hero.jsx
+      HowItWorks.jsx
+      LiquidEther.css
+      LiquidEther.jsx
+      Navbar.jsx
+      ScrollVelocity.jsx
+    pages/
+      Home.jsx
+    services/
+      authService.jsx
+    styles/
+      Features.css
+      Footer.css
+      Hero.css
+      HowItWorks.css
+      Navbar.css
+      ScrollVelocity.css
+    App.css
+    App.jsx
+    index.css
+    main.jsx
+  eslint.config.js
+  index.html
+  package.json
+  README.md
+  vite.config.js
+server/
+  config/
+    db.js
+    pg.js
+  controllers/
+    datasetController.js
+  prisma/
+    schema.prisma
+  routes/
+    datasetRoutes.js
+  services/
+    aiService.js
+    cleanerService.js
+    ingestionService.js
+  .env
+  index.js
+  package.json
+.gitignore
+idea.md
+README.md
+team_execution_plan.md
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="client/public/vite.svg">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="31.88" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 257"><defs><linearGradient id="IconifyId1813088fe1fbc01fb466" x1="-.828%" x2="57.636%" y1="7.652%" y2="78.411%"><stop offset="0%" stop-color="#41D1FF"></stop><stop offset="100%" stop-color="#BD34FE"></stop></linearGradient><linearGradient id="IconifyId1813088fe1fbc01fb467" x1="43.376%" x2="50.316%" y1="2.242%" y2="89.03%"><stop offset="0%" stop-color="#FFEA83"></stop><stop offset="8.333%" stop-color="#FFDD35"></stop><stop offset="100%" stop-color="#FFA800"></stop></linearGradient></defs><path fill="url(#IconifyId1813088fe1fbc01fb466)" d="M255.153 37.938L134.897 252.976c-2.483 4.44-8.862 4.466-11.382.048L.875 37.958c-2.746-4.814 1.371-10.646 6.827-9.67l120.385 21.517a6.537 6.537 0 0 0 2.322-.004l117.867-21.483c5.438-.991 9.574 4.796 6.877 9.62Z"></path><path fill="url(#IconifyId1813088fe1fbc01fb467)" d="M185.432.063L96.44 17.501a3.268 3.268 0 0 0-2.634 3.014l-5.474 92.456a3.268 3.268 0 0 0 3.997 3.378l24.777-5.718c2.318-.535 4.413 1.507 3.936 3.838l-7.361 36.047c-.495 2.426 1.782 4.5 4.151 3.78l15.304-4.649c2.372-.72 4.652 1.36 4.15 3.788l-11.698 56.621c-.732 3.542 3.979 5.473 5.943 2.437l1.313-2.028l72.516-144.72c1.215-2.423-.88-5.186-3.54-4.672l-25.505 4.922c-2.396.462-4.435-1.77-3.759-4.114l16.646-57.705c.677-2.35-1.37-4.583-3.769-4.113Z"></path></svg>
+</file>
+
+<file path="client/src/components/Features.jsx">
+import React from 'react'
+import { motion } from 'framer-motion'
+import { FaDatabase, FaMagic, FaChartLine, FaCode } from 'react-icons/fa'
+import '../styles/Features.css'
+
+const features = [
+    {
+        icon: <FaDatabase />,
+        title: "Smart Data Ingestion",
+        description: "Upload CSV, Excel, or JSON. Our AI automatically detects schemas and cleans your data instantly."
+    },
+    {
+        icon: <FaMagic />,
+        title: "Natural Language Queries",
+        description: "Ask questions in plain English. 'Show me sales by region' becomes complex SQL automatically."
+    },
+    {
+        icon: <FaChartLine />,
+        title: "Instant Visualizations",
+        description: "Get beautiful, interactive charts generated on the fly. No manual configuration needed."
+    },
+    {
+        icon: <FaCode />,
+        title: "SQL Export",
+        description: "Need the raw query? View and export the generated SQL for use in your own workflows."
+    }
+]
+
+const Features = () => {
+    return (
+        <section className="features-section">
+            <div className="features-container">
+                <motion.div
+                    className="features-header"
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: false, amount: 0.3 }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                >
+                    <span className="features-badge">Capabilities</span>
+                    <h2>Supercharge Your Analytics</h2>
+                    <p>Everything you need to go from raw data to actionable insights.</p>
+                </motion.div>
+
+                <div className="features-grid">
+                    {features.map((feature, index) => (
+                        <motion.div
+                            key={index}
+                            className="feature-card"
+                            initial={{ opacity: 0, scale: 0.9, y: 50 }}
+                            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                            viewport={{ once: false, amount: 0.2 }}
+                            transition={{ duration: 0.6, delay: index * 0.15, type: "spring", stiffness: 50 }}
+                            whileHover={{ scale: 1.05, y: -10, transition: { duration: 0.2 } }}
+                        >
+                            <div className="feature-icon-wrapper">
+                                {feature.icon}
+                            </div>
+                            <h3>{feature.title}</h3>
+                            <p>{feature.description}</p>
+                        </motion.div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    )
+}
+
+export default Features
+</file>
+
+<file path="client/src/components/Footer.jsx">
+import React from 'react'
+import { FaTwitter, FaLinkedin, FaGithub } from 'react-icons/fa'
+import '../styles/Footer.css'
+
+const Footer = () => {
+    return (
+        <footer className="footer">
+            <div className="footer-content">
+                <div className="footer-top">
+                    <div className="footer-brand">
+                        <h2>IMPACTIFY</h2>
+                        <p>Turn raw data into insights, instantly. No SQL required.</p>
+                        <div className="newsletter-form">
+                            <input type="email" placeholder="Enter your email" />
+                            <button>Subscribe</button>
+                        </div>
+                    </div>
+
+                    <div className="footer-links-container">
+                        <div className="footer-column">
+                            <h3>Product</h3>
+                            <a href="#">Features</a>
+                            <a href="#">Integrations</a>
+                            <a href="#">Pricing</a>
+                            <a href="#">Changelog</a>
+                        </div>
+                        <div className="footer-column">
+                            <h3>Company</h3>
+                            <a href="#">About</a>
+                            <a href="#">Careers</a>
+                            <a href="#">Blog</a>
+                            <a href="#">Contact</a>
+                        </div>
+                        <div className="footer-column">
+                            <h3>Legal</h3>
+                            <a href="#">Privacy</a>
+                            <a href="#">Terms</a>
+                            <a href="#">Security</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="footer-bottom">
+                    <p>&copy; 2025 Impactify. All rights reserved.</p>
+                    <div className="footer-socials">
+                        <a href="#" aria-label="Twitter"><FaTwitter /></a>
+                        <a href="#" aria-label="LinkedIn"><FaLinkedin /></a>
+                        <a href="#" aria-label="GitHub"><FaGithub /></a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    )
+}
+
+export default Footer
+</file>
+
+<file path="client/src/components/Hero.jsx">
+import React from 'react'
+import '../styles/Hero.css'
+
+const Hero = () => {
+    return (
+        <section className="hero-container">
+            <div className="hero-content">
+                <div className="hero-badge">
+                    AI-Powered Data Analytics
+                </div>
+
+                <h1 className="hero-title">
+                    Turn Raw Data into <br />
+                    Insights, Instantly.
+                </h1>
+
+                <p className="hero-subtitle">
+                    Upload your datasets, ask questions in plain English, and let our AI
+                    generate interactive visualizations. No SQL required.
+                </p>
+
+                <div className="hero-actions">
+                    <a href="#upload" className="btn-primary">Start Analyzing</a>
+                    <a href="#demo" className="btn-secondary">View Demo</a>
+                </div>
+            </div>
+        </section>
+    )
+}
+
+export default Hero
+</file>
+
+<file path="client/src/components/HowItWorks.jsx">
+import React from 'react'
+import { motion } from 'framer-motion'
+import '../styles/HowItWorks.css'
+
+const steps = [
+    {
+        number: "01",
+        title: "Upload Data",
+        description: "Drag & drop your CSV, Excel, or JSON files. We'll handle the parsing."
+    },
+    {
+        number: "02",
+        title: "Ask Questions",
+        description: "Type what you want to know in plain English. No SQL knowledge required."
+    },
+    {
+        number: "03",
+        title: "Get Insights",
+        description: "Receive instant, interactive visualizations and actionable data."
+    }
+]
+
+const HowItWorks = () => {
+    return (
+        <section className="how-it-works-section">
+            <div className="hiw-container">
+                <motion.div
+                    className="hiw-header"
+                    initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
+                    whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    viewport={{ once: false, amount: 0.5 }}
+                    transition={{ duration: 0.8 }}
+                >
+                    <h2>How It Works</h2>
+                    <p>Three simple steps to data mastery.</p>
+                </motion.div>
+
+                <div className="steps-wrapper">
+                    <div className="steps-line-container">
+                        <motion.div
+                            className="steps-line-fill"
+                            initial={{ height: 0 }}
+                            whileInView={{ height: '100%' }}
+                            viewport={{ once: false }}
+                            transition={{ duration: 1.5, ease: "easeInOut" }}
+                        />
+                    </div>
+
+                    <div className="steps-list">
+                        {steps.map((step, index) => (
+                            <motion.div
+                                key={index}
+                                className="step-item"
+                                initial={{ opacity: 0, x: -100, filter: "blur(10px)" }}
+                                whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                                viewport={{ once: false, amount: 0.5 }}
+                                transition={{ duration: 0.7, delay: index * 0.2, type: "spring", stiffness: 40 }}
+                                whileHover={{ x: 10, transition: { duration: 0.2 } }}
+                            >
+                                <div className="step-number">{step.number}</div>
+                                <div className="step-content">
+                                    <h3>{step.title}</h3>
+                                    <p>{step.description}</p>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </section>
+    )
+}
+
+export default HowItWorks
+</file>
+
+<file path="client/src/components/LiquidEther.css">
+.liquid-ether-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+}
+</file>
+
+<file path="client/src/components/LiquidEther.jsx">
+import { useEffect, useRef } from 'react';
+import * as THREE from 'three';
+import './LiquidEther.css';
+
+export default function LiquidEther({
+    mouseForce = 20,
+    cursorSize = 100,
+    isViscous = false,
+    viscous = 30,
+    iterationsViscous = 32,
+    iterationsPoisson = 32,
+    dt = 0.014,
+    BFECC = true,
+    resolution = 0.5,
+    isBounce = false,
+    colors = ['#5227FF', '#FF9FFC', '#B19EEF'],
+    style = {},
+    className = '',
+    autoDemo = true,
+    autoSpeed = 0.5,
+    autoIntensity = 2.2,
+    takeoverDuration = 0.25,
+    autoResumeDelay = 1000,
+    autoRampDuration = 0.6
+}) {
+    const mountRef = useRef(null);
+    const webglRef = useRef(null);
+    const resizeObserverRef = useRef(null);
+    const rafRef = useRef(null);
+    const intersectionObserverRef = useRef(null);
+    const isVisibleRef = useRef(true);
+    const resizeRafRef = useRef(null);
+
+    useEffect(() => {
+        if (!mountRef.current) return;
+
+        function makePaletteTexture(stops) {
+            let arr;
+            if (Array.isArray(stops) && stops.length > 0) {
+                if (stops.length === 1) {
+                    arr = [stops[0], stops[0]];
+                } else {
+                    arr = stops;
+                }
+            } else {
+                arr = ['#ffffff', '#ffffff'];
+            }
+            const w = arr.length;
+            const data = new Uint8Array(w * 4);
+            for (let i = 0; i < w; i++) {
+                const c = new THREE.Color(arr[i]);
+                data[i * 4 + 0] = Math.round(c.r * 255);
+                data[i * 4 + 1] = Math.round(c.g * 255);
+                data[i * 4 + 2] = Math.round(c.b * 255);
+                data[i * 4 + 3] = 255;
+            }
+            const tex = new THREE.DataTexture(data, w, 1, THREE.RGBAFormat);
+            tex.magFilter = THREE.LinearFilter;
+            tex.minFilter = THREE.LinearFilter;
+            tex.wrapS = THREE.ClampToEdgeWrapping;
+            tex.wrapT = THREE.ClampToEdgeWrapping;
+            tex.generateMipmaps = false;
+            tex.needsUpdate = true;
+            return tex;
+        }
+
+        const paletteTex = makePaletteTexture(colors);
+        const bgVec4 = new THREE.Vector4(0, 0, 0, 0);
+
+        class CommonClass {
+            constructor() {
+                this.width = 0;
+                this.height = 0;
+                this.aspect = 1;
+                this.pixelRatio = 1;
+                this.isMobile = false;
+                this.breakpoint = 768;
+                this.fboWidth = null;
+                this.fboHeight = null;
+                this.time = 0;
+                this.delta = 0;
+                this.container = null;
+                this.renderer = null;
+                this.clock = null;
+            }
+            init(container) {
+                this.container = container;
+                this.pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+                this.resize();
+                this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                this.renderer.autoClear = false;
+                this.renderer.setClearColor(new THREE.Color(0x000000), 0);
+                this.renderer.setPixelRatio(this.pixelRatio);
+                this.renderer.setSize(this.width, this.height);
+                this.renderer.domElement.style.width = '100%';
+                this.renderer.domElement.style.height = '100%';
+                this.renderer.domElement.style.display = 'block';
+                this.clock = new THREE.Clock();
+                this.clock.start();
+            }
+            resize() {
+                if (!this.container) return;
+                const rect = this.container.getBoundingClientRect();
+                this.width = Math.max(1, Math.floor(rect.width));
+                this.height = Math.max(1, Math.floor(rect.height));
+                this.aspect = this.width / this.height;
+                if (this.renderer) this.renderer.setSize(this.width, this.height, false);
+            }
+            update() {
+                this.delta = this.clock.getDelta();
+                this.time += this.delta;
+            }
+        }
+        const Common = new CommonClass();
+
+        class MouseClass {
+            constructor() {
+                this.mouseMoved = false;
+                this.coords = new THREE.Vector2();
+                this.coords_old = new THREE.Vector2();
+                this.diff = new THREE.Vector2();
+                this.timer = null;
+                this.container = null;
+                this.docTarget = null;
+                this.listenerTarget = null;
+                this.isHoverInside = false;
+                this.hasUserControl = false;
+                this.isAutoActive = false;
+                this.autoIntensity = 2.0;
+                this.takeoverActive = false;
+                this.takeoverStartTime = 0;
+                this.takeoverDuration = 0.25;
+                this.takeoverFrom = new THREE.Vector2();
+                this.takeoverTo = new THREE.Vector2();
+                this.onInteract = null;
+                this._onMouseMove = this.onDocumentMouseMove.bind(this);
+                this._onTouchStart = this.onDocumentTouchStart.bind(this);
+                this._onTouchMove = this.onDocumentTouchMove.bind(this);
+                this._onTouchEnd = this.onTouchEnd.bind(this);
+                this._onDocumentLeave = this.onDocumentLeave.bind(this);
+            }
+            init(container) {
+                this.container = container;
+                this.docTarget = container.ownerDocument || null;
+                const defaultView =
+                    (this.docTarget && this.docTarget.defaultView) || (typeof window !== 'undefined' ? window : null);
+                if (!defaultView) return;
+                this.listenerTarget = defaultView;
+                this.listenerTarget.addEventListener('mousemove', this._onMouseMove);
+                this.listenerTarget.addEventListener('touchstart', this._onTouchStart, { passive: true });
+                this.listenerTarget.addEventListener('touchmove', this._onTouchMove, { passive: true });
+                this.listenerTarget.addEventListener('touchend', this._onTouchEnd);
+                if (this.docTarget) {
+                    this.docTarget.addEventListener('mouseleave', this._onDocumentLeave);
+                }
+            }
+            dispose() {
+                if (this.listenerTarget) {
+                    this.listenerTarget.removeEventListener('mousemove', this._onMouseMove);
+                    this.listenerTarget.removeEventListener('touchstart', this._onTouchStart);
+                    this.listenerTarget.removeEventListener('touchmove', this._onTouchMove);
+                    this.listenerTarget.removeEventListener('touchend', this._onTouchEnd);
+                }
+                if (this.docTarget) {
+                    this.docTarget.removeEventListener('mouseleave', this._onDocumentLeave);
+                }
+                this.listenerTarget = null;
+                this.docTarget = null;
+                this.container = null;
+            }
+            isPointInside(clientX, clientY) {
+                if (!this.container) return false;
+                const rect = this.container.getBoundingClientRect();
+                if (rect.width === 0 || rect.height === 0) return false;
+                return clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom;
+            }
+            updateHoverState(clientX, clientY) {
+                this.isHoverInside = this.isPointInside(clientX, clientY);
+                return this.isHoverInside;
+            }
+            setCoords(x, y) {
+                if (!this.container) return;
+                if (this.timer) window.clearTimeout(this.timer);
+                const rect = this.container.getBoundingClientRect();
+                if (rect.width === 0 || rect.height === 0) return;
+                const nx = (x - rect.left) / rect.width;
+                const ny = (y - rect.top) / rect.height;
+                this.coords.set(nx * 2 - 1, -(ny * 2 - 1));
+                this.mouseMoved = true;
+                this.timer = window.setTimeout(() => {
+                    this.mouseMoved = false;
+                }, 100);
+            }
+            setNormalized(nx, ny) {
+                this.coords.set(nx, ny);
+                this.mouseMoved = true;
+            }
+            onDocumentMouseMove(event) {
+                if (!this.updateHoverState(event.clientX, event.clientY)) return;
+                if (this.onInteract) this.onInteract();
+                if (this.isAutoActive && !this.hasUserControl && !this.takeoverActive) {
+                    if (!this.container) return;
+                    const rect = this.container.getBoundingClientRect();
+                    if (rect.width === 0 || rect.height === 0) return;
+                    const nx = (event.clientX - rect.left) / rect.width;
+                    const ny = (event.clientY - rect.top) / rect.height;
+                    this.takeoverFrom.copy(this.coords);
+                    this.takeoverTo.set(nx * 2 - 1, -(ny * 2 - 1));
+                    this.takeoverStartTime = performance.now();
+                    this.takeoverActive = true;
+                    this.hasUserControl = true;
+                    this.isAutoActive = false;
+                    return;
+                }
+                this.setCoords(event.clientX, event.clientY);
+                this.hasUserControl = true;
+            }
+            onDocumentTouchStart(event) {
+                if (event.touches.length !== 1) return;
+                const t = event.touches[0];
+                if (!this.updateHoverState(t.clientX, t.clientY)) return;
+                if (this.onInteract) this.onInteract();
+                this.setCoords(t.clientX, t.clientY);
+                this.hasUserControl = true;
+            }
+            onDocumentTouchMove(event) {
+                if (event.touches.length !== 1) return;
+                const t = event.touches[0];
+                if (!this.updateHoverState(t.clientX, t.clientY)) return;
+                if (this.onInteract) this.onInteract();
+                this.setCoords(t.clientX, t.clientY);
+            }
+            onTouchEnd() {
+                this.isHoverInside = false;
+            }
+            onDocumentLeave() {
+                this.isHoverInside = false;
+            }
+            update() {
+                if (this.takeoverActive) {
+                    const t = (performance.now() - this.takeoverStartTime) / (this.takeoverDuration * 1000);
+                    if (t >= 1) {
+                        this.takeoverActive = false;
+                        this.coords.copy(this.takeoverTo);
+                        this.coords_old.copy(this.coords);
+                        this.diff.set(0, 0);
+                    } else {
+                        const k = t * t * (3 - 2 * t);
+                        this.coords.copy(this.takeoverFrom).lerp(this.takeoverTo, k);
+                    }
+                }
+                this.diff.subVectors(this.coords, this.coords_old);
+                this.coords_old.copy(this.coords);
+                if (this.coords_old.x === 0 && this.coords_old.y === 0) this.diff.set(0, 0);
+                if (this.isAutoActive && !this.takeoverActive) this.diff.multiplyScalar(this.autoIntensity);
+            }
+        }
+        const Mouse = new MouseClass();
+
+        class AutoDriver {
+            constructor(mouse, manager, opts) {
+                this.mouse = mouse;
+                this.manager = manager;
+                this.enabled = opts.enabled;
+                this.speed = opts.speed;
+                this.resumeDelay = opts.resumeDelay || 3000;
+                this.rampDurationMs = (opts.rampDuration || 0) * 1000;
+                this.active = false;
+                this.current = new THREE.Vector2(0, 0);
+                this.target = new THREE.Vector2();
+                this.lastTime = performance.now();
+                this.activationTime = 0;
+                this.margin = 0.2;
+                this._tmpDir = new THREE.Vector2();
+                this.pickNewTarget();
+            }
+            pickNewTarget() {
+                const r = Math.random;
+                this.target.set((r() * 2 - 1) * (1 - this.margin), (r() * 2 - 1) * (1 - this.margin));
+            }
+            forceStop() {
+                this.active = false;
+                this.mouse.isAutoActive = false;
+            }
+            update() {
+                if (!this.enabled) return;
+                const now = performance.now();
+                const idle = now - this.manager.lastUserInteraction;
+                if (idle < this.resumeDelay) {
+                    if (this.active) this.forceStop();
+                    return;
+                }
+                if (this.mouse.isHoverInside) {
+                    if (this.active) this.forceStop();
+                    return;
+                }
+                if (!this.active) {
+                    this.active = true;
+                    this.current.copy(this.mouse.coords);
+                    this.lastTime = now;
+                    this.activationTime = now;
+                }
+                if (!this.active) return;
+                this.mouse.isAutoActive = true;
+                let dtSec = (now - this.lastTime) / 1000;
+                this.lastTime = now;
+                if (dtSec > 0.2) dtSec = 0.016;
+                const dir = this._tmpDir.subVectors(this.target, this.current);
+                const dist = dir.length();
+                if (dist < 0.01) {
+                    this.pickNewTarget();
+                    return;
+                }
+                dir.normalize();
+                let ramp = 1;
+                if (this.rampDurationMs > 0) {
+                    const t = Math.min(1, (now - this.activationTime) / this.rampDurationMs);
+                    ramp = t * t * (3 - 2 * t);
+                }
+                const step = this.speed * dtSec * ramp;
+                const move = Math.min(step, dist);
+                this.current.addScaledVector(dir, move);
+                this.mouse.setNormalized(this.current.x, this.current.y);
+            }
+        }
+
+        const face_vert = `
+  attribute vec3 position;
+  uniform vec2 px;
+  uniform vec2 boundarySpace;
+  varying vec2 uv;
+  precision highp float;
+  void main(){
+  vec3 pos = position;
+  vec2 scale = 1.0 - boundarySpace * 2.0;
+  pos.xy = pos.xy * scale;
+  uv = vec2(0.5)+(pos.xy)*0.5;
+  gl_Position = vec4(pos, 1.0);
+}
+`;
+        const line_vert = `
+  attribute vec3 position;
+  uniform vec2 px;
+  precision highp float;
+  varying vec2 uv;
+  void main(){
+  vec3 pos = position;
+  uv = 0.5 + pos.xy * 0.5;
+  vec2 n = sign(pos.xy);
+  pos.xy = abs(pos.xy) - px * 1.0;
+  pos.xy *= n;
+  gl_Position = vec4(pos, 1.0);
+}
+`;
+        const mouse_vert = `
+    precision highp float;
+    attribute vec3 position;
+    attribute vec2 uv;
+    uniform vec2 center;
+    uniform vec2 scale;
+    uniform vec2 px;
+    varying vec2 vUv;
+    void main(){
+    vec2 pos = position.xy * scale * 2.0 * px + center;
+    vUv = uv;
+    gl_Position = vec4(pos, 0.0, 1.0);
+}
+`;
+        const advection_frag = `
+    precision highp float;
+    uniform sampler2D velocity;
+    uniform float dt;
+    uniform bool isBFECC;
+    uniform vec2 fboSize;
+    uniform vec2 px;
+    varying vec2 uv;
+    void main(){
+    vec2 ratio = max(fboSize.x, fboSize.y) / fboSize;
+    if(isBFECC == false){
+        vec2 vel = texture2D(velocity, uv).xy;
+        vec2 uv2 = uv - vel * dt * ratio;
+        vec2 newVel = texture2D(velocity, uv2).xy;
+        gl_FragColor = vec4(newVel, 0.0, 0.0);
+    } else {
+        vec2 spot_new = uv;
+        vec2 vel_old = texture2D(velocity, uv).xy;
+        vec2 spot_old = spot_new - vel_old * dt * ratio;
+        vec2 vel_new1 = texture2D(velocity, spot_old).xy;
+        vec2 spot_new2 = spot_old + vel_new1 * dt * ratio;
+        vec2 error = spot_new2 - spot_new;
+        vec2 spot_new3 = spot_new - error / 2.0;
+        vec2 vel_2 = texture2D(velocity, spot_new3).xy;
+        vec2 spot_old2 = spot_new3 - vel_2 * dt * ratio;
+        vec2 newVel2 = texture2D(velocity, spot_old2).xy; 
+        gl_FragColor = vec4(newVel2, 0.0, 0.0);
+    }
+}
+`;
+        const color_frag = `
+    precision highp float;
+    uniform sampler2D velocity;
+    uniform sampler2D palette;
+    uniform vec4 bgColor;
+    varying vec2 uv;
+    void main(){
+    vec2 vel = texture2D(velocity, uv).xy;
+    float lenv = clamp(length(vel), 0.0, 1.0);
+    vec3 c = texture2D(palette, vec2(lenv, 0.5)).rgb;
+    vec3 outRGB = mix(bgColor.rgb, c, lenv);
+    float outA = mix(bgColor.a, 1.0, lenv);
+    gl_FragColor = vec4(outRGB, outA);
+}
+`;
+        const divergence_frag = `
+    precision highp float;
+    uniform sampler2D velocity;
+    uniform float dt;
+    uniform vec2 px;
+    varying vec2 uv;
+    void main(){
+    float x0 = texture2D(velocity, uv-vec2(px.x, 0.0)).x;
+    float x1 = texture2D(velocity, uv+vec2(px.x, 0.0)).x;
+    float y0 = texture2D(velocity, uv-vec2(0.0, px.y)).y;
+    float y1 = texture2D(velocity, uv+vec2(0.0, px.y)).y;
+    float divergence = (x1 - x0 + y1 - y0) / 2.0;
+    gl_FragColor = vec4(divergence / dt);
+}
+`;
+        const externalForce_frag = `
+    precision highp float;
+    uniform vec2 force;
+    uniform vec2 center;
+    uniform vec2 scale;
+    uniform vec2 px;
+    varying vec2 vUv;
+    void main(){
+    vec2 circle = (vUv - 0.5) * 2.0;
+    float d = 1.0 - min(length(circle), 1.0);
+    d *= d;
+    gl_FragColor = vec4(force * d, 0.0, 1.0);
+}
+`;
+        const poisson_frag = `
+    precision highp float;
+    uniform sampler2D pressure;
+    uniform sampler2D divergence;
+    uniform vec2 px;
+    varying vec2 uv;
+    void main(){
+    float p0 = texture2D(pressure, uv + vec2(px.x * 2.0, 0.0)).r;
+    float p1 = texture2D(pressure, uv - vec2(px.x * 2.0, 0.0)).r;
+    float p2 = texture2D(pressure, uv + vec2(0.0, px.y * 2.0)).r;
+    float p3 = texture2D(pressure, uv - vec2(0.0, px.y * 2.0)).r;
+    float div = texture2D(divergence, uv).r;
+    float newP = (p0 + p1 + p2 + p3) / 4.0 - div;
+    gl_FragColor = vec4(newP);
+}
+`;
+        const pressure_frag = `
+    precision highp float;
+    uniform sampler2D pressure;
+    uniform sampler2D velocity;
+    uniform vec2 px;
+    uniform float dt;
+    varying vec2 uv;
+    void main(){
+    float step = 1.0;
+    float p0 = texture2D(pressure, uv + vec2(px.x * step, 0.0)).r;
+    float p1 = texture2D(pressure, uv - vec2(px.x * step, 0.0)).r;
+    float p2 = texture2D(pressure, uv + vec2(0.0, px.y * step)).r;
+    float p3 = texture2D(pressure, uv - vec2(0.0, px.y * step)).r;
+    vec2 v = texture2D(velocity, uv).xy;
+    vec2 gradP = vec2(p0 - p1, p2 - p3) * 0.5;
+    v = v - gradP * dt;
+    gl_FragColor = vec4(v, 0.0, 1.0);
+}
+`;
+        const viscous_frag = `
+    precision highp float;
+    uniform sampler2D velocity;
+    uniform sampler2D velocity_new;
+    uniform float v;
+    uniform vec2 px;
+    uniform float dt;
+    varying vec2 uv;
+    void main(){
+    vec2 old = texture2D(velocity, uv).xy;
+    vec2 new0 = texture2D(velocity_new, uv + vec2(px.x * 2.0, 0.0)).xy;
+    vec2 new1 = texture2D(velocity_new, uv - vec2(px.x * 2.0, 0.0)).xy;
+    vec2 new2 = texture2D(velocity_new, uv + vec2(0.0, px.y * 2.0)).xy;
+    vec2 new3 = texture2D(velocity_new, uv - vec2(0.0, px.y * 2.0)).xy;
+    vec2 newv = 4.0 * old + v * dt * (new0 + new1 + new2 + new3);
+    newv /= 4.0 * (1.0 + v * dt);
+    gl_FragColor = vec4(newv, 0.0, 0.0);
+}
+`;
+
+        class ShaderPass {
+            constructor(props) {
+                this.props = props || {};
+                this.uniforms = this.props.material?.uniforms;
+                this.scene = null;
+                this.camera = null;
+                this.material = null;
+                this.geometry = null;
+                this.plane = null;
+            }
+            init() {
+                this.scene = new THREE.Scene();
+                this.camera = new THREE.Camera();
+                if (this.uniforms) {
+                    this.material = new THREE.RawShaderMaterial(this.props.material);
+                    this.geometry = new THREE.PlaneGeometry(2.0, 2.0);
+                    this.plane = new THREE.Mesh(this.geometry, this.material);
+                    this.scene.add(this.plane);
+                }
+            }
+            update() {
+                Common.renderer.setRenderTarget(this.props.output || null);
+                Common.renderer.render(this.scene, this.camera);
+                Common.renderer.setRenderTarget(null);
+            }
+        }
+
+        class Advection extends ShaderPass {
+            constructor(simProps) {
+                super({
+                    material: {
+                        vertexShader: face_vert,
+                        fragmentShader: advection_frag,
+                        uniforms: {
+                            boundarySpace: { value: simProps.cellScale },
+                            px: { value: simProps.cellScale },
+                            fboSize: { value: simProps.fboSize },
+                            velocity: { value: simProps.src.texture },
+                            dt: { value: simProps.dt },
+                            isBFECC: { value: true }
+                        }
+                    },
+                    output: simProps.dst
+                });
+                this.uniforms = this.props.material.uniforms;
+                this.init();
+            }
+            init() {
+                super.init();
+                this.createBoundary();
+            }
+            createBoundary() {
+                const boundaryG = new THREE.BufferGeometry();
+                const vertices_boundary = new Float32Array([
+                    -1, -1, 0, -1, 1, 0, -1, 1, 0, 1, 1, 0, 1, 1, 0, 1, -1, 0, 1, -1, 0, -1, -1, 0
+                ]);
+                boundaryG.setAttribute('position', new THREE.BufferAttribute(vertices_boundary, 3));
+                const boundaryM = new THREE.RawShaderMaterial({
+                    vertexShader: line_vert,
+                    fragmentShader: advection_frag,
+                    uniforms: this.uniforms
+                });
+                this.line = new THREE.LineSegments(boundaryG, boundaryM);
+                this.scene.add(this.line);
+            }
+            update({ dt, isBounce, BFECC }) {
+                this.uniforms.dt.value = dt;
+                this.line.visible = isBounce;
+                this.uniforms.isBFECC.value = BFECC;
+                super.update();
+            }
+        }
+
+        class ExternalForce extends ShaderPass {
+            constructor(simProps) {
+                super({ output: simProps.dst });
+                this.init(simProps);
+            }
+            init(simProps) {
+                super.init();
+                const mouseG = new THREE.PlaneGeometry(1, 1);
+                const mouseM = new THREE.RawShaderMaterial({
+                    vertexShader: mouse_vert,
+                    fragmentShader: externalForce_frag,
+                    blending: THREE.AdditiveBlending,
+                    depthWrite: false,
+                    uniforms: {
+                        px: { value: simProps.cellScale },
+                        force: { value: new THREE.Vector2(0.0, 0.0) },
+                        center: { value: new THREE.Vector2(0.0, 0.0) },
+                        scale: { value: new THREE.Vector2(simProps.cursor_size, simProps.cursor_size) }
+                    }
+                });
+                this.mouse = new THREE.Mesh(mouseG, mouseM);
+                this.scene.add(this.mouse);
+            }
+            update(props) {
+                const forceX = (Mouse.diff.x / 2) * props.mouse_force;
+                const forceY = (Mouse.diff.y / 2) * props.mouse_force;
+                const cursorSizeX = props.cursor_size * props.cellScale.x;
+                const cursorSizeY = props.cursor_size * props.cellScale.y;
+                const centerX = Math.min(
+                    Math.max(Mouse.coords.x, -1 + cursorSizeX + props.cellScale.x * 2),
+                    1 - cursorSizeX - props.cellScale.x * 2
+                );
+                const centerY = Math.min(
+                    Math.max(Mouse.coords.y, -1 + cursorSizeY + props.cellScale.y * 2),
+                    1 - cursorSizeY - props.cellScale.y * 2
+                );
+                const uniforms = this.mouse.material.uniforms;
+                uniforms.force.value.set(forceX, forceY);
+                uniforms.center.value.set(centerX, centerY);
+                uniforms.scale.value.set(props.cursor_size, props.cursor_size);
+                super.update();
+            }
+        }
+
+        class Viscous extends ShaderPass {
+            constructor(simProps) {
+                super({
+                    material: {
+                        vertexShader: face_vert,
+                        fragmentShader: viscous_frag,
+                        uniforms: {
+                            boundarySpace: { value: simProps.boundarySpace },
+                            velocity: { value: simProps.src.texture },
+                            velocity_new: { value: simProps.dst_.texture },
+                            v: { value: simProps.viscous },
+                            px: { value: simProps.cellScale },
+                            dt: { value: simProps.dt }
+                        }
+                    },
+                    output: simProps.dst,
+                    output0: simProps.dst_,
+                    output1: simProps.dst
+                });
+                this.init();
+            }
+            update({ viscous, iterations, dt }) {
+                let fbo_in, fbo_out;
+                this.uniforms.v.value = viscous;
+                for (let i = 0; i < iterations; i++) {
+                    if (i % 2 === 0) {
+                        fbo_in = this.props.output0;
+                        fbo_out = this.props.output1;
+                    } else {
+                        fbo_in = this.props.output1;
+                        fbo_out = this.props.output0;
+                    }
+                    this.uniforms.velocity_new.value = fbo_in.texture;
+                    this.props.output = fbo_out;
+                    this.uniforms.dt.value = dt;
+                    super.update();
+                }
+                return fbo_out;
+            }
+        }
+
+        class Divergence extends ShaderPass {
+            constructor(simProps) {
+                super({
+                    material: {
+                        vertexShader: face_vert,
+                        fragmentShader: divergence_frag,
+                        uniforms: {
+                            boundarySpace: { value: simProps.boundarySpace },
+                            velocity: { value: simProps.src.texture },
+                            px: { value: simProps.cellScale },
+                            dt: { value: simProps.dt }
+                        }
+                    },
+                    output: simProps.dst
+                });
+                this.init();
+            }
+            update({ vel }) {
+                this.uniforms.velocity.value = vel.texture;
+                super.update();
+            }
+        }
+
+        class Poisson extends ShaderPass {
+            constructor(simProps) {
+                super({
+                    material: {
+                        vertexShader: face_vert,
+                        fragmentShader: poisson_frag,
+                        uniforms: {
+                            boundarySpace: { value: simProps.boundarySpace },
+                            pressure: { value: simProps.dst_.texture },
+                            divergence: { value: simProps.src.texture },
+                            px: { value: simProps.cellScale }
+                        }
+                    },
+                    output: simProps.dst,
+                    output0: simProps.dst_,
+                    output1: simProps.dst
+                });
+                this.init();
+            }
+            update({ iterations }) {
+                let p_in, p_out;
+                for (let i = 0; i < iterations; i++) {
+                    if (i % 2 === 0) {
+                        p_in = this.props.output0;
+                        p_out = this.props.output1;
+                    } else {
+                        p_in = this.props.output1;
+                        p_out = this.props.output0;
+                    }
+                    this.uniforms.pressure.value = p_in.texture;
+                    this.props.output = p_out;
+                    super.update();
+                }
+                return p_out;
+            }
+        }
+
+        class Pressure extends ShaderPass {
+            constructor(simProps) {
+                super({
+                    material: {
+                        vertexShader: face_vert,
+                        fragmentShader: pressure_frag,
+                        uniforms: {
+                            boundarySpace: { value: simProps.boundarySpace },
+                            pressure: { value: simProps.src_p.texture },
+                            velocity: { value: simProps.src_v.texture },
+                            px: { value: simProps.cellScale },
+                            dt: { value: simProps.dt }
+                        }
+                    },
+                    output: simProps.dst
+                });
+                this.init();
+            }
+            update({ vel, pressure }) {
+                this.uniforms.velocity.value = vel.texture;
+                this.uniforms.pressure.value = pressure.texture;
+                super.update();
+            }
+        }
+
+        class Simulation {
+            constructor(options) {
+                this.options = {
+                    iterations_poisson: 32,
+                    iterations_viscous: 32,
+                    mouse_force: 20,
+                    resolution: 0.5,
+                    cursor_size: 100,
+                    viscous: 30,
+                    isBounce: false,
+                    dt: 0.014,
+                    isViscous: false,
+                    BFECC: true,
+                    ...options
+                };
+                this.fbos = {
+                    vel_0: null,
+                    vel_1: null,
+                    vel_viscous0: null,
+                    vel_viscous1: null,
+                    div: null,
+                    pressure_0: null,
+                    pressure_1: null
+                };
+                this.fboSize = new THREE.Vector2();
+                this.cellScale = new THREE.Vector2();
+                this.boundarySpace = new THREE.Vector2();
+                this.init();
+            }
+            init() {
+                this.calcSize();
+                this.createAllFBO();
+                this.createShaderPass();
+            }
+            getFloatType() {
+                const isIOS = /(iPad|iPhone|iPod)/i.test(navigator.userAgent);
+                return isIOS ? THREE.HalfFloatType : THREE.FloatType;
+            }
+            createAllFBO() {
+                const type = this.getFloatType();
+                const opts = {
+                    type,
+                    depthBuffer: false,
+                    stencilBuffer: false,
+                    minFilter: THREE.LinearFilter,
+                    magFilter: THREE.LinearFilter,
+                    wrapS: THREE.ClampToEdgeWrapping,
+                    wrapT: THREE.ClampToEdgeWrapping
+                };
+                for (let key in this.fbos) {
+                    this.fbos[key] = new THREE.WebGLRenderTarget(this.fboSize.x, this.fboSize.y, opts);
+                }
+            }
+            createShaderPass() {
+                this.advection = new Advection({
+                    cellScale: this.cellScale,
+                    fboSize: this.fboSize,
+                    dt: this.options.dt,
+                    src: this.fbos.vel_0,
+                    dst: this.fbos.vel_1
+                });
+                this.externalForce = new ExternalForce({
+                    cellScale: this.cellScale,
+                    cursor_size: this.options.cursor_size,
+                    dst: this.fbos.vel_1
+                });
+                this.viscous = new Viscous({
+                    cellScale: this.cellScale,
+                    boundarySpace: this.boundarySpace,
+                    viscous: this.options.viscous,
+                    src: this.fbos.vel_1,
+                    dst: this.fbos.vel_viscous1,
+                    dst_: this.fbos.vel_viscous0,
+                    dt: this.options.dt
+                });
+                this.divergence = new Divergence({
+                    cellScale: this.cellScale,
+                    boundarySpace: this.boundarySpace,
+                    src: this.fbos.vel_viscous0,
+                    dst: this.fbos.div,
+                    dt: this.options.dt
+                });
+                this.poisson = new Poisson({
+                    cellScale: this.cellScale,
+                    boundarySpace: this.boundarySpace,
+                    src: this.fbos.div,
+                    dst: this.fbos.pressure_1,
+                    dst_: this.fbos.pressure_0
+                });
+                this.pressure = new Pressure({
+                    cellScale: this.cellScale,
+                    boundarySpace: this.boundarySpace,
+                    src_p: this.fbos.pressure_0,
+                    src_v: this.fbos.vel_viscous0,
+                    dst: this.fbos.vel_0,
+                    dt: this.options.dt
+                });
+            }
+            calcSize() {
+                const width = Math.max(1, Math.round(this.options.resolution * Common.width));
+                const height = Math.max(1, Math.round(this.options.resolution * Common.height));
+                const px_x = 1.0 / width;
+                const px_y = 1.0 / height;
+                this.cellScale.set(px_x, px_y);
+                this.fboSize.set(width, height);
+            }
+            resize() {
+                this.calcSize();
+                for (let key in this.fbos) {
+                    this.fbos[key].setSize(this.fboSize.x, this.fboSize.y);
+                }
+            }
+            update() {
+                if (this.options.isBounce) {
+                    this.boundarySpace.set(0, 0);
+                } else {
+                    this.boundarySpace.copy(this.cellScale);
+                }
+                this.advection.update({
+                    dt: this.options.dt,
+                    isBounce: this.options.isBounce,
+                    BFECC: this.options.BFECC
+                });
+                this.externalForce.update({
+                    cursor_size: this.options.cursor_size,
+                    mouse_force: this.options.mouse_force,
+                    cellScale: this.cellScale
+                });
+                let vel = this.fbos.vel_1;
+                if (this.options.isViscous) {
+                    vel = this.viscous.update({
+                        viscous: this.options.viscous,
+                        iterations: this.options.iterations_viscous,
+                        dt: this.options.dt
+                    });
+                }
+                this.divergence.update({ vel });
+                const pressure = this.poisson.update({
+                    iterations: this.options.iterations_poisson
+                });
+                this.pressure.update({ vel, pressure });
+            }
+        }
+
+        class Output {
+            constructor() {
+                this.init();
+            }
+            init() {
+                this.simulation = new Simulation();
+                this.scene = new THREE.Scene();
+                this.camera = new THREE.Camera();
+                this.output = new THREE.Mesh(
+                    new THREE.PlaneGeometry(2, 2),
+                    new THREE.RawShaderMaterial({
+                        vertexShader: face_vert,
+                        fragmentShader: color_frag,
+                        transparent: true,
+                        depthWrite: false,
+                        uniforms: {
+                            velocity: { value: this.simulation.fbos.vel_0.texture },
+                            boundarySpace: { value: new THREE.Vector2() },
+                            palette: { value: paletteTex },
+                            bgColor: { value: bgVec4 }
+                        }
+                    })
+                );
+                this.scene.add(this.output);
+            }
+            addScene(mesh) {
+                this.scene.add(mesh);
+            }
+            resize() {
+                this.simulation.resize();
+            }
+            render() {
+                Common.renderer.setRenderTarget(null);
+                Common.renderer.render(this.scene, this.camera);
+            }
+            update() {
+                this.simulation.update();
+                this.render();
+            }
+        }
+
+        class WebGLManager {
+            constructor(props) {
+                this.props = props;
+                Common.init(props.$wrapper);
+                Mouse.init(props.$wrapper);
+                Mouse.autoIntensity = props.autoIntensity;
+                Mouse.takeoverDuration = props.takeoverDuration;
+                this.lastUserInteraction = performance.now();
+                Mouse.onInteract = () => {
+                    this.lastUserInteraction = performance.now();
+                    if (this.autoDriver) this.autoDriver.forceStop();
+                };
+                this.autoDriver = new AutoDriver(Mouse, this, {
+                    enabled: props.autoDemo,
+                    speed: props.autoSpeed,
+                    resumeDelay: props.autoResumeDelay,
+                    rampDuration: props.autoRampDuration
+                });
+                this.init();
+                this._loop = this.loop.bind(this);
+                this._resize = this.resize.bind(this);
+                window.addEventListener('resize', this._resize);
+                this._onVisibility = () => {
+                    const hidden = document.hidden;
+                    if (hidden) {
+                        this.pause();
+                    } else if (isVisibleRef.current) {
+                        this.start();
+                    }
+                };
+                document.addEventListener('visibilitychange', this._onVisibility);
+                this.running = false;
+            }
+            init() {
+                this.props.$wrapper.prepend(Common.renderer.domElement);
+                this.output = new Output();
+            }
+            resize() {
+                Common.resize();
+                this.output.resize();
+            }
+            render() {
+                if (this.autoDriver) this.autoDriver.update();
+                Mouse.update();
+                Common.update();
+                this.output.update();
+            }
+            loop() {
+                if (!this.running) return;
+                this.render();
+                rafRef.current = requestAnimationFrame(this._loop);
+            }
+            start() {
+                if (this.running) return;
+                this.running = true;
+                this._loop();
+            }
+            pause() {
+                this.running = false;
+                if (rafRef.current) {
+                    cancelAnimationFrame(rafRef.current);
+                    rafRef.current = null;
+                }
+            }
+            dispose() {
+                try {
+                    window.removeEventListener('resize', this._resize);
+                    document.removeEventListener('visibilitychange', this._onVisibility);
+                    Mouse.dispose();
+                    if (Common.renderer) {
+                        const canvas = Common.renderer.domElement;
+                        if (canvas && canvas.parentNode) canvas.parentNode.removeChild(canvas);
+                        Common.renderer.dispose();
+                    }
+                } catch (e) {
+                    void 0;
+                }
+            }
+        }
+
+        const container = mountRef.current;
+        container.style.position = container.style.position || 'relative';
+        container.style.overflow = container.style.overflow || 'hidden';
+
+        const webgl = new WebGLManager({
+            $wrapper: container,
+            autoDemo,
+            autoSpeed,
+            autoIntensity,
+            takeoverDuration,
+            autoResumeDelay,
+            autoRampDuration
+        });
+        webglRef.current = webgl;
+
+        const applyOptionsFromProps = () => {
+            if (!webglRef.current) return;
+            const sim = webglRef.current.output?.simulation;
+            if (!sim) return;
+            const prevRes = sim.options.resolution;
+            Object.assign(sim.options, {
+                mouse_force: mouseForce,
+                cursor_size: cursorSize,
+                isViscous,
+                viscous,
+                iterations_viscous: iterationsViscous,
+                iterations_poisson: iterationsPoisson,
+                dt,
+                BFECC,
+                resolution,
+                isBounce
+            });
+            if (resolution !== prevRes) {
+                sim.resize();
+            }
+        };
+        applyOptionsFromProps();
+
+        webgl.start();
+
+        // IntersectionObserver to pause rendering when not visible
+        const io = new IntersectionObserver(
+            entries => {
+                const entry = entries[0];
+                const isVisible = entry.isIntersecting && entry.intersectionRatio > 0;
+                isVisibleRef.current = isVisible;
+                if (!webglRef.current) return;
+                if (isVisible && !document.hidden) {
+                    webglRef.current.start();
+                } else {
+                    webglRef.current.pause();
+                }
+            },
+            { threshold: [0, 0.01, 0.1] }
+        );
+        io.observe(container);
+        intersectionObserverRef.current = io;
+
+        const ro = new ResizeObserver(() => {
+            if (!webglRef.current) return;
+            if (resizeRafRef.current) cancelAnimationFrame(resizeRafRef.current);
+            resizeRafRef.current = requestAnimationFrame(() => {
+                if (!webglRef.current) return;
+                webglRef.current.resize();
+            });
+        });
+        ro.observe(container);
+        resizeObserverRef.current = ro;
+
+        return () => {
+            if (rafRef.current) cancelAnimationFrame(rafRef.current);
+            if (resizeObserverRef.current) {
+                try {
+                    resizeObserverRef.current.disconnect();
+                } catch (e) {
+                    void 0;
+                }
+            }
+            if (intersectionObserverRef.current) {
+                try {
+                    intersectionObserverRef.current.disconnect();
+                } catch (e) {
+                    void 0;
+                }
+            }
+            if (webglRef.current) {
+                webglRef.current.dispose();
+            }
+            webglRef.current = null;
+        };
+    }, [
+        BFECC,
+        cursorSize,
+        dt,
+        isBounce,
+        isViscous,
+        iterationsPoisson,
+        iterationsViscous,
+        mouseForce,
+        resolution,
+        viscous,
+        colors,
+        autoDemo,
+        autoSpeed,
+        autoIntensity,
+        takeoverDuration,
+        autoResumeDelay,
+        autoRampDuration
+    ]);
+
+    useEffect(() => {
+        const webgl = webglRef.current;
+        if (!webgl) return;
+        const sim = webgl.output?.simulation;
+        if (!sim) return;
+        const prevRes = sim.options.resolution;
+        Object.assign(sim.options, {
+            mouse_force: mouseForce,
+            cursor_size: cursorSize,
+            isViscous,
+            viscous,
+            iterations_viscous: iterationsViscous,
+            iterations_poisson: iterationsPoisson,
+            dt,
+            BFECC,
+            resolution,
+            isBounce
+        });
+        if (webgl.autoDriver) {
+            webgl.autoDriver.enabled = autoDemo;
+            webgl.autoDriver.speed = autoSpeed;
+            webgl.autoDriver.resumeDelay = autoResumeDelay;
+            webgl.autoDriver.rampDurationMs = autoRampDuration * 1000;
+            if (webgl.autoDriver.mouse) {
+                webgl.autoDriver.mouse.autoIntensity = autoIntensity;
+                webgl.autoDriver.mouse.takeoverDuration = takeoverDuration;
+            }
+        }
+        if (resolution !== prevRes) {
+            sim.resize();
+        }
+    }, [
+        mouseForce,
+        cursorSize,
+        isViscous,
+        viscous,
+        iterationsViscous,
+        iterationsPoisson,
+        dt,
+        BFECC,
+        resolution,
+        isBounce,
+        autoDemo,
+        autoSpeed,
+        autoIntensity,
+        takeoverDuration,
+        autoResumeDelay,
+        autoRampDuration
+    ]);
+
+    return <div ref={mountRef} className={`liquid-ether-container ${className || ''}`} style={style} />;
+}
+</file>
+
+<file path="client/src/components/Navbar.jsx">
+import React from 'react'
+import '../styles/Navbar.css'
+
+const Navbar = () => {
+    return (
+        <nav className="navbar">
+            <h1>IMPACTIFY</h1>
+            <ul className="navbar-links">
+                <li><a href="/home" className="navbar-link">Home</a></li>
+                <li><a href="#features" className="navbar-link">Features</a></li>
+                <li><a href="#about" className="navbar-link">About</a></li>
+                <li><a href="#contact" className="navbar-link">Contact</a></li>
+            </ul>
+            <button className="navbar-cta">Get Started</button>
+        </nav>
+    )
+}
+
+export default Navbar
+</file>
+
+<file path="client/src/components/ScrollVelocity.jsx">
+import { useRef } from "react";
+import {
+    motion,
+    useScroll,
+    useSpring,
+    useTransform,
+    useMotionValue,
+    useVelocity,
+    useAnimationFrame,
+} from "framer-motion";
+import { wrap } from "@motionone/utils";
+
+function ParallaxText({ children, baseVelocity = 100 }) {
+    const baseX = useMotionValue(0);
+    const { scrollY } = useScroll();
+    const scrollVelocity = useVelocity(scrollY);
+    const smoothVelocity = useSpring(scrollVelocity, {
+        damping: 50,
+        stiffness: 400,
+    });
+    const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 5], {
+        clamp: false,
+    });
+
+    /**
+     * This is a magic wrapping for the length of the text - you
+     * have to replace for wrapping that works for you or dynamically
+     * calculate
+     */
+    const x = useTransform(baseX, (v) => `${wrap(-20, -45, v)}%`);
+
+    const directionFactor = useRef(1);
+    useAnimationFrame((t, delta) => {
+        let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
+
+        /**
+         * This is what changes the direction of the scroll once we
+         * switch scrolling directions.
+         */
+        if (velocityFactor.get() < 0) {
+            directionFactor.current = -1;
+        } else if (velocityFactor.get() > 0) {
+            directionFactor.current = 1;
+        }
+
+        moveBy += directionFactor.current * moveBy * velocityFactor.get();
+
+        baseX.set(baseX.get() + moveBy);
+    });
+
+    /**
+     * The number of times to repeat the child text should be dynamically calculated
+     * based on the size of the text and viewport. Likewise, the x motion value is
+     * currently wrapped between -20 and -45% - this 25% is derived from the fact
+     * that we have four children (100% / 4). This would also want deriving from the
+     * dynamically generated number of children.
+     */
+    return (
+        <div className="parallax">
+            <motion.div className="scroller" style={{ x }}>
+                <span>{children} </span>
+                <span>{children} </span>
+                <span>{children} </span>
+                <span>{children} </span>
+            </motion.div>
+        </div>
+    );
+}
+
+export default function ScrollVelocity({ text = "Velocity Scroll", velocity = 5, className = "" }) {
+    return (
+        <section className={`scroll-velocity-section ${className}`}>
+            <ParallaxText baseVelocity={velocity}>{text}</ParallaxText>
+            <ParallaxText baseVelocity={-velocity}>{text}</ParallaxText>
+        </section>
+    );
+}
+</file>
+
+<file path="client/src/pages/Home.jsx">
+import React from 'react'
+import Hero from '../components/Hero'
+import Features from '../components/Features'
+import HowItWorks from '../components/HowItWorks'
+import ScrollVelocity from '../components/ScrollVelocity'
+import '../styles/ScrollVelocity.css'
+
+const Home = () => {
+    return (
+        <main>
+            <Hero />
+            <Features />
+            <HowItWorks />
+            <ScrollVelocity
+                text="AI POWERED ANALYTICS • INSTANT INSIGHTS • NO SQL REQUIRED •"
+                velocity={1}
+            />
+        </main>
+    )
+}
+
+export default Home
+</file>
+
+<file path="client/src/services/authService.jsx">
+
+</file>
+
+<file path="client/src/styles/Features.css">
+.features-section {
+    padding: 0rem 2rem 4rem;
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.features-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.features-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.features-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.features-header h2 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.5) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.features-header p {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 2.5rem;
+    border-radius: 24px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.06), transparent 40%);
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 20px 40px -10px rgba(255, 255, 255, 0.05);
+}
+
+.feature-card:hover::before {
+    opacity: 1;
+}
+
+.feature-icon-wrapper {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover .feature-icon-wrapper {
+    background: #fff;
+    color: #000;
+    transform: scale(1.1) rotate(5deg);
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.feature-card p {
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+    .features-header h2 {
+        font-size: 2.2rem;
+    }
+
+    .features-section {
+        padding: 4rem 1.5rem;
+    }
+}
+</file>
+
+<file path="client/src/styles/Footer.css">
+.footer {
+    background: #000;
+    color: #fff;
+    padding: 2rem 2rem 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 10;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-top {
+    display: grid;
+    grid-template-columns: 1.5fr 2fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+}
+
+.footer-brand h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.7) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.footer-brand p {
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 2rem;
+    max-width: 300px;
+    line-height: 1.6;
+}
+
+.newsletter-form {
+    display: flex;
+    gap: 0.5rem;
+    max-width: 400px;
+}
+
+.newsletter-form input {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.newsletter-form input:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.newsletter-form button {
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    background: #fff;
+    color: #000;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.newsletter-form button:hover {
+    background: #e0e0e0;
+    transform: translateY(-1px);
+}
+
+.footer-links-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.footer-column h3 {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    color: #fff;
+}
+
+.footer-column a {
+    display: block;
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.footer-column a:hover {
+    color: #fff;
+}
+
+.footer-bottom {
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.9rem;
+}
+
+.footer-socials {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.footer-socials a {
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.footer-socials a:hover {
+    color: #fff;
+    transform: translateY(-3px) scale(1.1);
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+}
+
+@media (max-width: 768px) {
+    .footer-top {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .footer-links-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+}
+</file>
+
+<file path="client/src/styles/Hero.css">
+.hero-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 2rem;
+    position: relative; 
+    width: 100%; 
+    overflow: hidden;
+}
+
+.hero-content {
+    max-width: 900px;
+    z-index: 1;
+    animation: fadeIn 1s ease-out;
+}
+
+.hero-badge {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(10px);
+    animation: slideUp 0.8s ease-out;
+}
+
+.hero-title {
+    font-size: 4.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.6) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -2px;
+    animation: slideUp 1s ease-out 0.2s backwards;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto 2.5rem;
+    animation: slideUp 1s ease-out 0.4s backwards;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    animation: slideUp 1s ease-out 0.6s backwards;
+}
+
+.btn-primary {
+    padding: 1rem 2.5rem;
+    background: #fff;
+    color: #000;
+    font-weight: 600;
+    border-radius: 50px;
+    border: 1px solid #fff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: transparent;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary {
+    padding: 1rem 2.5rem;
+    background: #000;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: #fff;
+    color: #000;
+    transform: translateY(-2px);
+    border-color: #fff;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 3rem;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+</file>
+
+<file path="client/src/styles/HowItWorks.css">
+.how-it-works-section {
+    padding: 4rem 2rem;
+    background: transparent;
+    position: relative;
+}
+
+.hiw-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.hiw-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.hiw-header h2 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.hiw-header p {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1.2rem;
+}
+
+.steps-wrapper {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.steps-line-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.steps-line-fill {
+    width: 100%;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.step-item {
+    display: flex;
+    gap: 3rem;
+    align-items: flex-start;
+    position: relative;
+}
+
+.step-item::before {
+    content: '';
+    position: absolute;
+    left: -2.4rem;
+    top: 0.5rem;
+    width: 12px;
+    height: 12px;
+    background: #000;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.step-item:hover::before {
+    background: #fff;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+}
+
+.step-number {
+    font-size: 4rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.05);
+    line-height: 1;
+    font-family: 'Inter', sans-serif;
+}
+
+.step-content {
+    padding-top: 0.5rem;
+}
+
+.step-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+    color: #fff;
+}
+
+.step-content p {
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.6;
+    font-size: 1.1rem;
+    max-width: 500px;
+}
+
+@media (max-width: 768px) {
+    .steps-wrapper {
+        padding-left: 1.5rem;
+    }
+
+    .step-item {
+        gap: 1.5rem;
+    }
+
+    .step-item::before {
+        left: -1.9rem;
+    }
+
+    .step-number {
+        font-size: 2.5rem;
+    }
+}
+</file>
+
+<file path="client/src/styles/Navbar.css">
+.navbar {
+    position: fixed;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    min-width: unset;
+    padding: 1.2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    border-radius: 100px;
+    z-index: 1000;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navbar:hover {
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    transform: translateX(-50%) scale(1.02);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.navbar h1 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #fff;
+    margin: 0;
+    letter-spacing: -0.5px;
+    padding-left: 0.5rem;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.8rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-link {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.navbar-link:hover {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.navbar-cta {
+    padding: 0.4rem 1.4rem;
+    background: #fff;
+    border: none;
+    border-radius: 100px;
+    color: #000;
+    font-weight: 700;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.navbar-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.navbar-cta::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.navbar-cta:active {
+    transform: translateY(1px);
+}
+</file>
+
+<file path="client/src/styles/ScrollVelocity.css">
+.scroll-velocity-section {
+    padding: 1rem 0;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    z-index: 10;
+}
+
+.parallax {
+    overflow: hidden;
+    letter-spacing: -2px;
+    line-height: 0.8;
+    margin: 0;
+    white-space: nowrap;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.scroller {
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 6rem;
+    display: flex;
+    white-space: nowrap;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.scroller span {
+    display: block;
+    margin-right: 2rem;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.scroller span:hover {
+    color: #fff;
+    -webkit-text-stroke: 1px #fff;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 768px) {
+    .scroller {
+        font-size: 3rem;
+    }
+}
+</file>
+
+<file path="client/src/App.css">
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+</file>
+
+<file path="client/src/App.jsx">
+import React from 'react'
+import Navbar from './components/Navbar'
+import Home from './pages/Home'
+import Footer from './components/Footer'
+import LiquidEther from './components/LiquidEther'
+import './App.css'
+
+function App() {
+  return (
+    <div className="app-container">
+      <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}>
+        <LiquidEther
+          colors={['#222222', '#888888', '#FFFFFF']}
+          mouseForce={20}
+          cursorSize={100}
+          isViscous={false}
+          viscous={30}
+          iterationsViscous={32}
+          iterationsPoisson={32}
+          resolution={0.5}
+          isBounce={false}
+          autoDemo={true}
+          autoSpeed={0.5}
+          autoIntensity={2.2}
+          takeoverDuration={0.25}
+          autoResumeDelay={3000}
+          autoRampDuration={0.6}
+        />
+      </div>
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <Navbar />
+        <Home />
+        <Footer />
+      </div>
+    </div>
+  )
+}
+
+export default App
+</file>
+
+<file path="client/src/index.css">
+:root {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #000000;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #fff;
+  text-decoration: inherit;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+body {
+  margin: 0;
+  display: flex;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button:hover {
+  border-color: #fff;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto #fff;
+}
+</file>
+
+<file path="client/src/main.jsx">
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+</file>
+
+<file path="client/eslint.config.js">
+import js from '@eslint/js'
+import globals from 'globals'
+import reactHooks from 'eslint-plugin-react-hooks'
+import reactRefresh from 'eslint-plugin-react-refresh'
+import { defineConfig, globalIgnores } from 'eslint/config'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{js,jsx}'],
+    extends: [
+      js.configs.recommended,
+      reactHooks.configs['recommended-latest'],
+      reactRefresh.configs.vite,
+    ],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        ecmaFeatures: { jsx: true },
+        sourceType: 'module',
+      },
+    },
+    rules: {
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+    },
+  },
+])
+</file>
+
+<file path="client/index.html">
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>frontend</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+</file>
+
+<file path="client/package.json">
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@motionone/utils": "^10.18.0",
+    "@nivo/bar": "^0.99.0",
+    "@nivo/core": "^0.99.0",
+    "@nivo/pie": "^0.99.0",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.4.2",
+    "axios": "^1.13.2",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.23.25",
+    "lucide-react": "^0.555.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-icons": "^5.5.0",
+    "react-router-dom": "^7.9.6",
+    "tailwind-merge": "^3.4.0",
+    "three": "^0.181.2",
+    "zustand": "^5.0.9"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "@types/react": "^19.1.16",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.0.4",
+    "autoprefixer": "^10.4.22",
+    "eslint": "^9.36.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.22",
+    "globals": "^16.4.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.17",
+    "vite": "^7.1.7"
+  }
+}
+</file>
+
+<file path="client/README.md">
+# React + Vite
+
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## React Compiler
+
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+</file>
+
+<file path="client/vite.config.js">
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react()],
+})
+</file>
+
+<file path="server/config/db.js">
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+module.exports = prisma;
+</file>
+
+<file path="server/config/pg.js">
+const { Pool } = require('pg');
+require('dotenv').config();
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+});
+
+module.exports = pool;
+</file>
+
+<file path="server/controllers/datasetController.js">
+const ingestionService = require('../services/ingestionService');
+const cleanerService = require('../services/cleanerService');
+const aiService = require('../services/aiService');
+const pool = require('../config/pg');
+
+exports.uploadDataset = async (req, res) => {
+    try {
+        if (!req.file) return res.status(400).json({ error: "No file uploaded" });
+        
+        const userId = req.user.id; 
+
+        const dataset = await ingestionService.ingestFile(req.file.path, userId, req.file.originalname);
+
+        cleanerService.cleanDataset(dataset.id).catch(console.error);
+
+        res.json({ success: true, datasetId: dataset.id, message: "Dataset uploaded and processing started." });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+exports.analyzeQuery = async (req, res) => {
+    try {
+        const { datasetId, query } = req.body;
+        const aiConfig = await aiService.generateQuery(datasetId, query);
+        
+        const { rows } = await pool.query(aiConfig.sql);
+        
+        res.json({ data: rows, config: aiConfig });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+};
+</file>
+
+<file path="server/prisma/schema.prisma">
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enum for User Roles
+enum Role {
+  ADMIN
+  USER
+  GUEST
+}
+
+// Enum for Auth Providers
+enum AuthProvider {
+  EMAIL
+  GOOGLE
+}
+
+// User Model
+model User {
+  id            String       @id @default(uuid())
+  email         String       @unique
+  passwordHash  String?      
+  name          String?
+  role          Role         @default(USER)
+  authProvider  AuthProvider @default(EMAIL)
+  googleId      String?      @unique
+  createdAt     DateTime     @default(now())
+  
+  datasets      Dataset[]
+}
+
+// Dataset Model
+model Dataset {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  datasetName   String
+  tableName     String   // The private SQL table name
+  status        String   // uploading, profiling, cleaning, ready, error
+  createdAt     DateTime @default(now())
+  
+  schema        DatasetSchema[]
+}
+
+// Dataset Schema Model (For AI Context)
+model DatasetSchema {
+  id          String   @id @default(uuid())
+  datasetId   String
+  dataset     Dataset  @relation(fields: [datasetId], references: [id])
+  columnName  String
+  dataType    String   // FLOAT, TEXT, TIMESTAMP
+  description String?
+}
+</file>
+
+<file path="server/routes/datasetRoutes.js">
+const express = require('express');
+const router = express.Router(); 
+const multer = require('multer');
+const datasetController = require('../controllers/datasetController');
+
+const upload = multer({ dest: 'uploads/' });
+
+router.post('/upload', upload.single('file'), datasetController.uploadDataset);
+
+router.post('/analyze', datasetController.analyzeQuery);
+
+module.exports = router;
+</file>
+
+<file path="server/services/aiService.js">
+require('dotenv').config();
+const { GoogleGenAI } = require("@google/genai");
+const prisma = require('../config/db');
+
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
+exports.generateQuery = async (datasetId, userPrompt) => {
+
+    console.log(`Start`);
+    console.log(`id:${datasetId}`);
+    console.log(`Prompt:${userPrompt}"`);
+
+    const dataset = await prisma.dataset.findUnique({ 
+        where: { id: datasetId },
+        include: { schema: true }
+    });
+
+    if (!dataset) {
+        console.error("Dataset not found in database");
+        throw new Error("Dataset not found");
+    }
+    
+// Schema so that AI can have some reference while generating SQL
+    const schemaContext = dataset.schema.map(col => 
+        `- "${col.columnName}" (${col.dataType})`
+    ).join('\n');
+
+    const prompt = `
+        DATABASE SCHEMA:
+        ${schemaContext}
+
+        USER QUESTION: 
+        "${userPrompt}"
+
+        Generate the JSON response now.
+    `;
+    
+
+    try {
+
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-flash", 
+            contents: [
+                {
+                    role: "user",
+                    parts: [{ text: prompt }]
+                }
+            ],
+            config: {
+                systemInstruction: `
+                    You are Impactify, an elite Senior Data Analyst known for precise SQL and insightful visualization choices.
+                    
+                    Your Mission:
+                    Convert natural language questions into executable PostgreSQL queries for a specific dataset.
+
+                    The Table Name is: "${dataset.tableName}"
+
+                    STRICT SQL RULES:
+                    1. **Read-Only:** Use SELECT statements only. Never use DELETE, DROP, UPDATE, or INSERT.
+                    2. **Fuzzy Matching:** When filtering text columns, ALWAYS use 'ILIKE' with wildcards (e.g., column ILIKE '%value%') to handle case sensitivity and partial matches.
+                    3. **Aggregation:** If the user asks for "total", "average", or "count", you MUST aggregate the data using GROUP BY.
+                    4. **Dates:** If grouping by date (Year/Month), use PostgreSQL's TO_CHAR(date_col, 'Mon YYYY') or EXTRACT functions.
+                    5. **Limit:** For 'bar' or 'pie' charts involving categories, LIMIT the results to the top 10-15 rows to prevent overcrowded visualizations unless the user specifies otherwise.
+                    
+                    VISUALIZATION RULES:
+                    - **'line'**: Use ONLY if there is a time/date column on the X-axis.
+                    - **'bar'**: Use for comparing categories (e.g., Sales by City).
+                    - **'pie'**: Use ONLY for part-to-whole comparisons (e.g., % of Market Share) with few categories (max 5-7).
+                    - **'table'**: Use if the user asks for raw lists, details, or if the data doesn't fit a chart.
+                    
+                    OUTPUT FORMAT:
+                    Return ONLY a raw JSON object with these keys:
+                    - "sql": The executable PostgreSQL query.
+                    - "chartType": One of ['bar', 'line', 'pie', 'table'].
+                    - "overview": A brief, witty, and helpful explanation of the info in the chart.
+                `,
+                responseMimeType: "application/json",
+                temperature: 0 
+            }
+        });
+
+        console.log("Response received");
+        
+        const responseText = response.text; 
+
+        const parsedResult = JSON.parse(responseText);
+        
+        return parsedResult;
+
+    } catch (error) {
+        console.error(error);
+
+        return {
+            sql: `SELECT * FROM ${dataset.tableName} LIMIT 10`,
+            chartType: "table",
+            overview: "I had a bit of a brain freeze processing that query. Here is a preview of your data instead!"
+        };
+    }
+};
+</file>
+
+<file path="server/services/cleanerService.js">
+const pool = require('../config/pg');
+const prisma = require('../config/db');
+
+
+const TYPE_THRESHOLD = 0.8; // 80% of data must match a type to be cast to that type
+
+const REGEX_BOOLEAN = /^(true|false|yes|no|1|0)$/i;
+const REGEX_INTEGER = /^-?\d+$/;
+const REGEX_FLOAT = /^-?\d+(\.\d+)?$/; 
+const REGEX_NON_DIGITS = '[^0-9-]';
+const REGEX_NON_FLOAT = '[^0-9.-]';
+
+
+// Analyze a bunch of values and figure out their type
+const inferType = (values) => {
+    let counts = {
+        INTEGER: 0,
+        FLOAT: 0,
+        BOOLEAN: 0,
+        TIMESTAMP: 0,
+        TOTAL: 0
+    };
+
+    values.forEach(value => {
+        if (value === null || value === '' || value === undefined) return;
+        
+        const strVal = String(value).trim();
+        counts.TOTAL++;
+
+        if (REGEX_BOOLEAN.test(strVal)) counts.BOOLEAN++;
+        if (REGEX_INTEGER.test(strVal)) counts.INTEGER++;
+        if (REGEX_FLOAT.test(strVal))   counts.FLOAT++;
+
+        const isDate = !isNaN(Date.parse(strVal));
+        const isNotNumber = !REGEX_INTEGER.test(strVal);
+        if (isDate && strVal.length > 5 && isNotNumber) {
+            counts.TIMESTAMP++;
+        }
+    });
+
+    if (counts.TOTAL === 0) return 'TEXT';
+
+    const ratio = (count) => count / counts.TOTAL;
+
+    if (ratio(counts.BOOLEAN) > TYPE_THRESHOLD) return 'BOOLEAN';
+    if (ratio(counts.INTEGER) > TYPE_THRESHOLD) return 'INTEGER';
+    if (ratio(counts.FLOAT)   > TYPE_THRESHOLD) return 'FLOAT';
+    if (ratio(counts.TIMESTAMP) > TYPE_THRESHOLD) return 'TIMESTAMP';
+
+    return 'TEXT';
+};
+
+
+// Generates the SQL command to convert a column to the identified type
+
+const generateCastQuery = (tableName, columnName, targetType) => {
+    switch (targetType) {
+        case 'INTEGER':
+            return `
+                ALTER TABLE ${tableName} 
+                ALTER COLUMN ${columnName} TYPE INTEGER 
+                USING NULLIF(REGEXP_REPLACE(${columnName}, '${REGEX_NON_DIGITS}', '', 'g'), '')::INTEGER
+            `;
+        case 'FLOAT':
+            return `
+                ALTER TABLE ${tableName} 
+                ALTER COLUMN ${columnName} TYPE FLOAT 
+                USING NULLIF(REGEXP_REPLACE(${columnName}, '${REGEX_NON_FLOAT}', '', 'g'), '')::FLOAT
+            `;
+        case 'BOOLEAN':
+            return `
+                ALTER TABLE ${tableName} 
+                ALTER COLUMN ${columnName} TYPE BOOLEAN 
+                USING CASE 
+                    WHEN ${columnName} ~* '^(true|yes|1)$' THEN true 
+                    WHEN ${columnName} ~* '^(false|no|0)$' THEN false 
+                    ELSE NULL 
+                END
+            `;
+        case 'TIMESTAMP':
+            return `
+                ALTER TABLE ${tableName} 
+                ALTER COLUMN ${columnName} TYPE TIMESTAMP 
+                USING ${columnName}::TIMESTAMP
+            `;
+        default:
+            return null;
+    }
+};
+
+
+exports.cleanDataset = async (datasetId) => {
+
+    const dataset = await prisma.dataset.findUnique({ where: { id: datasetId } });
+    if (!dataset) return;
+
+    // 2. Get Column Names
+    const { rows: columns } = await pool.query(`
+        SELECT column_name 
+        FROM information_schema.columns 
+        WHERE table_name = '${dataset.tableName}' 
+        AND column_name != 'id'
+    `);
+
+    const client = await pool.connect();
+
+    try {
+        await client.query('BEGIN');
+
+        // We count the total rows in the table first.
+        const countQuery = `SELECT COUNT(*) as total FROM ${dataset.tableName}`;
+        const { rows: countResult } = await client.query(countQuery);
+        
+        const totalRows = parseInt(countResult[0].total, 10);
+        
+        // Use 50% of the total rows as sample size
+        const sampleSize = Math.ceil(totalRows / 2);
+
+        console.log(`Analyzing table: ${dataset.tableName} | Total Rows: ${totalRows} | Sample Size: ${sampleSize}`);
+
+        // Loop through each columns
+        for (const col of columns) {
+            const name = col.column_name;
+
+            if (sampleSize > 0) {
+                
+                const sampleQuery = `
+                    SELECT ${name} as v 
+                    FROM ${dataset.tableName} 
+                    WHERE ${name} IS NOT NULL AND ${name} != '' 
+                    LIMIT ${sampleSize}
+                `;
+                
+                const { rows: samples } = await client.query(sampleQuery);
+                const sampleValues = samples.map(s => s.v);
+
+
+                const inferredType = inferType(sampleValues);
+                console.log(`Column [${name}] inferred as: ${inferredType}`);
+
+                if (inferredType !== 'TEXT') {
+                    try {
+                        const alterQuery = generateCastQuery(dataset.tableName, name, inferredType);
+                        if (alterQuery) {
+                            await client.query(alterQuery);
+                        }
+                    } catch (castError) {
+                        console.warn(`Failed to cast [${name}] to ${inferredType}. Reverting to TEXT.`);
+                    }
+                }
+
+                await prisma.datasetSchema.create({
+                    data: {
+                        datasetId: dataset.id,
+                        columnName: name,
+                        dataType: inferredType
+                    }
+                });
+            } else {
+                await prisma.datasetSchema.create({
+                    data: {
+                        datasetId: dataset.id,
+                        columnName: name,
+                        dataType: 'TEXT'
+                    }
+                });
+            }
+        }
+        await prisma.dataset.update({
+            where: { id: datasetId },
+            data: { status: 'READY' }
+        });
+
+        await client.query('COMMIT');
+
+    } catch (error) {
+        await client.query('ROLLBACK');
+        console.error("Cleaning Service Error:", error);
+    } finally {
+        client.release();
+    }
+};
+</file>
+
+<file path="server/services/ingestionService.js">
+const fs = require('fs');
+const csv = require('csv-parser');
+const pool = require('../config/pg');
+const prisma = require('../config/db');
+
+// Funtion to properly clean and format column name for use
+const sanitizeHeader = (header) => {
+    return header
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, '_'); // Replace non-alphanumeric chars with underscores
+};
+
+
+// To prevent single quote errors in SQL 
+const escapeSqlString = (value) => {
+    if (value === null || value === undefined) return null;
+    return value.replace(/'/g, "''");
+};
+
+
+// Parses Csv and returns headers and rows
+const parseCsvFile = (filePath) => {
+    return new Promise((resolve, reject) => {
+        const rows = [];
+        let headers = [];
+
+        fs.createReadStream(filePath)
+            .pipe(csv())
+            .on('headers', (rawHeaders) => {
+                headers = rawHeaders.map(sanitizeHeader);
+            })
+            .on('data', (row) => {
+                rows.push(row);
+            })
+            .on('end', () => {
+                resolve({ headers, rows });
+            })
+            .on('error', (error) => {
+                reject(error);
+            });
+    });
+};
+
+exports.ingestFile = async (filePath, userId, originalName) => {
+// Generate unique name for each dataset uploaded by the user using timestamp,randomnumber and table name so that no two dataset have the same name
+    const timestamp = Date.now();
+    const randomString = Math.random().toString(36).substring(7);
+    const tableName = `ds_${timestamp}_${randomString}`;
+
+    const client = await pool.connect();
+
+    try {
+        // Get the headers and rows from the CSV file
+        const { headers, rows } = await parseCsvFile(filePath);
+
+        // Start a Database Transaction
+        await client.query('BEGIN');
+
+        const dataset = await prisma.dataset.create({
+            data: {
+                userId: userId,
+                datasetName: originalName,
+                tableName: tableName,
+                status: 'PROFILING'
+            }
+        });
+
+        // We set all columns to TEXT at the start to avoid type errors during insertion
+        const columnDefinitions = headers.map(header => `${header} TEXT`).join(', ');
+        const createTableQuery = `CREATE TABLE ${tableName} (id SERIAL PRIMARY KEY, ${columnDefinitions})`;
+        
+        await client.query(createTableQuery);
+
+        //Insert Data (Row by Row)
+        for (const row of rows) {
+            // Get values in the same order as headers
+            const rawValues = Object.values(row);
+            
+            // Clean the values (escape quotes)
+            const escapedValues = rawValues.map(escapeSqlString);
+
+            // Format for SQL: NULL if empty, otherwise wrap in single quotes
+            const sqlValues = escapedValues.map(val => 
+                val === null ? 'NULL' : `'${val}'`
+            ).join(', ');
+
+            // Construct and execute the INSERT query
+            const insertQuery = `INSERT INTO ${tableName} (${headers.join(',')}) VALUES (${sqlValues})`;
+            await client.query(insertQuery);
+        }
+
+        // Commit the transaction.
+        await client.query('COMMIT');
+        return dataset;
+
+    } catch (error) {
+
+        await client.query('ROLLBACK');
+        throw error; 
+
+    } finally {
+        client.release(); 
+// Delete temporary file
+        if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+        }
+    }
+};
+</file>
+
+<file path="server/.env">
+DATABASE_URL="postgresql://postgres:password@localhost:5432/impactify_db"
+GEMINI_API_KEY="AIzaSyB5MW4L-szKlgFsWd2ghwKHaKFyB39-gvU"
+PORT=5001
+</file>
+
+<file path="server/index.js">
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const prisma = require('./config/db');
+
+const datasetRoutes = require('./routes/datasetRoutes');
+
+const app = express();
+const PORT = process.env.PORT || 5001;
+
+app.use(cors());
+app.use(express.json());
+
+// MOCK AUTH MIDDLEWARE (TEMPORARY)
+// This ensures we have a valid User ID in the DB until we implement real auth
+app.use(async (req, res, next) => {
+
+    const mockEmail = "demo@impactify.com";
+    let user = await prisma.user.findUnique({ where: { email: mockEmail } });
+    
+    if (!user) {
+        user = await prisma.user.create({
+            data: {
+                email: mockEmail,
+                name: "Demo User",
+                role: "ADMIN"
+            }
+        });
+        console.log("Created Mock User:", user.id);
+    }
+    
+    req.user = { id: user.id };
+    next();
+});
+
+app.use('/api/dataset', datasetRoutes);
+
+app.get('/', (req, res) => {
+    res.send('Impactify Backend Running');
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+</file>
+
+<file path="server/package.json">
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@google/genai": "^1.30.0",
+    "@prisma/client": "5.14.0",
+    "cors": "^2.8.5",
+    "csv-parser": "^3.2.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.0",
+    "multer": "^2.0.2",
+    "pg": "^8.16.3",
+    "prisma": "5.14.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
+</file>
+
+<file path=".gitignore">
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+</file>
+
+<file path="idea.md">
+# **Project Title & Overview**
+
+**Project Title:** Impactify \- Your AI-Powered Data Analyst
+
+Overview:  
+Impactify is a full-stack web application designed to bridge the gap between raw data and clear, actionable insights. Its core mission is to empower users to become data analysts. Users can upload their datasets, guide the system through an intelligent data cleaning process, and then—most importantly—ask questions in plain English. Impactify's AI engine will translate these natural language queries into the necessary SQL, retrieve the data, and present the answer as the requested interactive visualization. This project focuses on removing technical barriers, such as learning SQL, to make data-driven decisions accessible to a wider audience.
+
+# **Key Features / Modules**
+
+1. **File Ingestion:**  
+   * **In-Browser Parsing:** To ensure a smooth upload experience, the application will parse text-based files (like CSV) directly in the browser, chunk by chunk, using a library like Papa Parse.  
+   * **Streaming API:** The frontend will then send these manageable JSON chunks to the backend, allowing for reliable data ingestion.  
+2. **Automated Data Profiling:**  
+   * After the data is staged, the backend will automatically profile it.  
+   * **Data Report Card:** This process generates a summary for the user, noting things like columns with missing values, inferred data types, or potential text inconsistencies (e.g., "USA" vs. "U.S.A.").  
+3. **Interactive Data Cleaning:**  
+   * A user-friendly interface that presents the "Data Report Card."  
+   * **Simple Fixes:** Users will be provided with simple tools to:  
+     * Fill missing values (e.g., with the average, median, or a custom value).  
+     * Group and merge inconsistent text entries.  
+     * Correct data types that the profiler may have inferred incorrectly.  
+4. **Natural Language to SQL :**  
+   * **The Query Bar:** The primary interface for visualization will be a simple text bar.  
+   * **AI Translation:** A user can type, "Show me the top 10 customers by sales last quarter as a bar chart." The backend will securely combine this query with the schema of the user's dataset and send it to an LLM (e.g., Gemini). This schema-aware prompting ensures the AI understands the data structure.  
+   * **Intelligent Response:** The LLM will return a JSON object containing the validated SQL query and the requested chart type (e.g., {"sql": "SELECT ...", "chartType": "bar"}).  
+   * **Secure Execution:** The backend will validate this SQL to prevent unauthorized actions and then execute it against the user's database.  
+5. **AI-Driven Visualization Workbench:**  
+   * **Dynamic Rendering:** The frontend will be able to take the data from the AI-generated query and instantly render the correct chart (Bar, Line, Pie, etc.) using D3.js.
+
+# **User Roles**
+
+1. **Admin:**  
+   * **Permissions:** System-level administrator. Can manage user accounts (e.g., delete users, reset passwords), view system-wide usage statistics, and manage public gallery content (if the Guest feature is implemented).  
+   * **Data Access:** Read-only access to system metadata. **No access** to private user-uploaded data to ensure user privacy.  
+2. **Registered User:**  
+   * **Permissions:** The core user. They can upload, profile, clean, and manage their own private datasets. They can perform AI-driven queries and view visualizations.  
+   * **Data Access:** Full and exclusive read, write, and delete access to their *own* data.  
+3. **Guest:**  
+   * **Permissions:** Could be allowed to browse a public "gallery" of interesting datasets or analyses that other users have chosen to share.  
+   * **Data Access:** Read-only.
+
+# **Page / Screen List (Frontend)**
+
+* /login & /signup (Authentication pages)  
+* /admin/dashboard (Admin Panel: User management, system stats)  
+* /dashboard (Dashboard Home): The main hub, listing the user's "Data Projects."  
+* /upload (Data Upload Page): The interface for file selection to begin the ingestion process.  
+* /dataset/{id}/clean (Data Cleaning Page): The interactive interface for data preprocessing.  
+* /dataset/{id}/analyze (The "Impact" Workbench): The main analysis page, featuring the natural language query bar and the visualization canvas.  
+* /profile (User Profile Page): For managing account details.
+
+# **Database Schema**
+
+This schema separates application metadata from the user's ingested data, which is crucial for security and organization.
+
+### **App Metadata (PostgreSQL)**
+
+**User**
+
+* id (UUID, Primary Key)  
+* email (String, Unique, Indexed)  
+* password\_hash (String, Nullable)  
+* created\_at (Timestamp)  
+* role (Enum: ADMIN, USER)  
+* auth\_provider (Enum: EMAIL, GOOGLE, Default: EMAIL)  
+* google\_id (String, Nullable, Unique)
+
+**Dataset**
+
+* id (UUID, Primary Key)  
+* user\_id (UUID, Foreign Key to User.id)  
+* dataset\_name (String)  
+* status (Enum: uploading, profiling, cleaning, ready, error)  
+* data\_table\_name (String): The unique, private table created for their data (e.g., data\_user\_abc\_dataset\_xyz).
+
+**Dataset\_Schema (Critical for AI)**
+
+* id (UUID, Primary Key)  
+* dataset\_id (UUID, Foreign Key to Dataset.id)  
+* column\_name (String)  
+* data\_type (String, e.g., "FLOAT", "TEXT", "TIMESTAMP")  
+* description (Text, Nullable): A hint for the AI (e.g., "Main sales column").
+
+# **Tech Stack**
+
+* **Frontend:**  
+  * **Framework:** React  
+  * **Data Visualization:** D3.js (for rendering)  
+  * **State Management:** Zustand  
+  * **File Parsing:** Papa Parse  
+  * **UI/Layout:** CSS/Tailwind CSS  
+* **Backend:**  
+  * **Framework:** Node.js with **Express**  
+  * **AI / LLM:** **Google Gemini API** (for natural language-to-SQL)  
+  * **Authentication:** JWT (JSON Web Tokens), **Google OAuth 2.0**  
+* **Database:**  
+  * **Primary DB:** PostgreSQL
+
+# **Workflow**
+
+1. **Login/Upload:** A user signs up or logs in (using email/password or Google OAuth) and uploads a CSV file.  
+2. **Parse & Stream:** The browser parses the file chunk by chunk (via Papa Parse) and streams the JSON to the backend.  
+3. **Stage & Profile:** The backend saves the data to a staging\_table and begins profiling it. This job profiles the data and saves the findings (column types, etc.) into the Dataset\_Schema table. The Dataset status is set to cleaning.  
+4. **Cleaning:** The user is directed to the /clean page, where they see the profiler's report and can use tools to clean the data.  
+5. **Commit:** When finished, the backend cleans the staging\_table based on the user's choices, creates the permanent data\_... table, and applies necessary indexes. The Dataset status is set to ready.  
+6. **Analyze:** The user proceeds to the /analyze workbench.  
+7. **Ask in English:** The user types: "What was our total revenue by month for last year? Make it a line chart."  
+8. **AI Translation:** The backend takes this query, retrieves the schema from the Dataset\_Schema table, and builds a prompt for the Gemini LLM.  
+9. **AI Response:** The LLM returns {"sql": "SELECT ...", "chartType": "line"}.  
+10. **Execute & Send:** The backend validates the SQL, runs it against the user's private data\_... table, and sends the resulting data and chartType to the frontend.  
+11. **Render:** The frontend receives the payload and dynamically renders a \<LineChart\> component (using React \+ D3).
+
+# **Expected Outcomes**
+
+* A functional and scalable web application that provides a seamless, end-to-end experience for users, from data upload to final visualization.  
+* A genuinely useful tool that empowers non-technical users to query their data and gain insights simply by asking questions in plain English.  
+* A clear demonstration of how AI can be securely and effectively integrated into an application to automate complex tasks, like data analysis and SQL generation.
+</file>
+
+<file path="README.md">
+<h1 align="center">📊 Impactify — Your AI-Powered Data Analyst</h1>
+<p align="center">
+  <img src="https://media.giphy.com/media/qgQUggAC3Pfv687qPC/giphy.gif" width="400" alt="AI animation" />
+</p>
+
+<h3 align="center">
+  <em>Empowering everyone to become a data analyst — without writing a single line of SQL.</em>
+  
+</h3>
+
+<br/>
+
+<p align="center">
+  <a href="https://github.com/angelonels/Impactify/stargazers">
+    <img src="https://img.shields.io/github/stars/angelonels/Impactify?color=gold&style=for-the-badge" alt="Stars Badge"/>
+  </a>
+  <a href="https://github.com/angelonels/Impactify/forks">
+    <img src="https://img.shields.io/github/forks/angelonels/Impactify?color=teal&style=for-the-badge" alt="Forks Badge"/>
+  </a>
+  <a href="https://github.com/angelonels/Impactify/issues">
+    <img src="https://img.shields.io/github/issues/angelonels/Impactify?color=orange&style=for-the-badge" alt="Issues Badge"/>
+  </a>
+  <a href="https://github.com/angelonels/Impactify/pulls">
+    <img src="https://img.shields.io/github/issues-pr/angelonels/Impactify?color=brightgreen&style=for-the-badge" alt="Pull Requests Badge"/>
+  </a>
+  <a href="https://github.com/angelonels/Impactify/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/angelonels/Impactify?color=purple&style=for-the-badge" alt="Contributors Badge"/>
+  </a>
+<a href="https://github.com/angelonels/Impactify/commits/main">
+  <img src="https://img.shields.io/github/commit-activity/m/angelonels/Impactify?color=ff69b4&style=for-the-badge" alt="Commit Activity Badge"/>
+</a>
+
+  <a href="https://github.com/angelonels/Impactify/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/angelonels/Impactify?color=blue&style=for-the-badge" alt="License Badge"/>
+  </a>
+  <img src="https://img.shields.io/badge/Frontend-React-blue?style=for-the-badge&logo=react&logoColor=white" alt="React Badge"/>
+  <img src="https://img.shields.io/badge/Backend-Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js Badge"/>
+  <img src="https://img.shields.io/badge/Database-PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL Badge"/>
+  <img src="https://img.shields.io/badge/AI-Google%20Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Gemini Badge"/>
+  <img src="https://img.shields.io/badge/Auth-Google%20OAuth%20%7C%20JWT-FF4081?style=for-the-badge&logo=google&logoColor=white" alt="Auth Badge"/>
+  <img src="https://img.shields.io/badge/Deployed%20On-Vercel%20%26%20Render-black?style=for-the-badge&logo=vercel&logoColor=white" alt="Deploy Badge"/>
+</p>
+
+---
+
+<p align="center">
+Impactify is a <b>full-stack AI-powered web application</b> that bridges the gap between raw data and actionable insights.  
+Users can <b>upload datasets</b>, <b>clean data interactively</b>, and <b>ask questions in plain English</b> — Impactify automatically converts them into <b>SQL queries</b> and renders <b>dynamic visualizations</b> like bar, line, or pie charts instantly.
+</p>
+
+---
+## 📖 **Table of Contents**
+
+<div align="center">
+
+| 🔹 | Section | Description |
+|:--:|:---------|:-------------|
+| 1️⃣ | [✨ **Overview**](#-overview) | Learn what this project is all about |
+| 2️⃣ | [🚀 **Key Features**](#-key-features) | Explore the unique and powerful functionalities |
+| 3️⃣ | [👤 **User Roles**](#-user-roles) | Understand the roles and permissions in the system |
+| 4️⃣ | [🖥️ **Frontend Pages**](#️-frontend-pages) | See what the user interface includes |
+| 5️⃣ | [🧱 **Database Schema**](#-database-schema) | Visualize the data structure and relationships |
+| 6️⃣ | [🧩 **Tech Stack**](#-tech-stack) | Discover the technologies powering this project |
+| 7️⃣ | [⚙️ **Workflow**](#️-workflow) | Understand how the frontend, backend, and DB interact |
+| 8️⃣ | [🧑‍💻 **Our Team**](#-our-team) | Meet the developers behind the project |
+
+</div>
+
+---
+
+## ✨ Overview
+
+**Impactify** is a next-generation data analysis platform designed to simplify how people interact with data.  
+Instead of learning SQL or data visualization tools, users can **ask questions in natural language**.  
+The backend then securely converts these questions into SQL queries and visualizes the results dynamically.
+
+### 🎯 Mission
+> To make data-driven decision-making accessible to everyone — not just data scientists.
+
+---
+
+## 🚀 Key Features
+
+### 1. 🧾 File Ingestion
+- **In-browser parsing** using [Papa Parse](https://www.papaparse.com/).  
+- **Chunked streaming** to backend for reliable ingestion.
+
+### 2. 🤖 Automated Data Profiling
+- Detects column types, missing values, and text inconsistencies.  
+- Generates a **Data Report Card** highlighting issues and suggestions.
+
+### 3. 🧹 Interactive Data Cleaning
+- View and fix issues from the Data Report Card.  
+- Fill missing values (mean, median, custom).  
+- Merge inconsistent text entries.  
+- Correct inferred data types.
+
+### 4. 💬 Natural Language → SQL
+- AI translates plain English into optimized SQL queries.  
+- Example: _“Show me the top 10 customers by sales last quarter as a bar chart.”_  
+- Secure validation before execution.  
+- Outputs chart-ready data and visualization type.
+
+### 5. 📊 AI-Driven Visualization Workbench
+- Dynamic rendering via **D3.js**.  
+- Supports bar, line, pie, scatter charts, etc.  
+- Pin and save charts to a customizable dashboard using `react-grid-layout`.
+
+---
+
+## 👤 User Roles
+
+| Role | Permissions | Data Access |
+|------|--------------|--------------|
+| **Admin** | Manage users, view system metrics, control public content | Read-only metadata (no user data) |
+| **Registered User** | Upload, clean, analyze data, manage dashboards | Full access to their own data |
+| **Guest (Future)** | Browse public dashboards | Read-only |
+
+---
+
+## 🖥️ Frontend Pages
+
+| Route | Description |
+|--------|--------------|
+| `/login` & `/signup` | Authentication pages |
+| `/dashboard` | User's project hub |
+| `/upload` | Upload CSV datasets |
+| `/dataset/{id}/clean` | Data cleaning interface |
+| `/dataset/{id}/analyze` | Natural language querying + visualization workbench |
+| `/admin/dashboard` | Admin control panel |
+| `/profile` | Manage user profile |
+
+---
+
+## 🧱 Database Schema (PostgreSQL)
+
+### **User**
+| Column | Type | Description |
+|--------|------|-------------|
+| id | UUID | Primary Key |
+| email | String | Unique |
+| password_hash | String | Securely stored |
+| role | Enum(`ADMIN`, `USER`) | Access control |
+| auth_provider | Enum(`EMAIL`, `GOOGLE`) | Login type |
+| google_id | String | Nullable |
+| created_at | Timestamp | Creation date |
+
+### **Dataset**
+| Column | Type | Description |
+|--------|------|-------------|
+| id | UUID | Primary Key |
+| user_id | UUID | FK → User |
+| dataset_name | String | Name of dataset |
+| status | Enum | `uploading`, `profiling`, `cleaning`, `ready`, `error` |
+| data_table_name | String | Private table name per dataset |
+
+### **Dataset_Schema**
+| Column | Type | Description |
+|--------|------|-------------|
+| id | UUID | Primary Key |
+| dataset_id | UUID | FK → Dataset |
+| column_name | String | Column name |
+| data_type | String | FLOAT / TEXT / TIMESTAMP |
+| description | Text | Optional column notes for AI |
+
+---
+
+## 🧩 Tech Stack
+
+| Layer | Technologies |
+|-------|---------------|
+| **Frontend** | React, Tailwind CSS, Zustand, D3.js, React Router, react-grid-layout, Papa Parse |
+| **Backend** | Node.js, Express, Fastify (optional), JWT Auth, Google OAuth |
+| **AI / LLM** | Google Gemini API (Schema-Aware Prompting) |
+| **Database** | PostgreSQL (with TimescaleDB extension optional) |
+| **Deployment** | Vercel (Frontend), Render/Railway (Backend), Neon.tech (DB) |
+
+---
+
+## ⚙️ Workflow
+
+1. **Login/Upload** — User signs in and uploads a CSV.  
+2. **Parsing** — Browser parses CSV with Papa Parse, streams to backend.  
+3. **Profiling** — Backend analyzes data, creates schema, sets dataset status = `cleaning`.  
+4. **Cleaning** — User fixes missing values, text inconsistencies, etc.  
+5. **Commit** — Backend applies cleaning rules and finalizes dataset.  
+6. **Analyze** — User queries data in plain English.  
+7. **AI Processing** — Backend retrieves schema and queries LLM for SQL + chart type.  
+8. **Execution** — SQL is validated and executed on the user’s private dataset.  
+9. **Visualization** — Frontend dynamically renders the chart.  
+10. **Dashboard Save** — Users can pin, save, and manage dashboards.
+
+---
+## ☕ Team CodeBrewers
+
+### 🧑‍💻 Our Team
+Thanks to these amazing people for contributing to **Impactify** 🔥
+
+<p align="center">
+  <a href="https://github.com/angelonels/Impactify/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=angelonels/Impactify" />
+  </a>
+</p>
+<p align="center">
+  <b>Ayush Kumar Singh</b> • <b>Angelo Nelson</b> • <b>Rohit Nair P</b> • <b>Isha Singh</b>
+</p>
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=100&section=footer" />
+</p>
+</file>
+
+<file path="team_execution_plan.md">
+# Team Execution Plan: Impactify
+
+## 🎨 Design Philosophy
+
+**"Minimalist, Human, & Alive"**
+
+- **Color Palette**: Strictly Black (`#000000`), White (`#FFFFFF`), and Grays (`#F3F4F6` to `#1F2937`). No vibrant colors except for critical alerts or specific data visualization elements where necessary.
+- **Typography**: Clean sans-serif (Inter or system fonts). Large, bold headings. Readable body text.
+- **Interactions**:
+  - **Hover**: Subtle scale up (`scale-105`), border darkening, or background shifts (white to light gray) on interactive elements.
+  - **Transitions**: Smooth `transition-all duration-300 ease-in-out`.
+  - **Animations**: Fade-ins on page load, slide-ups for modals.
+- **Code Style**:
+  - **Human-Readable**: Use clear variable names (`isUploading` vs `flag`). Avoid overly complex one-liners.
+  - **Simple**: Prefer standard CSS/Tailwind over complex animation libraries unless needed.
+  - **Functional**: Components should be small and focused.
+
+---
+
+## 🤖 Global AI Instructions
+
+_Copy and paste this into your AI agent context before starting any task._
+
+> **System Instruction**: You are building "Impactify", a minimalist data analysis platform.
+>
+> 1.  **Design**: Use a strict Black & White theme. Use Tailwind CSS. Buttons should be black with white text (or vice versa) with smooth hover effects.
+> 2.  **Code Style**: Write simple, clean, and readable React code. Avoid over-engineering. Use functional components with hooks.
+> 3.  **Animation**: Add `framer-motion` or CSS transitions for smooth entry and hover states. Every clickable element must have a visual feedback on hover.
+> 4.  **Responsiveness**: Ensure layouts work on mobile and desktop.
+
+---
+
+## 📋 Page-Specific Implementation Prompts
+
+### 1. Landing Page (`/`)
+
+**Prompt for AI:**
+
+> "Create a Landing Page for Impactify.
+> **Design**: Minimalist. Hero section with a large, bold black headline on white background: 'Data Analysis. Simplified.' Subtext in gray.
+> **Features**:
+>
+> 1.  **Hero**: Centered text, 'Get Started' button (Black background, white text, scales up on hover).
+> 2.  **Features Grid**: 3x1 grid showing 'Upload', 'Clean', 'Visualize'. Use simple Lucide-React icons (black). Cards should lift slightly with a shadow on hover.
+> 3.  **Footer**: Simple minimalist footer.
+>     **Tech**: React, Tailwind, Framer Motion for fade-in effects on scroll."
+
+### 2. Authentication (`/login`, `/signup`)
+
+**Prompt for AI:**
+
+> "Create Login and Signup pages.
+> **Design**: Centered card layout. White card with subtle gray border on a very light gray background.
+> **Components**:
+>
+> 1.  **Input Fields**: Minimalist borders (bottom border only or thin full border). Focus state turns border black.
+> 2.  **Buttons**: 'Sign In' (Black block button). 'Sign in with Google' (White button, black border).
+> 3.  **Transitions**: Smooth switch between Login and Signup modes if on the same component, or smooth page transition."
+
+### 3. Dashboard (`/dashboard`)
+
+**Prompt for AI:**
+
+> "Create the User Dashboard.
+> **Design**: Sidebar layout (Left sidebar: Black, Main content: White).
+> **Sidebar**: Navigation links (Dashboard, Profile, Settings). Active link is White text, inactive is Gray.
+> **Main Content**:
+>
+> 1.  **Header**: 'Welcome back, [Name]'.
+> 2.  **Project Grid**: Display user's datasets as simple cards.
+>     - **Card**: White background, thin black border.
+>     - **Content**: Dataset Name (Bold), Date (Gray), Status badge (Small pill shape, B&W).
+>     - **Hover**: Card border gets thicker, slight shadow.
+> 3.  **New Project**: A card with a dashed border and a '+' icon that turns solid black on hover."
+
+### 4. Upload Page (`/upload`)
+
+**Prompt for AI:**
+
+> "Create the File Upload Interface.
+> **Design**: Clean, distraction-free center focus.
+> **Components**:
+>
+> 1.  **Dropzone**: Large area with dashed black border. Text: 'Drag & drop your CSV here'.
+> 2.  **Interaction**: When dragging a file over, background turns light gray.
+> 3.  **Progress**: Minimalist progress bar (thin black line filling up).
+> 4.  **Success**: smooth transition to a 'Checkmark' icon and a 'Proceed to Cleaning' button."
+
+### 5. Data Cleaning (`/dataset/:id/clean`)
+
+**Prompt for AI:**
+
+> "Create the Data Cleaning Interface.
+> **Design**: Split view or Table view.
+> **Components**:
+>
+> 1.  **Data Report**: Top section summarizing issues (e.g., '3 Missing Values'). Use simple text counters.
+> 2.  **Data Table**: Clean HTML table. Headers are black with white text. Rows alternate white/very light gray.
+> 3.  **Actions**: Hovering over a column header shows a menu (three dots) to 'Rename', 'Fill Missing', 'Delete'.
+> 4.  **Feedback**: When an action is taken (e.g., filling values), flash the changed cells briefly to indicate success."
+
+### 6. Analysis Workbench (`/dataset/:id/analyze`)
+
+**Prompt for AI:**
+
+> "Create the Analysis Workbench.
+> **Design**: Chat-centric interface.
+> **Components**:
+>
+> 1.  **Chat Bar**: Fixed at the bottom. Clean input field with a 'Send' arrow button.
+> 2.  **Message History**: User messages right-aligned (Black bubble, white text). AI messages left-aligned (Gray bubble, black text).
+> 3.  **Chart Area**: Large central canvas.
+>     - **Charts**: Use D3.js or Recharts. Style charts to match the theme (Monochrome bars/lines unless color is needed for data distinction).
+>     - **Loading**: Minimalist pulsing dots animation while generating SQL."
+
+---
+
+## 👥 Team Task Division (3 Members)
+
+### 👤 Person 1: The Architect (Core & Auth)
+
+**Focus**: Project Setup, Routing, Authentication, Landing Page.
+**Tasks**:
+
+1.  Initialize the Vite project and install dependencies (Tailwind, Zustand, React Router).
+2.  Set up the global layout (Navbar, Footer) and Routing structure.
+3.  Implement **Landing Page** (Prompt #1).
+4.  Implement **Login/Signup** pages and Auth Logic (Prompt #2).
+5.  **Deliverable**: A working website where users can visit home, sign up, and log in to see an empty dashboard.
+
+### 👤 Person 2: The Data Engineer (Ingestion & Cleaning)
+
+**Focus**: Dashboard, File Upload, Data Processing.
+**Tasks**:
+
+1.  Implement the **Dashboard** UI (Prompt #3).
+2.  Implement **Upload Page** with Papa Parse logic (Prompt #4).
+3.  Implement **Data Cleaning** interface (Prompt #5).
+4.  **Deliverable**: Users can log in, see their dashboard, upload a CSV, and clean the data.
+
+### 👤 Person 3: The Analyst (Visualization & AI)
+
+**Focus**: Analysis Workbench, Charts, AI Integration.
+**Tasks**:
+
+1.  Set up the D3.js / Recharts visualization components.
+2.  Implement the **Analysis Workbench** chat interface (Prompt #6).
+3.  Connect the Chat UI to the Mock/Real Backend for SQL generation.
+4.  Render charts based on data.
+5.  **Deliverable**: Users can go to a dataset and ask questions to generate charts.
+
+---
+
+## 🌿 Git Workflow & Branching Strategy
+
+To ensure no conflicts, follow this strict workflow:
+
+### 1. Setup (Person 1 starts)
+
+- Create the repo.
+- Push the initial `main` branch with the basic Vite + Tailwind setup.
+- Add `Person 2` and `Person 3` as collaborators.
+
+### 2. Branching Rules
+
+**NEVER push directly to `main`.**
+Each person works in their own "Feature Branch":
+
+- **Person 1**: `feature/core-auth`
+- **Person 2**: `feature/data-ingestion`
+- **Person 3**: `feature/visualization`
+
+### 3. Daily Workflow
+
+1.  **Pull Latest Main**: Before starting work, run `git checkout main` and `git pull`.
+2.  **Merge into Feature**: Go to your branch (`git checkout feature/...`) and run `git merge main`. This keeps your branch up to date.
+3.  **Code & Commit**: Do your work. Commit often with clear messages (e.g., "feat: add login page").
+4.  **Push**: `git push origin feature/...`
+
+### 4. Merging (The "Pull Request")
+
+When a feature is ready (e.g., Person 1 finishes Auth):
+
+1.  Go to GitHub.
+2.  Create a **Pull Request (PR)** from `feature/core-auth` to `main`.
+3.  **Review**: Another team member should quickly check the code.
+4.  **Merge**: Click "Squash and Merge".
+5.  **Sync**: Everyone else runs `git checkout main` && `git pull` to get the new changes.
+
+### 🛑 Conflict Prevention
+
+- **Person 1** touches `App.jsx` (Routes) and `pages/Auth`.
+- **Person 2** touches `pages/Dashboard` and `pages/Upload`.
+- **Person 3** touches `pages/Analyze`.
+- **Common Files**: If you need to change a common file (like `tailwind.config.js`), communicate in your group chat before doing it!
+
+---
+
+## 🚀 Start Your Shift: Copy-Paste Prompts
+
+Each member should copy the prompt below and paste it into their Antigravity chat to start working.
+
+### 🟢 Prompt for Person 1 (Architect)
+
+```text
+I am acting as "Person 1: The Architect" from the `team_execution_plan.md`.
+
+Please read the `team_execution_plan.md` file in the artifacts directory.
+My goal is to execute ONLY the tasks assigned to Person 1.
+
+1.  **Setup**: Initialize the project (if not done), install dependencies (Tailwind, Zustand, Router), and create the folder structure.
+2.  **Branch**: Create/Checkout branch `feature/core-auth`.
+3.  **Implement**:
+    *   Global Layout (Navbar/Footer).
+    *   **Landing Page** (Use "Prompt #1" from the plan).
+    *   **Login/Signup Pages** (Use "Prompt #2" from the plan).
+
+Follow the "Design Philosophy" strictly (Minimalist, B&W). Do NOT implement Dashboard or Analysis pages.
+```
+
+### 🔵 Prompt for Person 2 (Data Engineer)
+
+```text
+I am acting as "Person 2: The Data Engineer" from the `team_execution_plan.md`.
+
+Please read the `team_execution_plan.md` file in the artifacts directory.
+My goal is to execute ONLY the tasks assigned to Person 2.
+
+1.  **Branch**: Create/Checkout branch `feature/data-ingestion`.
+2.  **Implement**:
+    *   **Dashboard UI** (Use "Prompt #3" from the plan).
+    *   **Upload Page** (Use "Prompt #4" from the plan).
+    *   **Data Cleaning Interface** (Use "Prompt #5" from the plan).
+
+Follow the "Design Philosophy" strictly. Assume Person 1 has set up the Layout/Router. If files are missing, create placeholders but focus on my specific pages.
+```
+
+### 🟣 Prompt for Person 3 (Analyst)
+
+```text
+I am acting as "Person 3: The Analyst" from the `team_execution_plan.md`.
+
+Please read the `team_execution_plan.md` file in the artifacts directory.
+My goal is to execute ONLY the tasks assigned to Person 3.
+
+1.  **Branch**: Create/Checkout branch `feature/visualization`.
+2.  **Implement**:
+    *   **Analysis Workbench** (Use "Prompt #6" from the plan).
+    *   Setup D3.js/Recharts components.
+    *   Connect the Chat UI to a mock backend for now.
+
+Follow the "Design Philosophy" strictly. Focus on the `/dataset/:id/analyze` route.
+```
+</file>
+
+</files>
