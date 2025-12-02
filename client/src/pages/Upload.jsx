@@ -76,7 +76,7 @@ const Upload = () => {
     };
 
     return (
-        <div className="min-h-screen bg-white text-black relative font-sans selection:bg-black selection:text-white" style={{ paddingTop: '200px' }}>
+        <div className="min-h-screen bg-black text-white relative font-sans selection:bg-white selection:text-black" style={{ paddingTop: '200px' }}>
             {/* Main Content */}
             <div className="flex flex-col items-center px-4 w-full max-w-4xl mx-auto gap-16">
 
@@ -84,7 +84,18 @@ const Upload = () => {
                 <motion.h1
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-5xl md:text-6xl font-bold text-center tracking-tight"
+                    className="text-center"
+                    style={{
+                        fontSize: '4.5rem',
+                        fontWeight: 800,
+                        lineHeight: 1.1,
+                        marginBottom: '1.5rem',
+                        background: 'linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.6) 100%)',
+                        WebkitBackgroundClip: 'text',
+                        backgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        letterSpacing: '-2px',
+                    }}
                 >
                     Upload your csv here
                 </motion.h1>
@@ -110,7 +121,7 @@ const Upload = () => {
                     transition={{ delay: 0.2 }}
                     className="w-full max-w-2xl relative"
                 >
-                    <div className="bg-white border-2 border-gray-100 rounded-3xl shadow-2xl p-6 min-h-[450px] flex flex-col relative focus-within:border-gray-300 transition-colors">
+                    <div className="bg-white text-black border-2 border-gray-100 rounded-3xl shadow-2xl p-6 min-h-[450px] flex flex-col relative focus-within:border-gray-300 transition-colors">
                         <textarea
                             ref={textareaRef}
                             value={query}
