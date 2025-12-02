@@ -76,10 +76,10 @@ const Upload = () => {
     };
 
     return (
-        <div className="min-h-screen flex flex-col bg-white text-black relative font-sans selection:bg-black selection:text-white pt-24 justify-center">
+        <div className="min-h-screen flex flex-col bg-white text-black relative font-sans selection:bg-black selection:text-white pt-24">
 
             {/* Main Content */}
-            <div className="flex-grow flex flex-col items-center px-4 w-full max-w-4xl mx-auto">
+            <div className="flex-grow flex flex-col items-center justify-center px-4 w-full max-w-4xl mx-auto">
                 
                 {/* Heading */}
                 <motion.h1 
