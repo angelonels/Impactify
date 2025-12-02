@@ -79,13 +79,13 @@ const Upload = () => {
         <div className="min-h-screen flex flex-col bg-white text-black relative font-sans selection:bg-black selection:text-white pt-24 justify-center">
 
             {/* Main Content */}
-            <div className="flex flex-col items-center justify-center px-4 w-full max-w-4xl mx-auto">
+            <div className="flex flex-col items-center justify-center px-4 w-full max-w-4xl mx-auto gap-24">
                 
                 {/* Heading */}
                 <motion.h1 
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-5xl md:text-6xl font-bold mb-32 text-center tracking-tight"
+                    className="text-5xl md:text-6xl font-bold text-center tracking-tight"
                 >
                     Upload your csv here
                 </motion.h1>
@@ -96,7 +96,7 @@ const Upload = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.1 }}
                     onClick={open}
-                    className="px-8 py-4 bg-white text-black font-bold text-lg rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 mb-32 flex items-center gap-2"
+                    className="px-8 py-4 bg-white text-black font-bold text-lg rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center gap-2"
                 >
                     <Paperclip size={20} />
                     {file ? file.name : "Upload CSV"}
