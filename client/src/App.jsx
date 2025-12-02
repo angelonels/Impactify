@@ -43,7 +43,6 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/upload" element={<Upload />} />
-            <Route path="/dataset/:id/clean" element={<DataCleaning />} />
             <Route path="/dataset/:id/analyze" element={<Workbench />} />
           </Routes>
           <Footer />
