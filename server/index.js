@@ -2,38 +2,23 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const prisma = require('./config/db');
-
+const passport = require('./config/passport');
+const authRoutes = require('./routes/authRoutes');
 const datasetRoutes = require('./routes/datasetRoutes');
+const authMiddleware = require('./middleware/authMiddleware');
 
 const app = express();
 const PORT = process.env.PORT || 5001;
 
 app.use(cors());
 app.use(express.json());
+app.use(passport.initialize());
 
-// MOCK AUTH MIDDLEWARE (TEMPORARY)
-// This ensures we have a valid User ID in the DB until we implement real auth
-app.use(async (req, res, next) => {
 
-    const mockEmail = "demo@impactify.com";
-    let user = await prisma.user.findUnique({ where: { email: mockEmail } });
-    
-    if (!user) {
-        user = await prisma.user.create({
-            data: {
-                email: mockEmail,
-                name: "Demo User",
-                role: "ADMIN"
-            }
-        });
-        console.log("Created Mock User:", user.id);
-    }
-    
-    req.user = { id: user.id };
-    next();
-});
+app.use('/api/auth', authRoutes);
 
-app.use('/api/dataset', datasetRoutes);
+
+app.use('/api/dataset', authMiddleware, datasetRoutes);
 
 app.get('/', (req, res) => {
     res.send('Impactify Backend Running');

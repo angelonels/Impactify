@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard'
 import Upload from './pages/Upload'
 import DataCleaning from './pages/DataCleaning'
 import Workbench from './pages/Workbench'
+import AuthSuccess from './pages/AuthSuccess'
 import Footer from './components/Footer'
 import LiquidEther from './components/LiquidEther'
 import './App.css'
@@ -44,8 +45,9 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/upload" element={<Upload />} />
             <Route path="/dataset/:id/analyze" element={<Workbench />} />
+            <Route path="/auth/success" element={<AuthSuccess />} />
           </Routes>
-          {/* <Footer /> */}
+          <Footer />
         </div>
       </div>
     </Router>
