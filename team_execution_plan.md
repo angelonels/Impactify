@@ -1,253 +1,122 @@
-# Team Execution Plan: Impactify
+# Team Execution Plan: Impactify (v2)
 
-## 🎨 Design Philosophy
+## 📋 Project Status Overview
 
-**"Minimalist, Human, & Alive"**
+- **Repo Structure**: ✅ Initialized.
+- **Home Page**: ✅ Components (`Hero`, `Features`, `HowItWorks`) and `Home.jsx` are ready.
+- **Backend**: ⚠️ Basic setup with Mock Auth. `datasetRoutes` mounted at `/api/dataset`.
+- **Frontend Routing**: ❌ Missing. `App.jsx` currently renders Home directly.
+- **Auth/Dashboard/Analysis**: ❌ Not implemented.
 
-- **Color Palette**: Strictly Black (`#000000`), White (`#FFFFFF`), and Grays (`#F3F4F6` to `#1F2937`). No vibrant colors except for critical alerts or specific data visualization elements where necessary.
-- **Typography**: Clean sans-serif (Inter or system fonts). Large, bold headings. Readable body text.
-- **Interactions**:
-  - **Hover**: Subtle scale up (`scale-105`), border darkening, or background shifts (white to light gray) on interactive elements.
-  - **Transitions**: Smooth `transition-all duration-300 ease-in-out`.
-  - **Animations**: Fade-ins on page load, slide-ups for modals.
-- **Code Style**:
-  - **Human-Readable**: Use clear variable names (`isUploading` vs `flag`). Avoid overly complex one-liners.
-  - **Simple**: Prefer standard CSS/Tailwind over complex animation libraries unless needed.
-  - **Functional**: Components should be small and focused.
+## 👥 Team Roles & Responsibilities
 
----
+### 👤 Person 1: The Architect (Routing, Auth, & Integration)
 
-## 🤖 Global AI Instructions
+**Goal**: Turn the static Home page into a multi-page app and handle Authentication.
+**Key Tasks**:
 
-_Copy and paste this into your AI agent context before starting any task._
+1.  **Router Setup**: Refactor `App.jsx` to use `react-router-dom`. Keep `Home` as `/`.
+2.  **Auth Pages**: Build `/login` and `/signup` with a beautiful, minimalist design (Black & White).
+3.  **Auth Integration**: Connect forms to the backend (or use the mock auth flow if backend is pending).
+4.  **Navigation**: Update `Navbar.jsx` to handle "Login" vs "Logout" states.
 
-> **System Instruction**: You are building "Impactify", a minimalist data analysis platform.
->
-> 1.  **Design**: Use a strict Black & White theme. Use Tailwind CSS. Buttons should be black with white text (or vice versa) with smooth hover effects.
-> 2.  **Code Style**: Write simple, clean, and readable React code. Avoid over-engineering. Use functional components with hooks.
-> 3.  **Animation**: Add `framer-motion` or CSS transitions for smooth entry and hover states. Every clickable element must have a visual feedback on hover.
-> 4.  **Responsiveness**: Ensure layouts work on mobile and desktop.
+### 👤 Person 2: The Data Engineer (Dashboard & Ingestion)
 
----
+**Goal**: Allow users to manage projects and upload data.
+**Key Tasks**:
 
-## 📋 Page-Specific Implementation Prompts
-
-### 1. Landing Page (`/`)
-
-**Prompt for AI:**
-
-> "Create a Landing Page for Impactify.
-> **Design**: Minimalist. Hero section with a large, bold black headline on white background: 'Data Analysis. Simplified.' Subtext in gray.
-> **Features**:
->
-> 1.  **Hero**: Centered text, 'Get Started' button (Black background, white text, scales up on hover).
-> 2.  **Features Grid**: 3x1 grid showing 'Upload', 'Clean', 'Visualize'. Use simple Lucide-React icons (black). Cards should lift slightly with a shadow on hover.
-> 3.  **Footer**: Simple minimalist footer.
->     **Tech**: React, Tailwind, Framer Motion for fade-in effects on scroll."
-
-### 2. Authentication (`/login`, `/signup`)
-
-**Prompt for AI:**
-
-> "Create Login and Signup pages.
-> **Design**: Centered card layout. White card with subtle gray border on a very light gray background.
-> **Components**:
->
-> 1.  **Input Fields**: Minimalist borders (bottom border only or thin full border). Focus state turns border black.
-> 2.  **Buttons**: 'Sign In' (Black block button). 'Sign in with Google' (White button, black border).
-> 3.  **Transitions**: Smooth switch between Login and Signup modes if on the same component, or smooth page transition."
-
-### 3. Dashboard (`/dashboard`)
-
-**Prompt for AI:**
-
-> "Create the User Dashboard.
-> **Design**: Sidebar layout (Left sidebar: Black, Main content: White).
-> **Sidebar**: Navigation links (Dashboard, Profile, Settings). Active link is White text, inactive is Gray.
-> **Main Content**:
->
-> 1.  **Header**: 'Welcome back, [Name]'.
-> 2.  **Project Grid**: Display user's datasets as simple cards.
->     - **Card**: White background, thin black border.
->     - **Content**: Dataset Name (Bold), Date (Gray), Status badge (Small pill shape, B&W).
->     - **Hover**: Card border gets thicker, slight shadow.
-> 3.  **New Project**: A card with a dashed border and a '+' icon that turns solid black on hover."
-
-### 4. Upload Page (`/upload`)
-
-**Prompt for AI:**
-
-> "Create the File Upload Interface.
-> **Design**: Clean, distraction-free center focus.
-> **Components**:
->
-> 1.  **Dropzone**: Large area with dashed black border. Text: 'Drag & drop your CSV here'.
-> 2.  **Interaction**: When dragging a file over, background turns light gray.
-> 3.  **Progress**: Minimalist progress bar (thin black line filling up).
-> 4.  **Success**: smooth transition to a 'Checkmark' icon and a 'Proceed to Cleaning' button."
-
-### 5. Data Cleaning (`/dataset/:id/clean`)
-
-**Prompt for AI:**
-
-> "Create the Data Cleaning Interface.
-> **Design**: Split view or Table view.
-> **Components**:
->
-> 1.  **Data Report**: Top section summarizing issues (e.g., '3 Missing Values'). Use simple text counters.
-> 2.  **Data Table**: Clean HTML table. Headers are black with white text. Rows alternate white/very light gray.
-> 3.  **Actions**: Hovering over a column header shows a menu (three dots) to 'Rename', 'Fill Missing', 'Delete'.
-> 4.  **Feedback**: When an action is taken (e.g., filling values), flash the changed cells briefly to indicate success."
-
-### 6. Analysis Workbench (`/dataset/:id/analyze`)
-
-**Prompt for AI:**
-
-> "Create the Analysis Workbench.
-> **Design**: Chat-centric interface.
-> **Components**:
->
-> 1.  **Chat Bar**: Fixed at the bottom. Clean input field with a 'Send' arrow button.
-> 2.  **Message History**: User messages right-aligned (Black bubble, white text). AI messages left-aligned (Gray bubble, black text).
-> 3.  **Chart Area**: Large central canvas.
->     - **Charts**: Use D3.js or Recharts. Style charts to match the theme (Monochrome bars/lines unless color is needed for data distinction).
->     - **Loading**: Minimalist pulsing dots animation while generating SQL."
-
----
-
-## 👥 Team Task Division (3 Members)
-
-### 👤 Person 1: The Architect (Core & Auth)
-
-**Focus**: Project Setup, Routing, Authentication, Landing Page.
-**Tasks**:
-
-1.  Initialize the Vite project and install dependencies (Tailwind, Zustand, React Router).
-2.  Set up the global layout (Navbar, Footer) and Routing structure.
-3.  Implement **Landing Page** (Prompt #1).
-4.  Implement **Login/Signup** pages and Auth Logic (Prompt #2).
-5.  **Deliverable**: A working website where users can visit home, sign up, and log in to see an empty dashboard.
-
-### 👤 Person 2: The Data Engineer (Ingestion & Cleaning)
-
-**Focus**: Dashboard, File Upload, Data Processing.
-**Tasks**:
-
-1.  Implement the **Dashboard** UI (Prompt #3).
-2.  Implement **Upload Page** with Papa Parse logic (Prompt #4).
-3.  Implement **Data Cleaning** interface (Prompt #5).
-4.  **Deliverable**: Users can log in, see their dashboard, upload a CSV, and clean the data.
+1.  **Dashboard (`/dashboard`)**: List user's datasets. Fetch from `/api/dataset`.
+2.  **Upload (`/upload`)**: Create a drag-and-drop zone. Parse CSVs using `papaparse`.
+3.  **Cleaning (`/dataset/:id/clean`)**: Interface to view raw data and fix issues (missing values, types).
 
 ### 👤 Person 3: The Analyst (Visualization & AI)
 
-**Focus**: Analysis Workbench, Charts, AI Integration.
-**Tasks**:
+**Goal**: The core "Impactify" experience—Chat & Charts.
+**Key Tasks**:
 
-1.  Set up the D3.js / Recharts visualization components.
-2.  Implement the **Analysis Workbench** chat interface (Prompt #6).
-3.  Connect the Chat UI to the Mock/Real Backend for SQL generation.
-4.  Render charts based on data.
-5.  **Deliverable**: Users can go to a dataset and ask questions to generate charts.
+1.  **Workbench (`/dataset/:id/analyze`)**: A split-screen or chat-focused UI.
+2.  **Chat Interface**: "Ask a question..." input and message history.
+3.  **Visualization**: Render charts (Bar, Line, Pie) using `recharts` or `d3` based on data.
 
 ---
 
-## 🌿 Git Workflow & Branching Strategy
-
-To ensure no conflicts, follow this strict workflow:
-
-### 1. Setup (Person 1 starts)
-
-- Create the repo.
-- Push the initial `main` branch with the basic Vite + Tailwind setup.
-- Add `Person 2` and `Person 3` as collaborators.
-
-### 2. Branching Rules
-
-**NEVER push directly to `main`.**
-Each person works in their own "Feature Branch":
-
-- **Person 1**: `feature/core-auth`
-- **Person 2**: `feature/data-ingestion`
-- **Person 3**: `feature/visualization`
-
-### 3. Daily Workflow
-
-1.  **Pull Latest Main**: Before starting work, run `git checkout main` and `git pull`.
-2.  **Merge into Feature**: Go to your branch (`git checkout feature/...`) and run `git merge main`. This keeps your branch up to date.
-3.  **Code & Commit**: Do your work. Commit often with clear messages (e.g., "feat: add login page").
-4.  **Push**: `git push origin feature/...`
-
-### 4. Merging (The "Pull Request")
-
-When a feature is ready (e.g., Person 1 finishes Auth):
-
-1.  Go to GitHub.
-2.  Create a **Pull Request (PR)** from `feature/core-auth` to `main`.
-3.  **Review**: Another team member should quickly check the code.
-4.  **Merge**: Click "Squash and Merge".
-5.  **Sync**: Everyone else runs `git checkout main` && `git pull` to get the new changes.
-
-### 🛑 Conflict Prevention
-
-- **Person 1** touches `App.jsx` (Routes) and `pages/Auth`.
-- **Person 2** touches `pages/Dashboard` and `pages/Upload`.
-- **Person 3** touches `pages/Analyze`.
-- **Common Files**: If you need to change a common file (like `tailwind.config.js`), communicate in your group chat before doing it!
-
----
-
-## 🚀 Start Your Shift: Copy-Paste Prompts
-
-Each member should copy the prompt below and paste it into their Antigravity chat to start working.
+## 🚀 AI Prompts (Copy & Paste)
 
 ### 🟢 Prompt for Person 1 (Architect)
 
 ```text
-I am acting as "Person 1: The Architect" from the `team_execution_plan.md`.
+I am **Person 1: The Architect**.
+**Context**: The project has a `client` folder with a ready-made `Home.jsx` and components (`Hero`, `Features`, etc.). `App.jsx` currently renders `Home` directly.
+**Design**: Minimalist Black & White.
 
-Please read the `team_execution_plan.md` file in the artifacts directory.
-My goal is to execute ONLY the tasks assigned to Person 1.
+**My Tasks**:
+1.  **Install Router**: Ensure `react-router-dom` is installed.
+2.  **Refactor App.jsx**:
+    *   Wrap the app in `BrowserRouter`.
+    *   Create Routes: `/` (Home), `/login`, `/signup`, `/dashboard` (Protected), `/upload` (Protected), `/dataset/:id/*` (Protected).
+    *   Ensure the `LiquidEther` background persists across pages.
+3.  **Implement Auth Pages**:
+    *   Create `src/pages/Login.jsx` and `Signup.jsx`.
+    *   Design: Centered white card on the animated background. Simple black inputs, black "Sign In" button.
+    *   Logic: For now, mock the login to set a user in `localStorage` (since backend has mock auth).
+4.  **Update Navbar**:
+    *   If logged in -> Show "Dashboard" & "Logout".
+    *   If logged out -> Show "Login" & "Get Started".
 
-1.  **Setup**: Initialize the project (if not done), install dependencies (Tailwind, Zustand, Router), and create the folder structure.
-2.  **Branch**: Create/Checkout branch `feature/core-auth`.
-3.  **Implement**:
-    *   Global Layout (Navbar/Footer).
-    *   **Landing Page** (Use "Prompt #1" from the plan).
-    *   **Login/Signup Pages** (Use "Prompt #2" from the plan).
-
-Follow the "Design Philosophy" strictly (Minimalist, B&W). Do NOT implement Dashboard or Analysis pages.
+**Execute**: Start by refactoring `App.jsx` to add Routing, then build the Login/Signup pages.
 ```
 
 ### 🔵 Prompt for Person 2 (Data Engineer)
 
 ```text
-I am acting as "Person 2: The Data Engineer" from the `team_execution_plan.md`.
+I am **Person 2: The Data Engineer**.
+**Context**: Person 1 is handling the Router and Auth. I need to build the "Data" pages.
+**Design**: Minimalist Black & White. Clean tables.
 
-Please read the `team_execution_plan.md` file in the artifacts directory.
-My goal is to execute ONLY the tasks assigned to Person 2.
+**My Tasks**:
+1.  **Dashboard (`src/pages/Dashboard.jsx`)**:
+    *   Fetch datasets from `GET /api/dataset` (mock response if needed).
+    *   Display as a grid of simple cards: "Dataset Name", "Date", "Status".
+    *   "New Project" button redirects to `/upload`.
+2.  **Upload (`src/pages/Upload.jsx`)**:
+    *   UI: Large dashed border dropzone. Text: "Drop CSV here".
+    *   Logic: Use `papaparse` to parse the file client-side.
+    *   On success, POST to `/api/dataset/upload` (or mock it) and redirect to `/clean`.
+3.  **Cleaning (`src/pages/DataCleaning.jsx`)**:
+    *   Route: `/dataset/:id/clean`.
+    *   UI: A simple table showing the first 50 rows of data.
+    *   Header: Show "Data Health" (e.g., "3 columns with missing values").
 
-1.  **Branch**: Create/Checkout branch `feature/data-ingestion`.
-2.  **Implement**:
-    *   **Dashboard UI** (Use "Prompt #3" from the plan).
-    *   **Upload Page** (Use "Prompt #4" from the plan).
-    *   **Data Cleaning Interface** (Use "Prompt #5" from the plan).
-
-Follow the "Design Philosophy" strictly. Assume Person 1 has set up the Layout/Router. If files are missing, create placeholders but focus on my specific pages.
+**Execute**: Create these three pages. Assume `Navbar` and `Layout` are provided by Person 1.
 ```
 
 ### 🟣 Prompt for Person 3 (Analyst)
 
 ```text
-I am acting as "Person 3: The Analyst" from the `team_execution_plan.md`.
+I am **Person 3: The Analyst**.
+**Context**: The core value of the app. I need to build the Analysis Workbench.
+**Design**: Chat-centric, high-tech but minimal.
 
-Please read the `team_execution_plan.md` file in the artifacts directory.
-My goal is to execute ONLY the tasks assigned to Person 3.
+**My Tasks**:
+1.  **Workbench (`src/pages/Workbench.jsx`)**:
+    *   Route: `/dataset/:id/analyze`.
+    *   Layout: Chat bar at the bottom, Visualization area in the center/top.
+2.  **Chat UI**:
+    *   Input: "Ask a question about your data..." (Black border, rounded).
+    *   History: User (Right, Black bubble), AI (Left, Gray bubble).
+3.  **Visualization**:
+    *   Install `recharts` (or use D3).
+    *   Create a `ChartRenderer` component that takes `{ type: 'bar', data: [...] }` and renders the chart.
+    *   Mock the AI response for now: If user types "Show sales", render a mock Bar Chart.
 
-1.  **Branch**: Create/Checkout branch `feature/visualization`.
-2.  **Implement**:
-    *   **Analysis Workbench** (Use "Prompt #6" from the plan).
-    *   Setup D3.js/Recharts components.
-    *   Connect the Chat UI to a mock backend for now.
-
-Follow the "Design Philosophy" strictly. Focus on the `/dataset/:id/analyze` route.
+**Execute**: Build the `Workbench` page and the `ChartRenderer` component.
 ```
+
+---
+
+## 🌿 Git Workflow
+
+1.  **Person 1**: Work on `feature/router-auth`.
+2.  **Person 2**: Work on `feature/dashboard-upload`.
+3.  **Person 3**: Work on `feature/analysis`.
+4.  **Merge**: Person 1 merges first to set up the Router. Then Person 2 and 3 merge their pages.
