@@ -54,7 +54,6 @@ const Upload = () => {
                         fontSize: '4.5rem',
                         fontWeight: 800,
                         lineHeight: 1.1,
-                        marginBottom: '1.5rem',
                         background: 'linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.6) 100%)',
                         WebkitBackgroundClip: 'text',
                         backgroundClip: 'text',
