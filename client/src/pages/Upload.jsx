@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import Papa from 'papaparse';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { UploadCloud, FileText, Check, AlertCircle, Loader2 } from 'lucide-react';
+import { UploadCloud, FileText, Check, AlertCircle, Loader2, ArrowLeft } from 'lucide-react';
 
 const Upload = () => {
     const navigate = useNavigate();
@@ -59,42 +59,53 @@ const Upload = () => {
     });
 
     return (
-        <div className="min-h-screen pt-24 px-6 flex flex-col items-center justify-center max-w-4xl mx-auto">
+        <div className="min-h-screen pt-32 px-6 flex flex-col items-center max-w-5xl mx-auto relative">
+            {/* Back Button */}
+            <Link to="/dashboard" className="absolute top-24 left-6 md:left-0 flex items-center gap-2 text-gray-500 hover:text-black transition-colors">
+                <ArrowLeft size={20} />
+                <span className="font-medium">Back to Dashboard</span>
+            </Link>
+
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-center mb-12"
+                className="text-center mb-16 mt-8"
             >
-                <h1 className="text-4xl font-bold mb-4">Upload Your Data</h1>
-                <p className="text-gray-500">Drag and drop your CSV file to begin analysis.</p>
+                <h1 className="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight">Upload Your Data</h1>
+                <p className="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
+                    Drag and drop your CSV file to begin analysis. We'll automatically detect the schema and clean it for you.
+                </p>
             </motion.div>
 
-            <div className="w-full max-w-2xl">
+            <div className="w-full max-w-3xl">
                 <AnimatePresence mode="wait">
                     {uploadSuccess ? (
                         <motion.div
                             key="success"
-                            initial={{ scale: 0.8, opacity: 0 }}
+                            initial={{ scale: 0.9, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.8, opacity: 0 }}
-                            className="bg-green-50 border-2 border-green-500 rounded-3xl p-12 flex flex-col items-center justify-center text-green-800"
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            className="bg-white border border-green-200 shadow-xl rounded-[2rem] p-16 flex flex-col items-center justify-center text-center"
                         >
-                            <div className="bg-green-100 p-4 rounded-full mb-4">
-                                <Check size={48} className="text-green-600" />
+                            <div className="bg-green-100 p-6 rounded-full mb-8">
+                                <Check size={64} className="text-green-600" />
                             </div>
-                            <h2 className="text-2xl font-bold mb-2">Upload Complete!</h2>
-                            <p>Redirecting to data cleaning...</p>
+                            <h2 className="text-3xl font-bold mb-4 text-gray-900">Upload Complete!</h2>
+                            <p className="text-lg text-gray-500">Redirecting to data cleaning workspace...</p>
                         </motion.div>
                     ) : (
                         <motion.div
                             key="dropzone"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
                             {...getRootProps()}
                             className={`
-                                relative border-3 border-dashed rounded-3xl p-12 md:p-24 flex flex-col items-center justify-center cursor-pointer transition-all duration-300
-                                ${isDragActive ? 'border-black bg-gray-50 scale-[1.02]' : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50/50'}
+                                relative border-4 border-dashed rounded-[2.5rem] p-16 md:p-24 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 group
+                                ${isDragActive 
+                                    ? 'border-black bg-gray-50 scale-[1.01] shadow-2xl' 
+                                    : 'border-gray-200 hover:border-gray-400 hover:bg-white hover:shadow-xl bg-white/50 backdrop-blur-sm'
+                                }
                                 ${error ? 'border-red-400 bg-red-50' : ''}
                             `}
                         >
@@ -106,30 +117,38 @@ const Upload = () => {
                                         animate={{ rotate: 360 }}
                                         transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
                                     >
-                                        <Loader2 size={48} className="text-black mb-4" />
+                                        <Loader2 size={64} className="text-black mb-6" />
                                     </motion.div>
-                                    <p className="text-lg font-medium">Parsing your data...</p>
+                                    <p className="text-2xl font-semibold text-gray-900">Parsing your data...</p>
+                                    <p className="text-gray-500 mt-2">This usually takes just a moment.</p>
                                 </div>
                             ) : error ? (
                                 <div className="flex flex-col items-center text-red-500">
-                                    <AlertCircle size={48} className="mb-4" />
-                                    <p className="text-lg font-medium mb-2">Upload Failed</p>
-                                    <p className="text-sm">{error}</p>
-                                    <p className="text-xs mt-4 text-gray-400">Click to try again</p>
+                                    <div className="bg-red-100 p-4 rounded-full mb-6">
+                                        <AlertCircle size={48} />
+                                    </div>
+                                    <p className="text-2xl font-bold mb-2">Upload Failed</p>
+                                    <p className="text-lg text-red-600/80 mb-8 max-w-md text-center">{error}</p>
+                                    <button className="px-6 py-3 bg-red-100 text-red-700 rounded-full font-medium hover:bg-red-200 transition-colors">
+                                        Try Again
+                                    </button>
                                 </div>
                             ) : (
                                 <>
-                                    <div className={`p-6 rounded-full bg-gray-100 mb-6 transition-colors ${isDragActive ? 'bg-black text-white' : 'text-gray-600'}`}>
-                                        <UploadCloud size={48} />
+                                    <div className={`
+                                        p-8 rounded-full mb-8 transition-all duration-300
+                                        ${isDragActive ? 'bg-black text-white' : 'bg-gray-100 text-gray-600 group-hover:scale-110 group-hover:bg-black group-hover:text-white'}
+                                    `}>
+                                        <UploadCloud size={64} strokeWidth={1.5} />
                                     </div>
-                                    <h3 className="text-xl font-bold mb-2">
+                                    <h3 className="text-3xl font-bold mb-4 text-gray-900 tracking-tight">
                                         {isDragActive ? 'Drop it like it\'s hot!' : 'Drag & Drop your CSV here'}
                                     </h3>
-                                    <p className="text-gray-400 mb-6">or click to browse files</p>
+                                    <p className="text-xl text-gray-400 mb-10 font-light">or click to browse files</p>
                                     
-                                    <div className="flex items-center gap-2 text-xs text-gray-300 border border-gray-200 px-3 py-1 rounded-full">
-                                        <FileText size={12} />
-                                        <span>Supports .csv, .txt</span>
+                                    <div className="flex items-center gap-3 text-sm text-gray-400 border border-gray-200 px-5 py-2 rounded-full bg-white shadow-sm">
+                                        <FileText size={16} />
+                                        <span className="font-medium">Supports .csv, .txt (Max 50MB)</span>
                                     </div>
                                 </>
                             )}
