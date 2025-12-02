@@ -43,7 +43,7 @@ const Upload = () => {
     return (
         <div className="min-h-screen bg-black text-white relative font-sans selection:bg-white selection:text-black" style={{ paddingTop: '200px' }}>
             {/* Main Content */}
-            <div className="flex flex-col items-center px-4 w-full max-w-4xl mx-auto gap-16">
+            <div className="flex flex-col items-center px-4 w-full max-w-4xl mx-auto gap-24">
 
                 {/* Heading */}
                 <motion.h1
