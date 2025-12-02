@@ -45,7 +45,7 @@ function App() {
             <Route path="/upload" element={<Upload />} />
             <Route path="/dataset/:id/analyze" element={<Workbench />} />
           </Routes>
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </div>
     </Router>
