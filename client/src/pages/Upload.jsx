@@ -4,6 +4,7 @@ import Papa from 'papaparse';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUp, Paperclip, X, FileText, Loader2, ArrowLeft } from 'lucide-react';
+import '../styles/Hero.css';
 
 const Upload = () => {
     const navigate = useNavigate();
@@ -106,7 +107,7 @@ const Upload = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.1 }}
                     onClick={open}
-                    className="px-8 py-4 bg-white text-black font-bold text-lg rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center gap-2"
+                    className="btn-primary flex items-center gap-2"
                 >
                     <Paperclip size={20} />
                     {file ? file.name : "Upload CSV"}
