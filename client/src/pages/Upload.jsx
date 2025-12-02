@@ -85,7 +85,7 @@ const Upload = () => {
                 <motion.h1 
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-5xl md:text-6xl font-bold mb-24 text-center tracking-tight"
+                    className="text-5xl md:text-6xl font-bold mb-32 text-center tracking-tight"
                 >
                     Upload your csv here
                 </motion.h1>
@@ -96,7 +96,7 @@ const Upload = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.1 }}
                     onClick={open}
-                    className="px-8 py-4 bg-white text-black font-bold text-lg rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 mb-24 flex items-center gap-2"
+                    className="px-8 py-4 bg-white text-black font-bold text-lg rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 mb-32 flex items-center gap-2"
                 >
                     <Paperclip size={20} />
                     {file ? file.name : "Upload CSV"}
@@ -111,13 +111,13 @@ const Upload = () => {
                     transition={{ delay: 0.2 }}
                     className="w-full max-w-2xl relative"
                 >
-                    <div className="bg-white border-2 border-gray-100 rounded-3xl shadow-2xl p-6 min-h-[350px] flex flex-col relative focus-within:border-gray-300 transition-colors">
+                    <div className="bg-white border-2 border-gray-100 rounded-3xl shadow-2xl p-6 min-h-[400px] flex flex-col relative focus-within:border-gray-300 transition-colors">
                         <textarea
                             ref={textareaRef}
                             value={query}
                             onChange={handleInput}
                             placeholder="explain what you want"
-                            className="w-full bg-transparent border-none focus:ring-0 text-xl placeholder-gray-300 resize-none outline-none flex-grow pb-24"
+                            className="w-full bg-transparent border-none focus:ring-0 text-xl placeholder-gray-300 resize-none outline-none flex-grow pb-32"
                         />
 
                         {/* File Status & Error */}
@@ -144,7 +144,7 @@ const Upload = () => {
                         </AnimatePresence>
 
                         {/* Generate Button */}
-                        <div className="absolute bottom-6 right-6">
+                        <div className="absolute bottom-10 right-10">
                             <button
                                 onClick={handleGenerate}
                                 disabled={!file}
