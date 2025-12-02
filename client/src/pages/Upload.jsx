@@ -3,34 +3,13 @@ import { useDropzone } from 'react-dropzone';
 import Papa from 'papaparse';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Paperclip, Mic } from 'lucide-react';
+import { Paperclip } from 'lucide-react';
 import '../styles/Hero.css';
-import {
-  PromptInput,
-  PromptInputButton,
-  PromptInputModelSelect,
-  PromptInputModelSelectContent,
-  PromptInputModelSelectItem,
-  PromptInputModelSelectTrigger,
-  PromptInputModelSelectValue,
-  PromptInputSubmit,
-  PromptInputTextarea,
-  PromptInputToolbar,
-  PromptInputTools,
-} from '../components/PromptInput';
-
-const models = [
-  { id: 'gpt-4o', name: 'GPT-4o' },
-  { id: 'claude-3-5-sonnet-20241022', name: 'Claude 3.5 Sonnet' },
-  { id: 'gemini-1.5-pro', name: 'Gemini 1.5 Pro' },
-];
+import { PromptInputBasic } from '../components/PromptInputBasic';
 
 const Upload = () => {
     const navigate = useNavigate();
     const [file, setFile] = useState(null);
-    const [query, setQuery] = useState('');
-    const [model, setModel] = useState(models[0].id);
-    const [status, setStatus] = useState('ready');
 
     const onDrop = useCallback((acceptedFiles) => {
         const droppedFile = acceptedFiles[0];
@@ -50,16 +29,15 @@ const Upload = () => {
         noKeyboard: true
     });
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (!file || !query) return;
+    const handleGenerate = async (inputValue) => {
+        if (!file) {
+            alert("Please upload a CSV file first.");
+            return;
+        }
         
-        setStatus('submitted');
         // Simulate processing
-        setTimeout(() => {
-            setStatus('ready');
-            navigate('/dataset/123/analyze');
-        }, 1000);
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        navigate('/dataset/123/analyze');
     };
 
     return (
@@ -108,38 +86,7 @@ const Upload = () => {
                     transition={{ delay: 0.2 }}
                     className="w-full max-w-2xl"
                 >
-                    <PromptInput onSubmit={handleSubmit} className="bg-white">
-                        <PromptInputTextarea
-                            onChange={(e) => setQuery(e.target.value)}
-                            value={query}
-                            placeholder="explain what you want"
-                            className="text-black placeholder:text-gray-400 min-h-[150px]"
-                        />
-                        <PromptInputToolbar>
-                            <PromptInputTools>
-                                <PromptInputButton>
-                                    <Paperclip size={16} />
-                                </PromptInputButton>
-                                <PromptInputButton>
-                                    <Mic size={16} />
-                                    <span>Voice</span>
-                                </PromptInputButton>
-                                <PromptInputModelSelect onValueChange={setModel} value={model}>
-                                    <PromptInputModelSelectTrigger>
-                                        <PromptInputModelSelectValue />
-                                    </PromptInputModelSelectTrigger>
-                                    <PromptInputModelSelectContent>
-                                        {models.map((model) => (
-                                            <PromptInputModelSelectItem key={model.id} value={model.id}>
-                                                {model.name}
-                                            </PromptInputModelSelectItem>
-                                        ))}
-                                    </PromptInputModelSelectContent>
-                                </PromptInputModelSelect>
-                            </PromptInputTools>
-                            <PromptInputSubmit disabled={!query || !file} status={status} />
-                        </PromptInputToolbar>
-                    </PromptInput>
+                    <PromptInputBasic onSubmit={handleGenerate} />
                 </motion.div>
             </div>
         </div>
