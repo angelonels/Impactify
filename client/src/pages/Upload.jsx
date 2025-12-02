@@ -76,7 +76,7 @@ const Upload = () => {
     };
 
     return (
-        <div className="min-h-screen flex flex-col bg-white text-black relative font-sans selection:bg-black selection:text-white">
+        <div className="min-h-screen flex flex-col bg-white text-black relative font-sans selection:bg-black selection:text-white pt-32">
             {/* Back Navigation */}
             <div className="absolute top-8 left-8 z-10">
                 <Link to="/dashboard" className="flex items-center gap-2 text-gray-400 hover:text-black transition-colors">
