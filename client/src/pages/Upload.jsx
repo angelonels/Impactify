@@ -85,115 +85,81 @@ const Upload = () => {
                 <motion.h1 
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-5xl md:text-6xl font-bold mb-24 text-center tracking-tight"
+                    className="text-5xl md:text-6xl font-bold mb-12 text-center tracking-tight"
                 >
                     Upload your csv here
                 </motion.h1>
 
-                {/* AI Prompt Box Container */}
-                <motion.div 
-                    initial={{ opacity: 0, scale: 0.95 }}
+                {/* Upload Button */}
+                <motion.button
+                    initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.1 }}
-                    className="w-full relative"
+                    onClick={open}
+                    className="px-8 py-4 bg-white text-black font-bold text-lg rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 mb-12 flex items-center gap-2"
                 >
-                    <div 
-                        {...getRootProps()}
-                        className={`
-                            relative bg-white border-2 rounded-3xl shadow-2xl transition-all duration-300 overflow-hidden
-                            ${isDragActive ? 'border-black ring-4 ring-black/5' : 'border-gray-200 hover:border-gray-300'}
-                            ${error ? 'border-red-500' : ''}
-                        `}
-                    >
-                        <input {...getInputProps()} />
+                    <Paperclip size={20} />
+                    {file ? file.name : "Upload CSV"}
+                </motion.button>
 
-                        {/* Input Area */}
-                        <div className="p-6 min-h-[160px] flex flex-col">
-                            <textarea
-                                ref={textareaRef}
-                                value={query}
-                                onChange={handleInput}
-                                placeholder="Describe how you want to analyze this data..."
-                                className="w-full bg-transparent border-none focus:ring-0 text-xl placeholder-gray-300 resize-none outline-none max-h-[300px] overflow-y-auto"
-                                rows={1}
-                            />
+                <input {...getInputProps()} />
 
-                            {/* File Attachment Chip */}
-                            <AnimatePresence>
-                                {file && (
-                                    <motion.div 
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, scale: 0.9 }}
-                                        className="mt-4 self-start inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200"
-                                    >
-                                        <FileText size={14} className="text-gray-500" />
-                                        <span className="text-sm font-medium truncate max-w-[200px]">{file.name}</span>
-                                        <button 
-                                            onClick={removeFile}
-                                            className="p-0.5 hover:bg-gray-200 rounded-full transition-colors"
-                                        >
-                                            <X size={14} className="text-gray-500" />
-                                        </button>
-                                    </motion.div>
-                                )}
-                                {isParsing && (
-                                    <motion.div 
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        className="mt-4 self-start inline-flex items-center gap-2 text-gray-400"
-                                    >
-                                        <Loader2 size={16} className="animate-spin" />
-                                        <span className="text-sm">Processing...</span>
-                                    </motion.div>
-                                )}
-                                {error && (
-                                    <motion.div 
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        className="mt-4 self-start text-red-500 text-sm font-medium"
-                                    >
-                                        {error}
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+                {/* AI Prompt Box */}
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="w-full max-w-2xl relative"
+                >
+                    <div className="bg-white border-2 border-gray-100 rounded-3xl shadow-2xl p-6 min-h-[250px] flex flex-col relative focus-within:border-gray-300 transition-colors">
+                        <textarea
+                            ref={textareaRef}
+                            value={query}
+                            onChange={handleInput}
+                            placeholder="explain what you want"
+                            className="w-full bg-transparent border-none focus:ring-0 text-xl placeholder-gray-300 resize-none outline-none flex-grow"
+                        />
 
-                            {/* Bottom Controls */}
-                            <div className="mt-auto pt-6 flex justify-between items-end">
-                                {/* Upload Trigger */}
-                                <button 
-                                    onClick={open}
-                                    className="p-3 rounded-xl text-gray-400 hover:bg-gray-100 hover:text-black transition-all group relative"
-                                    title="Attach CSV"
+                        {/* File Status & Error */}
+                        <AnimatePresence>
+                            {isParsing && (
+                                <motion.div 
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    className="absolute bottom-20 left-6 flex items-center gap-2 text-gray-400"
                                 >
-                                    <Paperclip size={24} />
-                                    <span className="absolute left-full ml-2 top-1/2 -translate-y-1/2 text-xs font-medium text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                                        Attach CSV
-                                    </span>
-                                </button>
-
-                                {/* Generate Button */}
-                                <button
-                                    onClick={handleGenerate}
-                                    disabled={!file}
-                                    className={`
-                                        flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300
-                                        ${file 
-                                            ? 'bg-black text-white hover:bg-gray-800 shadow-lg hover:shadow-xl translate-y-0' 
-                                            : 'bg-gray-100 text-gray-300 cursor-not-allowed'
-                                        }
-                                    `}
+                                    <Loader2 size={16} className="animate-spin" />
+                                    <span className="text-sm">Processing...</span>
+                                </motion.div>
+                            )}
+                            {error && (
+                                <motion.div 
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    className="absolute bottom-20 left-6 text-red-500 text-sm font-medium"
                                 >
-                                    <span>Generate</span>
-                                    <ArrowUp size={20} />
-                                </button>
-                            </div>
+                                    {error}
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+
+                        {/* Generate Button */}
+                        <div className="absolute bottom-6 right-6">
+                            <button
+                                onClick={handleGenerate}
+                                disabled={!file}
+                                className={`
+                                    flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300
+                                    ${file 
+                                        ? 'bg-black text-white hover:bg-gray-800 shadow-lg hover:shadow-xl translate-y-0' 
+                                        : 'bg-gray-100 text-gray-300 cursor-not-allowed'
+                                    }
+                                `}
+                            >
+                                <span>Generate</span>
+                                <ArrowUp size={20} />
+                            </button>
                         </div>
-                    </div>
-
-                    {/* Helper Text */}
-                    <div className="absolute -bottom-12 left-0 w-full text-center text-gray-400 text-sm">
-                        Supports .csv, .excel • Max 50MB
                     </div>
                 </motion.div>
             </div>
