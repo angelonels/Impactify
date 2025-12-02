@@ -22,8 +22,8 @@ exports.uploadDataset = async (req, res) => {
 
 exports.analyzeQuery = async (req, res) => {
     try {
-        const { datasetId, question } = req.body;
-        const aiConfig = await aiService.generateQuery(datasetId, question);
+        const { datasetId, query } = req.body;
+        const aiConfig = await aiService.generateQuery(datasetId, query);
         
         const { rows } = await pool.query(aiConfig.sql);
         

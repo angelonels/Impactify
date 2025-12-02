@@ -157,7 +157,7 @@ exports.cleanDataset = async (datasetId) => {
                     }
                 });
             } else {
-                 await prisma.datasetSchema.create({
+                await prisma.datasetSchema.create({
                     data: {
                         datasetId: dataset.id,
                         columnName: name,
