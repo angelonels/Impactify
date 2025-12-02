@@ -76,7 +76,7 @@ const Upload = () => {
     };
 
     return (
-        <div className="min-h-screen flex flex-col bg-white text-black relative font-sans selection:bg-black selection:text-white pt-32">
+        <div className="min-h-screen flex flex-col bg-white text-black relative font-sans selection:bg-black selection:text-white pt-48">
             {/* Back Navigation */}
             <div className="absolute top-8 left-8 z-10">
                 <Link to="/dashboard" className="flex items-center gap-2 text-gray-400 hover:text-black transition-colors">
@@ -86,13 +86,13 @@ const Upload = () => {
             </div>
 
             {/* Main Content */}
-            <div className="flex-grow flex flex-col items-center justify-center px-4 w-full max-w-4xl mx-auto">
+            <div className="flex-grow flex flex-col items-center px-4 w-full max-w-4xl mx-auto">
                 
                 {/* Heading */}
                 <motion.h1 
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-5xl md:text-6xl font-bold mb-24 mt-12 text-center tracking-tight"
+                    className="text-5xl md:text-6xl font-bold mb-24 text-center tracking-tight"
                 >
                     Upload your csv here
                 </motion.h1>
