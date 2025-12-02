@@ -94,7 +94,51 @@ const SelectTrigger = ({ className, children, ...props }) => {
   );
 };
 
-// ... (SelectValue, SelectContent, SelectItem remain same)
+const SelectValue = ({ className, ...props }) => {
+  const { value } = useContext(SelectContext);
+  return <span className={className}>{value}</span>;
+};
+
+const SelectContent = ({ className, children, ...props }) => {
+  const { open } = useContext(SelectContext);
+  if (!open) return null;
+  return (
+    <div
+      className={cn(
+        "absolute z-50 min-w-[8rem] overflow-hidden rounded-md border bg-white text-black shadow-md animate-in fade-in-80",
+        "bottom-full mb-2", // Position above by default for prompt input
+        className
+      )}
+      {...props}
+    >
+      <div className="p-1">{children}</div>
+    </div>
+  );
+};
+
+const SelectItem = ({ className, children, value, ...props }) => {
+  const { onValueChange, setOpen, value: selectedValue } = useContext(SelectContext);
+  return (
+    <div
+      className={cn(
+        "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none hover:bg-gray-100 focus:bg-gray-100 data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        selectedValue === value && "bg-gray-100 font-medium",
+        className
+      )}
+      onClick={() => {
+        onValueChange(value);
+        setOpen(false);
+      }}
+      {...props}
+    >
+      <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+        {selectedValue === value && <span className="h-2 w-2 rounded-full bg-black" />}
+      </span>
+      {children}
+    </div>
+  );
+};
+
 
 // --- PromptInput Components ---
 
@@ -144,7 +188,78 @@ export const PromptInputTextarea = ({
   );
 };
 
-// ... (PromptInputToolbar, PromptInputTools, PromptInputButton, PromptInputSubmit remain same)
+export const PromptInputToolbar = ({ className, ...props }) => (
+  <div
+    className={cn('flex items-center justify-between p-1 border-t border-gray-100', className)}
+    {...props}
+  />
+);
+
+export const PromptInputTools = ({ className, ...props }) => (
+  <div
+    className={cn(
+      'flex items-center gap-1',
+      '[&_button:first-child]:rounded-bl-xl',
+      className
+    )}
+    {...props}
+  />
+);
+
+export const PromptInputButton = ({
+  variant = 'ghost',
+  className,
+  size,
+  children,
+  ...props
+}) => {
+  const newSize = (size ?? React.Children.count(children) > 1) ? 'default' : 'icon';
+  return (
+    <Button
+      className={cn(
+        'shrink-0 gap-1.5 rounded-lg',
+        variant === 'ghost' && 'text-gray-500 hover:text-black',
+        newSize === 'default' && 'px-3',
+        className
+      )}
+      size={newSize}
+      type="button"
+      variant={variant}
+      {...props}
+    >
+      {children}
+    </Button>
+  );
+};
+
+export const PromptInputSubmit = ({
+  className,
+  variant = 'default',
+  size = 'icon',
+  status,
+  children,
+  ...props
+}) => {
+  let Icon = <Send className="size-4" />;
+  if (status === 'submitted') {
+    Icon = <Loader2 className="size-4 animate-spin" />;
+  } else if (status === 'streaming') {
+    Icon = <Square className="size-4" />;
+  } else if (status === 'error') {
+    Icon = <X className="size-4" />;
+  }
+  return (
+    <Button
+      className={cn('gap-1.5 rounded-lg bg-black text-white hover:bg-gray-800', className)}
+      size={size}
+      type="submit"
+      variant={variant}
+      {...props}
+    >
+      {children ?? Icon}
+    </Button>
+  );
+};
 
 export const PromptInputModelSelect = (props) => (
   <Select {...props} />
