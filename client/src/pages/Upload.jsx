@@ -56,7 +56,8 @@ const Upload = () => {
                 return;
             }
 
-            const response = await fetch('http://localhost:5001/api/dataset/upload', {
+            // const response = await fetch('https://impactify.onrender.com/api/dataset/upload', {
+            const response = await fetch('https://impactify.onrender.com/api/dataset/upload', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -69,13 +70,12 @@ const Upload = () => {
             if (response.ok) {
                 navigate(`/dataset/${data.datasetId}/analyze`);
             } else {
-                // Now we see the real error message from the server
                 console.error("Server Error Detail:", data);
                 alert(`Upload Failed: ${data.error || data.message || "Unknown error"}`);
             }
         } catch (error) {
             console.error("Network/Client Error:", error);
-            alert("Network Error: Is the backend server running on port 5001?");
+            alert("Network Error: Is the backend server running?");
         } finally {
             setIsUploading(false);
         }

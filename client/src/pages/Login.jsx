@@ -15,7 +15,7 @@ const Login = () => {
         const payload = isLogin ? { email, password } : { email, password, name };
 
         try {
-            const response = await fetch(`http://localhost:5001${endpoint}`, {
+            const response = await fetch(`https://impactify.onrender.com${endpoint}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
@@ -34,7 +34,7 @@ const Login = () => {
     };
 
     const handleGoogleLogin = () => {
-        window.location.href = 'http://localhost:5001/api/auth/google';
+        window.location.href = 'https://impactify.onrender.com/api/auth/google';
     };
 
     return (
