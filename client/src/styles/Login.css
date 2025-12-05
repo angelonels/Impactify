@@ -1,8 +1,9 @@
 .login-container {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding-top: 180px;
     width: 100%;
     color: white;
 }
