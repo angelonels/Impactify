@@ -92,6 +92,15 @@ const Login = () => {
                         </div>
                     </div>
 
+                    <div className="flex justify-end">
+                        <Link
+                            to="/forgot-password"
+                            className="text-sm text-indigo-400 hover:text-indigo-300 transition-colors hover:underline decoration-indigo-400/30 underline-offset-4"
+                        >
+                            Forgot Password?
+                        </Link>
+                    </div>
+
                     <button
                         type="submit"
                         className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3.5 rounded-xl transition-all shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-2 group"
