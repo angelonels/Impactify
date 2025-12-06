@@ -10,10 +10,15 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!termsAccepted) {
+      alert("Please accept the Terms and Privacy Policy to continue.");
+      return;
+    }
     try {
       const response = await fetch('https://impactify.onrender.com/api/auth/register', {
         method: 'POST',
@@ -104,6 +109,24 @@ const Signup = () => {
               >
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <div className="flex h-6 items-center">
+              <input
+                id="terms"
+                name="terms"
+                type="checkbox"
+                checked={termsAccepted}
+                onChange={(e) => setTermsAccepted(e.target.checked)}
+                className="h-4 w-4 rounded border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-500/50 focus:ring-offset-0"
+              />
+            </div>
+            <div className="text-sm">
+              <label htmlFor="terms" className="font-medium text-gray-300">
+                I agree to the <Link to="/terms" className="text-indigo-400 hover:text-indigo-300 font-semibold hover:underline">Terms of Service</Link> and <a href="#" className="text-indigo-400 hover:text-indigo-300 font-semibold hover:underline">Privacy Policy</a>
+              </label>
             </div>
           </div>
 
