@@ -28,7 +28,6 @@ const Contact = () => {
         e.preventDefault();
         setIsSubmitting(true);
 
-        // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 1500));
 
         setIsSubmitting(false);
@@ -91,10 +90,10 @@ const Contact = () => {
                                             Visit Us
                                         </h3>
                                         <p className="text-gray-400">
-                                            123 Innovation Drive
+                                            123 Tech Park, Indiranagar
                                         </p>
                                         <p className="text-gray-400">
-                                            San Francisco, CA 94103
+                                            Bangalore, Karnataka 560038
                                         </p>
                                     </div>
                                 </div>
@@ -108,10 +107,10 @@ const Contact = () => {
                                             Call Us
                                         </h3>
                                         <p className="text-gray-400">
-                                            +1 (555) 123-4567
+                                            +91 98765 43210
                                         </p>
                                         <p className="text-gray-400">
-                                            Mon-Fri, 9am-6pm PST
+                                            Mon-Fri, 9am-6pm IST
                                         </p>
                                     </div>
                                 </div>
