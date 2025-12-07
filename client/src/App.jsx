@@ -14,6 +14,7 @@ import Workbench from './pages/Workbench'
 import AuthSuccess from './pages/AuthSuccess'
 import Contact from './pages/Contact'
 import AboutUs from './pages/AboutUs'
+import DemoGallery from './pages/DemoGallery'
 import Footer from './components/Footer'
 import LiquidEther from './components/LiquidEther'
 import './App.css'
@@ -57,6 +58,7 @@ function AppContent() {
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<AboutUs />} />
+          <Route path="/gallery" element={<DemoGallery />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/dataset/:id/analyze" element={<Workbench />} />
