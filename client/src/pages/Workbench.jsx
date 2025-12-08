@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { PromptInputBasic } from '../components/PromptInputBasic';
 import BarChart from '../components/charts/BarChart';
 import LineChart from '../components/charts/LineChart';
+import PieChart from '../components/charts/PieChart';
 import { motion } from 'framer-motion';
 
 const Workbench = () => {
@@ -83,10 +84,9 @@ const Workbench = () => {
           </div>
         );
       case 'pie':
-        // Fallback to bar for now if pie not implemented or similar
         return (
           <div className="h-[500px] w-full bg-white/5 rounded-xl p-4 border border-white/10">
-             <BarChart data={data} keys={barKeys} indexBy={indexBy} />
+             <PieChart data={data} idKey={indexBy} valueKey={barKeys[0]} />
           </div>
         );
       case 'table':
