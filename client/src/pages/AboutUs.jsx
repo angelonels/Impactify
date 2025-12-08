@@ -57,6 +57,31 @@ const AboutUs = () => {
                         speed={30}
                     />
                 </div>
+
+                {/* Donation Section */}
+                <div className="mt-24 mb-12 w-full max-w-2xl bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 text-center">
+                    <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 mb-4">
+                        Support Our Mission
+                    </h2>
+                    <p className="text-gray-300 mb-8 text-lg">
+                        Help us continue building innovative tools for data analysis. Your contribution powers our servers and fuels future development.
+                    </p>
+                    
+                    <div className="relative group inline-block">
+                        <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+                        <div className="relative bg-black p-4 rounded-xl border border-white/10">
+                            <img 
+                                src="/qr-placeholder.png" 
+                                alt="Donation QR Code" 
+                                className="w-48 h-48 object-contain rounded-lg"
+                            />
+                        </div>
+                    </div>
+                    
+                    <p className="text-sm text-gray-500 mt-6">
+                        Scan to donate via UPI / Crypto
+                    </p>
+                </div>
             </div>
         </div>
     );
