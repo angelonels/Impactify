@@ -12,7 +12,11 @@ const PORT = process.env.PORT || 5001;
 
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL],
+    origin: [
+      "http://localhost:5173",
+      "https://impactify-alpha.vercel.app",
+      process.env.FRONTEND_URL,
+    ].filter(Boolean),
     credentials: true,
   })
 );
