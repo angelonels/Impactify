@@ -127,7 +127,7 @@ export function PromptInputBasic({ onSubmit }) { // Added onSubmit prop to lift 
       onSubmit={handleSubmit}
       className="w-full max-w-none mx-auto border-white/10" // Adjusted max-w to be reasonable
     >
-      <PromptInputTextarea placeholder="Ask me anything..." />
+      <PromptInputTextarea placeholder="Show me a bar chart for the given data, or ask any question about your dataset..." />
       <PromptInputActions className="justify-end">
         <PromptInputAction
           tooltip={isLoading ? "Stop generation" : "Send message"}
