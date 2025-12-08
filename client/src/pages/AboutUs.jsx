@@ -71,7 +71,7 @@ const AboutUs = () => {
                         <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
                         <div className="relative bg-black p-4 rounded-xl border border-white/10">
                             <img 
-                                src="/qr-placeholder.png" 
+                                src="/donation_qr_code.jpeg" 
                                 alt="Donation QR Code" 
                                 className="w-48 h-48 object-contain rounded-lg"
                             />
@@ -79,7 +79,7 @@ const AboutUs = () => {
                     </div>
                     
                     <p className="text-sm text-gray-500 mt-6">
-                        Scan to donate via UPI / Crypto
+                        Scan to donate via UPI
                     </p>
                 </div>
             </div>
