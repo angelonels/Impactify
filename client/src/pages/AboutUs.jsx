@@ -5,37 +5,37 @@ import Navbar from '../components/Navbar';
 const AboutUs = () => {
     const teamMembers = [
         {
-            image: 'https://i.pravatar.cc/300?img=1',
-            title: 'Member 1',
-            github: 'https://github.com',
-            linkedin: 'https://linkedin.com',
+            image: 'https://i.pinimg.com/736x/62/b4/6b/62b46b8c60fdd37418d66e39fe47ae90.jpg',
+            title: 'Angelo Nelson',
+            github: 'https://github.com/angelonels',
+            linkedin: 'https://www.linkedin.com/in/angelo-nelson-64b46830b/',
             borderColor: '#3B82F6',
             gradient: 'linear-gradient(145deg, #3B82F6, #000)',
             url: '#'
         },
         {
-            image: 'https://i.pravatar.cc/300?img=2',
-            title: 'Member 2',
-            github: 'https://github.com',
-            linkedin: 'https://linkedin.com',
+            image: 'https://png.pngtree.com/png-clipart/20240508/original/pngtree-coding-clipart-guy-in-glasses-computer-tech-cartoon-vector-illustration-png-image_15035827.png',
+            title: 'Ayush Kumar Singh',
+            github: 'https://github.com/AyushCoder9',
+            linkedin: 'https://www.linkedin.com/in/ayush-kumar-singh-910379320/',
             borderColor: '#10B981',
             gradient: 'linear-gradient(180deg, #10B981, #000)',
             url: '#'
         },
         {
-            image: 'https://i.pravatar.cc/300?img=3',
-            title: 'Member 3',
-            github: 'https://github.com',
-            linkedin: 'https://linkedin.com',
+            image: 'https://cdn.vectorstock.com/i/500p/01/62/software-developer-cartoon-vector-58780162.jpg',
+            title: 'Isha Singh',
+            github: 'https://github.com/Ishiezz',
+            linkedin: 'https://www.linkedin.com/in/isha-singh-045212348/',
             borderColor: '#F59E0B',
             gradient: 'linear-gradient(165deg, #F59E0B, #000)',
             url: '#'
         },
         {
-            image: 'https://i.pravatar.cc/300?img=4',
-            title: 'Member 4',
-            github: 'https://github.com',
-            linkedin: 'https://linkedin.com',
+            image: 'https://avatars.githubusercontent.com/u/184392826?v=4',
+            title: 'Rohit Nair P',
+            github: 'https://github.com/Vegapunk-debug',
+            linkedin: 'https://www.linkedin.com/in/rohit-nair-p-7a535b251/?skipRedirect=true',
             borderColor: '#EF4444',
             gradient: 'linear-gradient(195deg, #EF4444, #000)',
             url: '#'
@@ -54,7 +54,7 @@ const AboutUs = () => {
                         damping={0.45}
                         fadeOut={0.6}
                         ease="power3.out"
-                        speed={30}
+                        speed={20}
                     />
                 </div>
 
