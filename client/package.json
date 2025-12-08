@@ -21,6 +21,7 @@
     "axios": "^1.13.2",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.25",
+    "gsap": "^3.13.0",
     "lucide-react": "^0.555.0",
     "papaparse": "^5.5.3",
     "react": "^19.1.1",

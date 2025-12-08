@@ -21,7 +21,6 @@ const Hero = () => {
 
                 <div className="hero-actions">
                     <Link to="/upload" className="btn-primary">Start Analyzing</Link>
-                    <a href="#demo" className="btn-secondary">View Demo</a>
                 </div>
             </div>
         </section>
