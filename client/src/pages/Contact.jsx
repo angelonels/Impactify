@@ -52,76 +52,11 @@ const Contact = () => {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div className="max-w-3xl mx-auto">
                     <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                    >
-                        <div className={CARD_CLASSES}>
-                            <h2 className="text-2xl font-bold text-white mb-8">
-                                Contact Information
-                            </h2>
-
-                            <div className="space-y-8">
-                                <div className="flex items-start gap-4">
-                                    <div className={ICON_CONTAINER_CLASSES}>
-                                        <Mail className="w-6 h-6" />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-lg font-semibold text-white mb-1">
-                                            Email Us
-                                        </h3>
-                                        <p className="text-gray-400">
-                                            hello@impactify.com
-                                        </p>
-                                        <p className="text-gray-400">
-                                            support@impactify.com
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-start gap-4">
-                                    <div className={ICON_CONTAINER_CLASSES}>
-                                        <MapPin className="w-6 h-6" />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-lg font-semibold text-white mb-1">
-                                            Visit Us
-                                        </h3>
-                                        <p className="text-gray-400">
-                                            123 Tech Park, Indiranagar
-                                        </p>
-                                        <p className="text-gray-400">
-                                            Bangalore, Karnataka 560038
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-start gap-4">
-                                    <div className={ICON_CONTAINER_CLASSES}>
-                                        <Phone className="w-6 h-6" />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-lg font-semibold text-white mb-1">
-                                            Call Us
-                                        </h3>
-                                        <p className="text-gray-400">
-                                            +91 98765 43210
-                                        </p>
-                                        <p className="text-gray-400">
-                                            Mon-Fri, 9am-6pm IST
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </motion.div>
-
-                    <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.6, delay: 0.4 }}
                     >
                         <div className={CARD_CLASSES}>
                             {!isSubmitted ? (
