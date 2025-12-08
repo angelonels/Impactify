@@ -49,14 +49,21 @@ const Upload = () => {
         try {
 
 
-            // const response = await fetch('https://impactify.onrender.com/api/dataset/upload', {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/dataset/upload`, {
+            const apiUrl = import.meta.env.VITE_API_URL.replace(/\/$/, '');
+            const response = await fetch(`${apiUrl}/api/dataset/upload`, {
                 method: 'POST',
                 headers: {},
                 body: formData
             });
 
-            const data = await response.json();
+            const responseText = await response.text();
+            let data;
+            try {
+                data = JSON.parse(responseText);
+            } catch (e) {
+                console.error("Non-JSON Response:", responseText);
+                throw new Error(`Server returned non-JSON response (${response.status} ${response.statusText}): ${responseText.substring(0, 100)}...`);
+            }
 
             if (response.ok) {
                 navigate(`/dataset/${data.datasetId}/analyze`);
