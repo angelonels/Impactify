@@ -28,7 +28,7 @@ const features = [
 
 const Features = () => {
     return (
-        <section id="capabilities" className="features-section">
+        <section id="capabilities" className="features-section" style={{ scrollMarginTop: '120px' }}>
             <div className="features-container">
                 <motion.div
                     className="features-header"

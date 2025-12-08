@@ -11,15 +11,29 @@ const Navbar = () => {
 
         if (window.location.pathname !== '/') {
             navigate('/');
-
             setTimeout(() => {
                 const element = document.getElementById(id);
-                if (element) element.scrollIntoView({ behavior: 'smooth' });
+                if (element) {
+                    const headerOffset = 150;
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
             }, 100);
         } else {
-
             const element = document.getElementById(id);
-            if (element) element.scrollIntoView({ behavior: 'smooth' });
+            if (element) {
+                const headerOffset = 150;
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
         }
     };
 
