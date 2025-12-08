@@ -39,7 +39,7 @@ const Navbar = () => {
             <h1 onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>IMPACTIFY</h1>
             <ul className="navbar-links">
                 <li><a href="/" onClick={handleHomeClick} className="navbar-link">Home</a></li>
-                <li><a href="#features" onClick={(e) => handleScroll(e, 'features')} className="navbar-link">Features</a></li>
+                <li><a href="#capabilities" onClick={(e) => handleScroll(e, 'capabilities')} className="navbar-link">Features</a></li>
                 <li><a href="/about" onClick={(e) => { e.preventDefault(); navigate('/about'); }} className="navbar-link">About</a></li>
                 <li><a href="/contact" onClick={(e) => { e.preventDefault(); navigate('/contact'); }} className="navbar-link">Contact</a></li>
             </ul>

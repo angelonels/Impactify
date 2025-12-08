@@ -28,7 +28,7 @@ const features = [
 
 const Features = () => {
     return (
-        <section className="features-section">
+        <section id="capabilities" className="features-section">
             <div className="features-container">
                 <motion.div
                     className="features-header"
