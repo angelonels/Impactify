@@ -47,21 +47,12 @@ const Upload = () => {
         formData.append('file', file);
 
         try {
-            const token = localStorage.getItem('token');
 
-            // Debugging: Check if token exists
-            if (!token) {
-                alert("You are not logged in! Please log in first.");
-                navigate('/login');
-                return;
-            }
 
             // const response = await fetch('https://impactify.onrender.com/api/dataset/upload', {
-            const response = await fetch('https://impactify.onrender.com/api/dataset/upload', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/dataset/upload`, {
                 method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
+                headers: {},
                 body: formData
             });
 
