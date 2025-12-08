@@ -45,9 +45,9 @@ const AboutUs = () => {
     return (
         <div className="min-h-screen bg-black text-white flex flex-col">
             <Navbar />
-            <div className="flex-grow flex items-center justify-center p-8">
-                <div style={{ width: '100%', maxWidth: '1200px', height: '800px', position: 'relative' }}>
-                    <h1 className="text-4xl font-bold text-center mb-8">Role based Access Control</h1>
+            <div className="flex-grow flex flex-col items-center justify-center p-8">
+                <h1 className="text-4xl font-bold text-center mb-16 mt-24">Meet the Team!</h1>
+                <div style={{ width: '100%', maxWidth: '1200px', height: '600px', position: 'relative' }}>
                     <ChromaGrid
                         items={teamMembers}
                         radius={300}
