@@ -7,7 +7,7 @@ const features = [
     {
         icon: <FaDatabase />,
         title: "Smart Data Ingestion",
-        description: "Upload CSV, Excel, or JSON. Our AI automatically detects schemas and cleans your data instantly."
+        description: "Upload the CSV file. Our AI automatically detects schemas and cleans your data instantly."
     },
     {
         icon: <FaMagic />,

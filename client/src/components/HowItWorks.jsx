@@ -6,7 +6,7 @@ const steps = [
     {
         number: "01",
         title: "Upload Data",
-        description: "Drag & drop your CSV, Excel, or JSON files. We'll handle the parsing."
+        description: "Drag & drop your CSV file. We'll handle the parsing."
     },
     {
         number: "02",
