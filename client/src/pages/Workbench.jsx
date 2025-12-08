@@ -20,7 +20,8 @@ const Workbench = () => {
     setQuery(inputQuery);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/dataset/analyze`, {
+      const apiUrl = import.meta.env.VITE_API_URL.replace(/\/$/, '');
+      const response = await fetch(`${apiUrl}/api/dataset/analyze`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -29,7 +30,14 @@ const Workbench = () => {
         body: JSON.stringify({ datasetId: id, query: inputQuery }),
       });
 
-      const data = await response.json();
+      const responseText = await response.text();
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (e) {
+        console.error("Non-JSON Response:", responseText);
+        throw new Error(`Server returned non-JSON response (${response.status} ${response.statusText}): ${responseText.substring(0, 100)}...`);
+      }
 
       if (response.ok) {
         setResults(data);
@@ -38,7 +46,7 @@ const Workbench = () => {
       }
     } catch (err) {
       console.error('Analysis error:', err);
-      setError('Network error. Is the backend running?');
+      setError(`Network error: ${err.message}`);
     } finally {
       setLoading(false);
     }
