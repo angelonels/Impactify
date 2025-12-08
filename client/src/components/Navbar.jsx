@@ -40,6 +40,7 @@ const Navbar = () => {
     const handleHomeClick = (e) => {
         e.preventDefault();
         navigate('/');
+        window.scrollTo(0, 0);
     };
 
     const handleLogout = () => {
@@ -50,7 +51,7 @@ const Navbar = () => {
 
     return (
         <nav className="navbar">
-            <h1 onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>IMPACTIFY</h1>
+            <h1 onClick={() => { navigate('/'); window.scrollTo(0, 0); }} style={{ cursor: 'pointer' }}>IMPACTIFY</h1>
             <ul className="navbar-links">
                 <li><a href="/" onClick={handleHomeClick} className="navbar-link">Home</a></li>
                 <li><a href="#capabilities" onClick={(e) => handleScroll(e, 'capabilities')} className="navbar-link">Features</a></li>
