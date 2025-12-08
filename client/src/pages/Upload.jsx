@@ -66,7 +66,7 @@ const Upload = () => {
             }
         } catch (error) {
             console.error("Network/Client Error:", error);
-            alert("Network Error: Is the backend server running?");
+            alert(`Network Error: ${error.message}\nTarget API: ${import.meta.env.VITE_API_URL}`);
         } finally {
             setIsUploading(false);
         }
