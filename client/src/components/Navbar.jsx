@@ -40,7 +40,7 @@ const Navbar = () => {
             <ul className="navbar-links">
                 <li><a href="/" onClick={handleHomeClick} className="navbar-link">Home</a></li>
                 <li><a href="#features" onClick={(e) => handleScroll(e, 'features')} className="navbar-link">Features</a></li>
-                <li><a href="#about" onClick={(e) => handleScroll(e, 'about')} className="navbar-link">About</a></li>
+                <li><a href="/about" onClick={(e) => { e.preventDefault(); navigate('/about'); }} className="navbar-link">About</a></li>
                 <li><a href="/contact" onClick={(e) => { e.preventDefault(); navigate('/contact'); }} className="navbar-link">Contact</a></li>
             </ul>
             {isLoggedIn ? (
