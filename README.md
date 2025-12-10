@@ -57,9 +57,9 @@ Users can <b>upload datasets</b> and <b>ask questions in plain English</b> — I
 | 1️⃣  | [✨ **Overview**](#-overview)                         | Learn what this project is all about            |
 | 2️⃣  | [🚀 **Key Features**](#-key-features)                 | Explore the unique and powerful functionalities |
 | 3️⃣  | [🧩 **Tech Stack**](#-tech-stack)                     | Discover the technologies powering this project |
-| 4️⃣  | [�️ **Installation & Setup**](#️-installation--setup) | How to run the project locally                  |
+| 4️⃣  | [🛠️ **Installation & Setup**](#️-installation--setup) | How to run the project locally                  |
 | 5️⃣  | [💡 **Usage Guide**](#-usage-guide)                   | Step-by-step guide to using the app             |
-| 6️⃣  | [🧑‍💻 **Our Team**](#-our-team)                         | Meet the developers behind the project          |
+| 6️⃣  | [🧑‍💻 **Our Team**](#our-team)                          | Meet the developers behind the project          |
 
 </div>
 
@@ -198,6 +198,8 @@ Visit `http://localhost:5173` in your browser!
 4.  **View Results:** See the AI-generated charts and insights instantly.
 
 ---
+
+<a id="our-team"></a>
 
 ## ☕ Team CodeBrewers
 
