@@ -123,6 +123,12 @@ const Upload = () => {
             >
                 {isUploading ? 'Processing...' : 'Analyze Data'}
             </button>
+            
+            {isUploading && (
+                <p style={{ marginTop: '1rem', color: '#888', fontSize: '0.9rem' }}>
+                    Please wait, this may take a moment due to server latency...
+                </p>
+            )}
         </div>
     );
 };
