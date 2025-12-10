@@ -5,7 +5,6 @@
 
 <h3 align="center">
   <em>Empowering everyone to become a data analyst — without writing a single line of SQL.</em>
-  
 </h3>
 
 <br/>
@@ -37,7 +36,6 @@
   <img src="https://img.shields.io/badge/Backend-Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js Badge"/>
   <img src="https://img.shields.io/badge/Database-PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL Badge"/>
   <img src="https://img.shields.io/badge/AI-Google%20Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Gemini Badge"/>
-  <img src="https://img.shields.io/badge/Auth-Google%20OAuth%20%7C%20JWT-FF4081?style=for-the-badge&logo=google&logoColor=white" alt="Auth Badge"/>
   <img src="https://img.shields.io/badge/Deployed%20On-Vercel%20%26%20Render-black?style=for-the-badge&logo=vercel&logoColor=white" alt="Deploy Badge"/>
 </p>
 
@@ -45,24 +43,23 @@
 
 <p align="center">
 Impactify is a <b>full-stack AI-powered web application</b> that bridges the gap between raw data and actionable insights.  
-Users can <b>upload datasets</b>, <b>clean data interactively</b>, and <b>ask questions in plain English</b> — Impactify automatically converts them into <b>SQL queries</b> and renders <b>dynamic visualizations</b> like bar, line, or pie charts instantly.
+Users can <b>upload datasets</b> and <b>ask questions in plain English</b> — Impactify automatically converts them into <b>SQL queries</b> and renders <b>dynamic visualizations</b> like bar, line, or pie charts instantly. No login required!
 </p>
 
 ---
+
 ## 📖 **Table of Contents**
 
 <div align="center">
 
-| 🔹 | Section | Description |
-|:--:|:---------|:-------------|
-| 1️⃣ | [✨ **Overview**](#-overview) | Learn what this project is all about |
-| 2️⃣ | [🚀 **Key Features**](#-key-features) | Explore the unique and powerful functionalities |
-| 3️⃣ | [👤 **User Roles**](#-user-roles) | Understand the roles and permissions in the system |
-| 4️⃣ | [🖥️ **Frontend Pages**](#️-frontend-pages) | See what the user interface includes |
-| 5️⃣ | [🧱 **Database Schema**](#-database-schema) | Visualize the data structure and relationships |
-| 6️⃣ | [🧩 **Tech Stack**](#-tech-stack) | Discover the technologies powering this project |
-| 7️⃣ | [⚙️ **Workflow**](#️-workflow) | Understand how the frontend, backend, and DB interact |
-| 8️⃣ | [🧑‍💻 **Our Team**](#-our-team) | Meet the developers behind the project |
+| 🔹  | Section                                               | Description                                     |
+| :-: | :---------------------------------------------------- | :---------------------------------------------- |
+| 1️⃣  | [✨ **Overview**](#-overview)                         | Learn what this project is all about            |
+| 2️⃣  | [🚀 **Key Features**](#-key-features)                 | Explore the unique and powerful functionalities |
+| 3️⃣  | [🧩 **Tech Stack**](#-tech-stack)                     | Discover the technologies powering this project |
+| 4️⃣  | [�️ **Installation & Setup**](#️-installation--setup) | How to run the project locally                  |
+| 5️⃣  | [💡 **Usage Guide**](#-usage-guide)                   | Step-by-step guide to using the app             |
+| 6️⃣  | [🧑‍💻 **Our Team**](#-our-team)                         | Meet the developers behind the project          |
 
 </div>
 
@@ -75,125 +72,137 @@ Instead of learning SQL or data visualization tools, users can **ask questions i
 The backend then securely converts these questions into SQL queries and visualizes the results dynamically.
 
 ### 🎯 Mission
+
 > To make data-driven decision-making accessible to everyone — not just data scientists.
 
 ---
 
 ## 🚀 Key Features
 
-### 1. 🧾 File Ingestion
-- **In-browser parsing** using [Papa Parse](https://www.papaparse.com/).  
-- **Chunked streaming** to backend for reliable ingestion.
+### 1. 🧾 Seamless File Ingestion
 
-### 2. 🤖 Automated Data Profiling
-- Detects column types, missing values, and text inconsistencies.  
-- Generates a **Data Report Card** highlighting issues and suggestions.
+- **Drag & Drop Upload:** Easily upload CSV files.
+- **Automatic Schema Detection:** The system automatically detects columns and data types.
+- **Robust Error Handling:** Automatically fixes common CSV issues like conflicting IDs.
 
-### 3. 🧹 Interactive Data Cleaning
-- View and fix issues from the Data Report Card.  
-- Fill missing values (mean, median, custom).  
-- Merge inconsistent text entries.  
-- Correct inferred data types.
+### 2. 💬 Natural Language → SQL
 
-### 4. 💬 Natural Language → SQL
-- AI translates plain English into optimized SQL queries.  
-- Example: _“Show me the top 10 customers by sales last quarter as a bar chart.”_  
-- Secure validation before execution.  
-- Outputs chart-ready data and visualization type.
+- **AI-Powered:** Uses Google Gemini to translate plain English into optimized SQL queries.
+- **Example:** _“Show me the top 10 customers by sales last quarter as a bar chart.”_
+- **Secure:** Queries are generated and executed safely on your private dataset table.
 
-### 5. 📊 AI-Driven Visualization Workbench
-- Dynamic rendering via **D3.js**.  
-- Supports bar, line, pie, scatter charts, etc.  
-- Pin and save charts to a customizable dashboard using `react-grid-layout`.
+### 3. 📊 AI-Driven Visualization Workbench
 
----
+- **Dynamic Charts:** Automatically selects the best chart type (Bar, Line, Pie) based on your data.
+- **Interactive:** Hover over data points for details.
+- **Table View:** View raw data in a clean, paginated table.
+- **SQL Transparency:** View the generated SQL query for verification.
 
-## 👤 User Roles
+### 4. 🔓 Frictionless Access
 
-| Role | Permissions | Data Access |
-|------|--------------|--------------|
-| **Admin** | Manage users, view system metrics, control public content | Read-only metadata (no user data) |
-| **Registered User** | Upload, clean, analyze data, manage dashboards | Full access to their own data |
-| **Guest (Future)** | Browse public dashboards | Read-only |
-
----
-
-## 🖥️ Frontend Pages
-
-| Route | Description |
-|--------|--------------|
-| `/login` & `/signup` | Authentication pages |
-| `/dashboard` | User's project hub |
-| `/upload` | Upload CSV datasets |
-| `/dataset/{id}/clean` | Data cleaning interface |
-| `/dataset/{id}/analyze` | Natural language querying + visualization workbench |
-| `/admin/dashboard` | Admin control panel |
-| `/profile` | Manage user profile |
-
----
-
-## 🧱 Database Schema (PostgreSQL)
-
-### **User**
-| Column | Type | Description |
-|--------|------|-------------|
-| id | UUID | Primary Key |
-| email | String | Unique |
-| password_hash | String | Securely stored |
-| role | Enum(`ADMIN`, `USER`) | Access control |
-| auth_provider | Enum(`EMAIL`, `GOOGLE`) | Login type |
-| google_id | String | Nullable |
-| created_at | Timestamp | Creation date |
-
-### **Dataset**
-| Column | Type | Description |
-|--------|------|-------------|
-| id | UUID | Primary Key |
-| user_id | UUID | FK → User |
-| dataset_name | String | Name of dataset |
-| status | Enum | `uploading`, `profiling`, `cleaning`, `ready`, `error` |
-| data_table_name | String | Private table name per dataset |
-
-### **Dataset_Schema**
-| Column | Type | Description |
-|--------|------|-------------|
-| id | UUID | Primary Key |
-| dataset_id | UUID | FK → Dataset |
-| column_name | String | Column name |
-| data_type | String | FLOAT / TEXT / TIMESTAMP |
-| description | Text | Optional column notes for AI |
+- **No Login Required:** Start analyzing immediately as a guest.
+- **Privacy Focused:** Your data is isolated and secure.
 
 ---
 
 ## 🧩 Tech Stack
 
-| Layer | Technologies |
-|-------|---------------|
-| **Frontend** | React, Tailwind CSS, Zustand, D3.js, React Router, react-grid-layout, Papa Parse |
-| **Backend** | Node.js, Express, Fastify (optional), JWT Auth, Google OAuth |
-| **AI / LLM** | Google Gemini API (Schema-Aware Prompting) |
-| **Database** | PostgreSQL (with TimescaleDB extension optional) |
-| **Deployment** | Vercel (Frontend), Render/Railway (Backend), Neon.tech (DB) |
+| Layer          | Technologies                                                    |
+| -------------- | --------------------------------------------------------------- |
+| **Frontend**   | React, Tailwind CSS, Framer Motion, Recharts/Nivo, React Router |
+| **Backend**    | Node.js, Express, Prisma ORM                                    |
+| **AI / LLM**   | Google Gemini API (Schema-Aware Prompting)                      |
+| **Database**   | PostgreSQL                                                      |
+| **Deployment** | Vercel (Frontend), Render (Backend), Neon.tech (DB)             |
 
 ---
 
-## ⚙️ Workflow
+## 🛠️ Installation & Setup
 
-1. **Login/Upload** — User signs in and uploads a CSV.  
-2. **Parsing** — Browser parses CSV with Papa Parse, streams to backend.  
-3. **Profiling** — Backend analyzes data, creates schema, sets dataset status = `cleaning`.  
-4. **Cleaning** — User fixes missing values, text inconsistencies, etc.  
-5. **Commit** — Backend applies cleaning rules and finalizes dataset.  
-6. **Analyze** — User queries data in plain English.  
-7. **AI Processing** — Backend retrieves schema and queries LLM for SQL + chart type.  
-8. **Execution** — SQL is validated and executed on the user’s private dataset.  
-9. **Visualization** — Frontend dynamically renders the chart.  
-10. **Dashboard Save** — Users can pin, save, and manage dashboards.
+Follow these steps to run Impactify on your local machine.
+
+### Prerequisites
+
+- Node.js (v18+)
+- PostgreSQL installed and running
+- Git
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/angelonels/Impactify.git
+cd Impactify
+```
+
+### 2. Setup Backend
+
+```bash
+cd server
+npm install
+```
+
+Create a `.env` file in the `server` directory:
+
+```env
+PORT=5000
+DATABASE_URL="postgresql://user:password@localhost:5432/impactify"
+GEMINI_API_KEY="your_google_gemini_api_key"
+FRONTEND_URL="http://localhost:5173"
+```
+
+Run Database Migrations:
+
+```bash
+npx prisma migrate dev --name init
+```
+
+Start the Server:
+
+```bash
+npm run dev
+```
+
+### 3. Setup Frontend
+
+Open a new terminal and navigate to the client directory:
+
+```bash
+cd client
+npm install
+```
+
+Create a `.env.local` file in the `client` directory:
+
+```env
+VITE_API_URL="http://localhost:5000"
+```
+
+Start the Client:
+
+```bash
+npm run dev
+```
+
+Visit `http://localhost:5173` in your browser!
 
 ---
+
+## 💡 Usage Guide
+
+1.  **Upload Data:** Go to the Upload page and drag & drop your CSV file.
+2.  **Analyze:** You will be redirected to the Workbench.
+3.  **Ask Questions:** Type questions like:
+    - "Show me a pie chart of sales by category"
+    - "Plot the monthly revenue as a line chart"
+    - "List the top 5 products"
+4.  **View Results:** See the AI-generated charts and insights instantly.
+
+---
+
 ## ☕ Team CodeBrewers
 
 ### 🧑‍💻 Our Team
+
 Thanks to these amazing people for contributing to **Impactify** 🔥
 
 <p align="center">
