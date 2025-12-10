@@ -75,23 +75,39 @@ exports.ingestFile = async (filePath, userId, originalName) => {
 
     await client.query(createTableQuery);
 
-    //Insert Data (Row by Row)
+    // Insert Data (Batch Insert)
+    const BATCH_SIZE = 500;
+    let batchValues = [];
+
     for (const row of rows) {
       // Get values in the same order as headers
-      const rawValues = Object.values(row);
+      // We explicitly map using the original headers to ensure order matches safeHeaders
+      const rawValues = headers.map((header) => row[header]);
 
       // Clean the values (escape quotes)
       const escapedValues = rawValues.map(escapeSqlString);
 
       // Format for SQL: NULL if empty, otherwise wrap in single quotes
-      const sqlValues = escapedValues
+      const sqlRow = escapedValues
         .map((val) => (val === null ? "NULL" : `'${val}'`))
         .join(", ");
 
-      // Construct and execute the INSERT query
+      batchValues.push(`(${sqlRow})`);
+
+      if (batchValues.length >= BATCH_SIZE) {
+        const insertQuery = `INSERT INTO ${tableName} (${safeHeaders.join(
+          ","
+        )}) VALUES ${batchValues.join(",")}`;
+        await client.query(insertQuery);
+        batchValues = [];
+      }
+    }
+
+    // Insert remaining rows
+    if (batchValues.length > 0) {
       const insertQuery = `INSERT INTO ${tableName} (${safeHeaders.join(
         ","
-      )}) VALUES (${sqlValues})`;
+      )}) VALUES ${batchValues.join(",")}`;
       await client.query(insertQuery);
     }
 
