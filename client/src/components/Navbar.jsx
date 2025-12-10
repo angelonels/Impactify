@@ -58,11 +58,11 @@ const Navbar = () => {
                 <li><a href="/about" onClick={(e) => { e.preventDefault(); navigate('/about'); }} className="navbar-link">About</a></li>
                 <li><a href="/contact" onClick={(e) => { e.preventDefault(); navigate('/contact'); }} className="navbar-link">Contact</a></li>
             </ul>
-            {isLoggedIn ? (
+            {/* {isLoggedIn ? (
                 <button className="navbar-cta" onClick={handleLogout}>Logout</button>
             ) : (
                 <button className="navbar-cta" onClick={() => navigate('/login')}>Get Started</button>
-            )}
+            )} */}
         </nav>
     )
 }
