@@ -6,3 +6,6 @@ import PieChart from '../components/charts/PieChart';
 import TableChart from '../components/charts/TableChart';
 
 const DemoGallery = () => {
+    // Static Dummy Data for the charts
+
+    // 1. E-Commerce Sales (Bar Chart)
