@@ -16,3 +16,7 @@ const DemoGallery = () => {
         { country: "Japan", revenue: 120000 },
         { country: "Germany", revenue: 110000 }
     ];
+
+    // 2. User Growth (Line Chart) expects flat array with xKey and yKey
+    const userGrowthData = [
+        { month: "Jan", users: 1200 },
