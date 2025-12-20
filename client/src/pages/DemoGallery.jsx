@@ -20,3 +20,6 @@ const DemoGallery = () => {
     // 2. User Growth (Line Chart) expects flat array with xKey and yKey
     const userGrowthData = [
         { month: "Jan", users: 1200 },
+        { month: "Feb", users: 1500 },
+        { month: "Mar", users: 1400 },
+        { month: "Apr", users: 2100 },
