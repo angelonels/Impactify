@@ -23,3 +23,6 @@ const DemoGallery = () => {
         { month: "Feb", users: 1500 },
         { month: "Mar", users: 1400 },
         { month: "Apr", users: 2100 },
+        { month: "May", users: 2800 },
+        { month: "Jun", users: 3200 }
+    ];
