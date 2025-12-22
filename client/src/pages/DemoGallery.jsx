@@ -26,3 +26,7 @@ const DemoGallery = () => {
         { month: "May", users: 2800 },
         { month: "Jun", users: 3200 }
     ];
+
+    // 3. Marketing Budget (Pie Chart) expects flat array with idKey and valueKey
+    const budgetData = [
+        { channel: "Social Media", spend: 45 },
