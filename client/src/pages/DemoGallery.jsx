@@ -34,3 +34,6 @@ const DemoGallery = () => {
         { channel: "Email", spend: 20 },
         { channel: "Events", spend: 10 }
     ];
+
+    // 4. Recent Transactions (Table Chart)
+    const tableData = [
