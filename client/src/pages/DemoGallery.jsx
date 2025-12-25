@@ -37,3 +37,7 @@ const DemoGallery = () => {
 
     // 4. Recent Transactions (Table Chart)
     const tableData = [
+        { id: "TXN-001", user: "Alice", amount: "$150.00", status: "Completed", date: "2023-10-15" },
+        { id: "TXN-002", user: "Bob", amount: "$85.50", status: "Pending", date: "2023-10-16" },
+        { id: "TXN-003", user: "Charlie", amount: "$320.00", status: "Completed", date: "2023-10-16" },
+        { id: "TXN-004", user: "Diana", amount: "$45.00", status: "Failed", date: "2023-10-17" },
