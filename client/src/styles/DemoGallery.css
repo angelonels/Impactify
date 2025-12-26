@@ -33,3 +33,6 @@
 .gallery-grid {
     display: grid;
     grid-template-columns: 1fr;
+    gap: 4rem;
+    width: 90%;
+    max-width: 1400px;
