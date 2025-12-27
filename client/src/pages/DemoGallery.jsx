@@ -43,3 +43,8 @@ const DemoGallery = () => {
         { id: "TXN-004", user: "Diana", amount: "$45.00", status: "Failed", date: "2023-10-17" },
         { id: "TXN-005", user: "Eve", amount: "$1,200.00", status: "Completed", date: "2023-10-18" }
     ];
+
+    return (
+        <div className="gallery-container">
+            <div className="gallery-header">
+                <h1>Explore Demo Datasets</h1>
