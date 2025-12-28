@@ -48,3 +48,6 @@ const DemoGallery = () => {
         <div className="gallery-container">
             <div className="gallery-header">
                 <h1>Explore Demo Datasets</h1>
+                <p>
+                    See Impactify in action. We've pre-analyzed some common global datasets 
+                    to showcase how our AI instantly visualizes data from plain English prompts.
