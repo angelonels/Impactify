@@ -51,3 +51,7 @@ const DemoGallery = () => {
                 <p>
                     See Impactify in action. We've pre-analyzed some common global datasets 
                     to showcase how our AI instantly visualizes data from plain English prompts.
+                </p>
+            </div>
+
+            <div className="gallery-grid">
