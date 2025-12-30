@@ -44,3 +44,6 @@
     border-radius: 24px;
     padding: 3rem;
     backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;

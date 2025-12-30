@@ -55,3 +55,6 @@ const DemoGallery = () => {
             </div>
 
             <div className="gallery-grid">
+                
+                {/* Card 1: Bar Chart */}
+                <div className="gallery-card">
