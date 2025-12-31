@@ -58,3 +58,7 @@ const DemoGallery = () => {
                 
                 {/* Card 1: Bar Chart */}
                 <div className="gallery-card">
+                    <h2 className="dataset-title">Global E-Commerce</h2>
+                    <div className="prompt-box">
+                        <span className="prompt-label">User Asked:</span>
+                        <p className="prompt-text">
