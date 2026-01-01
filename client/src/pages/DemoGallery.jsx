@@ -62,3 +62,6 @@ const DemoGallery = () => {
                     <div className="prompt-box">
                         <span className="prompt-label">User Asked:</span>
                         <p className="prompt-text">
+                            "Show me the top 5 countries by total online revenue as a bar chart."
+                        </p>
+                    </div>
