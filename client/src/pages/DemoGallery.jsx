@@ -65,3 +65,7 @@ const DemoGallery = () => {
                             "Show me the top 5 countries by total online revenue as a bar chart."
                         </p>
                     </div>
+                    <div className="chart-container">
+                        <BarChart 
+                            data={ecommerceData} 
+                            keys={['revenue']} 
