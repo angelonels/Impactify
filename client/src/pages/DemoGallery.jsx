@@ -69,3 +69,6 @@ const DemoGallery = () => {
                         <BarChart 
                             data={ecommerceData} 
                             keys={['revenue']} 
+                            indexBy="country" 
+                        />
+                    </div>
