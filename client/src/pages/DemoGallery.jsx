@@ -72,3 +72,7 @@ const DemoGallery = () => {
                             indexBy="country" 
                         />
                     </div>
+                    <div className="sql-box">
+                        <details>
+                            <summary className="sql-summary">View AI-Generated SQL</summary>
+                            <pre className="sql-code">
