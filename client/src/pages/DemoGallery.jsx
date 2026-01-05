@@ -76,3 +76,6 @@ const DemoGallery = () => {
                         <details>
                             <summary className="sql-summary">View AI-Generated SQL</summary>
                             <pre className="sql-code">
+{`SELECT country, SUM(revenue) as revenue
+FROM ecommerce_sales
+GROUP BY country
