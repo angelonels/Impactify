@@ -79,3 +79,7 @@ const DemoGallery = () => {
 {`SELECT country, SUM(revenue) as revenue
 FROM ecommerce_sales
 GROUP BY country
+ORDER BY revenue DESC
+LIMIT 5;`}
+                            </pre>
+                        </details>
