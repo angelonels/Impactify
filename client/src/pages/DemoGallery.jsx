@@ -83,3 +83,7 @@ ORDER BY revenue DESC
 LIMIT 5;`}
                             </pre>
                         </details>
+                    </div>
+                </div>
+
+                {/* Card 2: Line Chart */}
