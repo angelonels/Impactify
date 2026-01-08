@@ -87,3 +87,6 @@ LIMIT 5;`}
                 </div>
 
                 {/* Card 2: Line Chart */}
+                <div className="gallery-card">
+                    <h2 className="dataset-title">Platform Engagement</h2>
+                    <div className="prompt-box">
