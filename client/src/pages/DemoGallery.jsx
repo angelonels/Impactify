@@ -90,3 +90,7 @@ LIMIT 5;`}
                 <div className="gallery-card">
                     <h2 className="dataset-title">Platform Engagement</h2>
                     <div className="prompt-box">
+                        <span className="prompt-label">User Asked:</span>
+                        <p className="prompt-text">
+                            "Plot the growth of active users over the first six months as a line chart."
+                        </p>
