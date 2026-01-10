@@ -94,3 +94,6 @@ LIMIT 5;`}
                         <p className="prompt-text">
                             "Plot the growth of active users over the first six months as a line chart."
                         </p>
+                    </div>
+                    <div className="chart-container">
+                        <LineChart data={userGrowthData} xKey="month" yKey="users" />
