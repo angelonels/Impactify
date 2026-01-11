@@ -97,3 +97,7 @@ LIMIT 5;`}
                     </div>
                     <div className="chart-container">
                         <LineChart data={userGrowthData} xKey="month" yKey="users" />
+                    </div>
+                    <div className="sql-box">
+                        <details>
+                            <summary className="sql-summary">View AI-Generated SQL</summary>

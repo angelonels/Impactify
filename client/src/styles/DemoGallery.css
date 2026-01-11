@@ -78,3 +78,7 @@
     margin-bottom: 0.8rem;
     display: block;
 }
+
+.prompt-text {
+    font-size: 1.3rem;
+    font-style: italic;
