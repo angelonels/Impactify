@@ -101,3 +101,6 @@ LIMIT 5;`}
                     <div className="sql-box">
                         <details>
                             <summary className="sql-summary">View AI-Generated SQL</summary>
+                            <pre className="sql-code">
+{`SELECT month, active_users as users
+FROM platform_engagement
