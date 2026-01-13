@@ -104,3 +104,7 @@ LIMIT 5;`}
                             <pre className="sql-code">
 {`SELECT month, active_users as users
 FROM platform_engagement
+WHERE year = 2023 AND month_num <= 6
+ORDER BY month_num ASC;`}
+                            </pre>
+                        </details>

@@ -85,3 +85,6 @@
     color: #fff;
     margin: 0;
 }
+
+.chart-container {
+    height: 500px;
