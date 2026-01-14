@@ -108,3 +108,5 @@ WHERE year = 2023 AND month_num <= 6
 ORDER BY month_num ASC;`}
                             </pre>
                         </details>
+                    </div>
+                </div>
