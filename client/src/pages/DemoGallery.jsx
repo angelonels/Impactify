@@ -110,3 +110,8 @@ ORDER BY month_num ASC;`}
                         </details>
                     </div>
                 </div>
+
+                {/* Card 3: Pie Chart */}
+                <div className="gallery-card">
+                    <h2 className="dataset-title">Q3 Marketing Spends</h2>
+                    <div className="prompt-box">
