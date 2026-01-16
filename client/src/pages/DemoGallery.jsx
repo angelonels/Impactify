@@ -115,3 +115,6 @@ ORDER BY month_num ASC;`}
                 <div className="gallery-card">
                     <h2 className="dataset-title">Q3 Marketing Spends</h2>
                     <div className="prompt-box">
+                        <span className="prompt-label">User Asked:</span>
+                        <p className="prompt-text">
+                            "What is the percentage breakdown of our marketing budget as a pie chart?"
