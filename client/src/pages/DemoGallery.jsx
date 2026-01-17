@@ -118,3 +118,7 @@ ORDER BY month_num ASC;`}
                         <span className="prompt-label">User Asked:</span>
                         <p className="prompt-text">
                             "What is the percentage breakdown of our marketing budget as a pie chart?"
+                        </p>
+                    </div>
+                    <div className="chart-container">
+                        <PieChart data={budgetData} idKey="channel" valueKey="spend" />
