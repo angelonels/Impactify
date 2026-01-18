@@ -122,3 +122,6 @@ ORDER BY month_num ASC;`}
                     </div>
                     <div className="chart-container">
                         <PieChart data={budgetData} idKey="channel" valueKey="spend" />
+                    </div>
+                    <div className="sql-box">
+                        <details>
