@@ -102,3 +102,6 @@
     padding: 1rem;
     border-radius: 12px;
 }
+
+.sql-summary {
+    cursor: pointer;

@@ -125,3 +125,7 @@ ORDER BY month_num ASC;`}
                     </div>
                     <div className="sql-box">
                         <details>
+                            <summary className="sql-summary">View AI-Generated SQL</summary>
+                            <pre className="sql-code">
+{`SELECT channel, ROUND((spend / total_budget) * 100) as spend
+FROM marketing_q3
