@@ -105,3 +105,6 @@
 
 .sql-summary {
     cursor: pointer;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+    transition: color 0.3s ease;

@@ -129,3 +129,6 @@ ORDER BY month_num ASC;`}
                             <pre className="sql-code">
 {`SELECT channel, ROUND((spend / total_budget) * 100) as spend
 FROM marketing_q3
+GROUP BY channel;`}
+                            </pre>
+                        </details>
