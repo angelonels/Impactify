@@ -132,3 +132,7 @@ FROM marketing_q3
 GROUP BY channel;`}
                             </pre>
                         </details>
+                    </div>
+                </div>
+
+                {/* Card 4: Table Chart (Fallback) */}
