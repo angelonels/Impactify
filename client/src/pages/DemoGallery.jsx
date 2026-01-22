@@ -136,3 +136,6 @@ GROUP BY channel;`}
                 </div>
 
                 {/* Card 4: Table Chart (Fallback) */}
+                <div className="gallery-card">
+                    <h2 className="dataset-title">Recent Transactions</h2>
+                    <div className="prompt-box">
