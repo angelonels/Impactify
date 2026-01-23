@@ -139,3 +139,7 @@ GROUP BY channel;`}
                 <div className="gallery-card">
                     <h2 className="dataset-title">Recent Transactions</h2>
                     <div className="prompt-box">
+                        <span className="prompt-label">User Asked:</span>
+                        <p className="prompt-text">
+                            "Show me the latest 5 transactions in a table."
+                        </p>
