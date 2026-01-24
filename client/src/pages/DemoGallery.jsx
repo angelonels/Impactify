@@ -143,3 +143,6 @@ GROUP BY channel;`}
                         <p className="prompt-text">
                             "Show me the latest 5 transactions in a table."
                         </p>
+                    </div>
+                    <div className="chart-container" style={{ overflowY: 'auto', padding: '0', background: 'transparent' }}>
+                        <TableChart data={tableData} />
