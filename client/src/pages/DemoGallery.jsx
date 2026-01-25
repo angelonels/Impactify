@@ -146,3 +146,7 @@ GROUP BY channel;`}
                     </div>
                     <div className="chart-container" style={{ overflowY: 'auto', padding: '0', background: 'transparent' }}>
                         <TableChart data={tableData} />
+                    </div>
+                    <div className="sql-box">
+                         <details>
+                            <summary className="sql-summary">View AI-Generated SQL</summary>
