@@ -150,3 +150,6 @@ GROUP BY channel;`}
                     <div className="sql-box">
                          <details>
                             <summary className="sql-summary">View AI-Generated SQL</summary>
+                            <pre className="sql-code">
+{`SELECT id, user, amount, status, date
+FROM transactions

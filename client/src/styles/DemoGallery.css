@@ -122,3 +122,6 @@
     overflow-x: auto;
     padding: 1rem;
     background: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    white-space: pre-wrap;
+    font-family: monospace;
