@@ -125,3 +125,6 @@
     border-radius: 8px;
     white-space: pre-wrap;
     font-family: monospace;
+}
+
+@media (max-width: 768px) {

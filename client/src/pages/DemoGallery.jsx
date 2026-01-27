@@ -153,3 +153,7 @@ GROUP BY channel;`}
                             <pre className="sql-code">
 {`SELECT id, user, amount, status, date
 FROM transactions
+ORDER BY created_at DESC
+LIMIT 5;`}
+                            </pre>
+                        </details>
