@@ -49,7 +49,14 @@ const Upload = () => {
         try {
 
 
-            const apiUrl = import.meta.env.VITE_API_URL.replace(/\/$/, '');
+            // const apiUrl = import.meta.env.VITE_API_URL.replace(/\/$/, '');
+
+            const apiUrl = (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/$/, '')
+
+            if (!apiUrl) {
+            console.warn("VITE_API_URL is missing in .env file, upload might fail.")
+        }
+
             const response = await fetch(`${apiUrl}/api/dataset/upload`, {
                 method: 'POST',
                 headers: {},
