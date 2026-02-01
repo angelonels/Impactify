@@ -131,3 +131,6 @@
     .gallery-grid {
         grid-template-columns: 1fr;
     }
+    .gallery-header h1 {
+        font-size: 2.5rem;
+    }

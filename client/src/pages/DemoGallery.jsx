@@ -159,3 +159,8 @@ LIMIT 5;`}
                         </details>
                     </div>
                 </div>
+
+            </div>
+        </div>
+    );
+};
