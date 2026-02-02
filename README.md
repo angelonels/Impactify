@@ -1,4 +1,4 @@
-<h1 align="center">📊 Impactify — Your AI-Powered Data Analyst</h1>
+<h1 align="center"> Impactify — Your AI-Powered Data Analyst</h1>
 <p align="center">
   <img src="https://media.giphy.com/media/qgQUggAC3Pfv687qPC/giphy.gif" width="400" alt="AI animation" />
 </p>
@@ -52,60 +52,60 @@ Users can <b>upload datasets</b> and <b>ask questions in plain English</b> — I
 
 <div align="center">
 
-| 🔹  | Section                                               | Description                                     |
+|     | Section                                               | Description                                     |
 | :-: | :---------------------------------------------------- | :---------------------------------------------- |
-| 1️⃣  | [✨ **Overview**](#-overview)                         | Learn what this project is all about            |
-| 2️⃣  | [🚀 **Key Features**](#-key-features)                 | Explore the unique and powerful functionalities |
-| 3️⃣  | [🧩 **Tech Stack**](#-tech-stack)                     | Discover the technologies powering this project |
-| 4️⃣  | [🛠️ **Installation & Setup**](#️-installation--setup) | How to run the project locally                  |
-| 5️⃣  | [💡 **Usage Guide**](#-usage-guide)                   | Step-by-step guide to using the app             |
-| 6️⃣  | [🧑‍💻 **Our Team**](#our-team)                          | Meet the developers behind the project          |
+| 1️⃣  | [ **Overview**](#-overview)                         | Learn what this project is all about            |
+| 2️⃣  | [ **Key Features**](#-key-features)                 | Explore the unique and powerful functionalities |
+| 3️⃣  | [ **Tech Stack**](#-tech-stack)                     | Discover the technologies powering this project |
+| 4️⃣  | [ **Installation & Setup**](#️-installation--setup) | How to run the project locally                  |
+| 5️⃣  | [ **Usage Guide**](#-usage-guide)                   | Step-by-step guide to using the app             |
+| 6️⃣  | [ **Our Team**](#our-team)                          | Meet the developers behind the project          |
 
 </div>
 
 ---
 
-## ✨ Overview
+##  Overview
 
 **Impactify** is a next-generation data analysis platform designed to simplify how people interact with data.  
 Instead of learning SQL or data visualization tools, users can **ask questions in natural language**.  
 The backend then securely converts these questions into SQL queries and visualizes the results dynamically.
 
-### 🎯 Mission
+### Mission
 
 > To make data-driven decision-making accessible to everyone — not just data scientists.
 
 ---
 
-## 🚀 Key Features
+##  Key Features
 
-### 1. 🧾 Seamless File Ingestion
+### 1. Seamless File Ingestion
 
 - **Drag & Drop Upload:** Easily upload CSV files.
 - **Automatic Schema Detection:** The system automatically detects columns and data types.
 - **Robust Error Handling:** Automatically fixes common CSV issues like conflicting IDs.
 
-### 2. 💬 Natural Language → SQL
+### 2. Natural Language → SQL
 
 - **AI-Powered:** Uses Google Gemini to translate plain English into optimized SQL queries.
 - **Example:** _“Show me the top 10 customers by sales last quarter as a bar chart.”_
 - **Secure:** Queries are generated and executed safely on your private dataset table.
 
-### 3. 📊 AI-Driven Visualization Workbench
+### 3.  AI-Driven Visualization Workbench
 
 - **Dynamic Charts:** Automatically selects the best chart type (Bar, Line, Pie) based on your data.
 - **Interactive:** Hover over data points for details.
 - **Table View:** View raw data in a clean, paginated table.
 - **SQL Transparency:** View the generated SQL query for verification.
 
-### 4. 🔓 Frictionless Access
+### 4.  Frictionless Access
 
 - **No Login Required:** Start analyzing immediately as a guest.
 - **Privacy Focused:** Your data is isolated and secure.
 
 ---
 
-## 🧩 Tech Stack
+##  Tech Stack
 
 | Layer          | Technologies                                                    |
 | -------------- | --------------------------------------------------------------- |
@@ -117,7 +117,7 @@ The backend then securely converts these questions into SQL queries and visualiz
 
 ---
 
-## 🛠️ Installation & Setup
+## Installation & Setup
 
 Follow these steps to run Impactify on your local machine.
 
@@ -187,7 +187,7 @@ Visit `http://localhost:5173` in your browser!
 
 ---
 
-## 💡 Usage Guide
+## Usage Guide
 
 1.  **Upload Data:** Go to the Upload page and drag & drop your CSV file.
 2.  **Analyze:** You will be redirected to the Workbench.
@@ -203,7 +203,7 @@ Visit `http://localhost:5173` in your browser!
 
 ## ☕ Team CodeBrewers
 
-### 🧑‍💻 Our Team
+###  Our Team
 
 Thanks to these amazing people for contributing to **Impactify** 🔥
 
