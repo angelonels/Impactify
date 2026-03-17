@@ -164,3 +164,5 @@ LIMIT 5;`}
         </div>
     );
 };
+
+export default DemoGallery;
