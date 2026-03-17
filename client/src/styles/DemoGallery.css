@@ -39,11 +39,12 @@
 }
 
 .gallery-card {
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(10, 10, 10, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 24px;
     padding: 3rem;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
