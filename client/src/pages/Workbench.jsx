@@ -55,7 +55,19 @@ const Workbench = () => {
     }
   };
 
+  const handleCopySQL = async () => {
+    if (!results?.config?.sql) return;
+    try {
+      await navigator.clipboard.writeText(results.config.sql);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
   const renderVisualization = () => {
+
     if (!results || !results.data || results.data.length === 0) return null;
 
     const { config, data } = results;
