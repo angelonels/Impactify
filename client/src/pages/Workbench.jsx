@@ -12,6 +12,8 @@ const Workbench = () => {
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [copied, setCopied] = useState(false);
+
 
   const handleQuerySubmit = async (inputQuery) => {
     if (!inputQuery.trim()) return;
