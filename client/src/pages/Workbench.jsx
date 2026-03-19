@@ -173,9 +173,20 @@ const Workbench = () => {
             {renderVisualization()}
           </div>
           
-          <div className="bg-black/30 border border-white/10 p-4 rounded-xl">
-             <details>
-                <summary className="cursor-pointer text-gray-500 text-sm hover:text-gray-300">View SQL Query</summary>
+          <div className="bg-black/30 border border-white/10 p-4 rounded-xl relative group">
+             <details className="w-full">
+                <summary className="cursor-pointer text-gray-500 text-sm hover:text-gray-300 list-none flex items-center justify-between">
+                    <span>View SQL Query</span>
+                    <button 
+                        onClick={(e) => {
+                            e.preventDefault();
+                            handleCopySQL();
+                        }}
+                        className="text-xs bg-white/5 hover:bg-white/10 text-gray-400 px-2 py-1 rounded transition-colors"
+                    >
+                        {copied ? 'Copied!' : 'Copy SQL'}
+                    </button>
+                </summary>
                 <pre className="mt-2 text-xs text-green-400 overflow-x-auto p-2 bg-black/50 rounded">
                     {results.config.sql}
                 </pre>
