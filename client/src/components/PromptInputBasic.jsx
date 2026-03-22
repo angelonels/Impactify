@@ -71,7 +71,7 @@ const Button = ({ variant = "default", size = "default", className, children, ..
     ghost: "hover:bg-gray-100 text-gray-600",
     icon: "p-0 flex items-center justify-center",
   };
-  
+
   return (
     <button
       className={cn(
@@ -95,23 +95,23 @@ export function PromptInputBasic({ onSubmit }) { // Added onSubmit prop to lift 
   // If the parent passes an onSubmit handler, use it. Otherwise use local simulation.
   const handleSubmit = () => {
     if (!input.trim()) return;
-    
+
     setIsLoading(true);
-    
+
     if (onSubmit) {
-        // If parent provided onSubmit, await it (if promise) or just run it
-        Promise.resolve(onSubmit(input)).then(() => {
-            setIsLoading(false);
-            setInput("");
-        }).catch(() => {
-            setIsLoading(false);
-        });
+      // If parent provided onSubmit, await it (if promise) or just run it
+      Promise.resolve(onSubmit(input)).then(() => {
+        setIsLoading(false);
+        setInput("");
+      }).catch(() => {
+        setIsLoading(false);
+      });
     } else {
-        // Local simulation as per user request code
-        setTimeout(() => {
-            setIsLoading(false);
-            setInput("");
-        }, 2000);
+      // Local simulation as per user request code
+      setTimeout(() => {
+        setIsLoading(false);
+        setInput("");
+      }, 2000);
     }
   };
 

@@ -4,7 +4,8 @@ import { PromptInputBasic } from '../components/PromptInputBasic';
 import BarChart from '../components/charts/BarChart';
 import LineChart from '../components/charts/LineChart';
 import PieChart from '../components/charts/PieChart';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { AlertCircle, X } from 'lucide-react';
 
 const Workbench = () => {
   const { id } = useParams();
@@ -12,12 +13,10 @@ const Workbench = () => {
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [copied, setCopied] = useState(false);
-
 
   const handleQuerySubmit = async (inputQuery) => {
     if (!inputQuery.trim()) return;
-    
+
     setLoading(true);
     setError(null);
     setQuery(inputQuery);
@@ -55,19 +54,7 @@ const Workbench = () => {
     }
   };
 
-  const handleCopySQL = async () => {
-    if (!results?.config?.sql) return;
-    try {
-      await navigator.clipboard.writeText(results.config.sql);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error('Failed to copy text: ', err);
-    }
-  };
-
   const renderVisualization = () => {
-
     if (!results || !results.data || results.data.length === 0) return null;
 
     const { config, data } = results;
@@ -100,7 +87,7 @@ const Workbench = () => {
       case 'pie':
         return (
           <div className="h-[500px] w-full bg-white/5 rounded-xl p-4 border border-white/10">
-             <PieChart data={data} idKey={indexBy} valueKey={barKeys[0]} />
+            <PieChart data={data} idKey={indexBy} valueKey={barKeys[0]} />
           </div>
         );
       case 'table':
@@ -149,11 +136,34 @@ const Workbench = () => {
         </div>
       )}
 
-      {error && (
-        <div className="text-center text-red-400 bg-red-400/10 p-4 rounded-xl border border-red-400/20 max-w-2xl mx-auto">
-          {error}
-        </div>
-      )}
+      <AnimatePresence>
+        {error && (
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ 
+              opacity: 1, 
+              x: [0, -10, 10, -10, 10, 0],
+              transition: { duration: 0.5 }
+            }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="flex items-center gap-4 text-red-400 bg-red-400/10 backdrop-blur-md p-4 rounded-2xl border border-red-400/20 max-w-2xl mx-auto mb-12"
+          >
+            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-400/20 flex items-center justify-center">
+              <AlertCircle className="w-6 h-6" />
+            </div>
+            <div className="flex-grow">
+              <h4 className="font-semibold text-red-200">Analysis Error</h4>
+              <p className="text-sm opacity-80">{error}</p>
+            </div>
+            <button 
+              onClick={() => setError(null)}
+              className="p-2 hover:bg-white/5 rounded-full transition-colors"
+            >
+              <X className="w-5 h-5 opacity-50 hover:opacity-100" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {results && (
         <motion.div
@@ -172,25 +182,14 @@ const Workbench = () => {
             <h2 className="text-2xl font-bold text-white">Results</h2>
             {renderVisualization()}
           </div>
-          
-          <div className="bg-black/30 border border-white/10 p-4 rounded-xl relative group">
-             <details className="w-full">
-                <summary className="cursor-pointer text-gray-500 text-sm hover:text-gray-300 list-none flex items-center justify-between">
-                    <span>View SQL Query</span>
-                    <button 
-                        onClick={(e) => {
-                            e.preventDefault();
-                            handleCopySQL();
-                        }}
-                        className="text-xs bg-white/5 hover:bg-white/10 text-gray-400 px-2 py-1 rounded transition-colors"
-                    >
-                        {copied ? 'Copied!' : 'Copy SQL'}
-                    </button>
-                </summary>
-                <pre className="mt-2 text-xs text-green-400 overflow-x-auto p-2 bg-black/50 rounded">
-                    {results.config.sql}
-                </pre>
-             </details>
+
+          <div className="bg-black/30 border border-white/10 p-4 rounded-xl">
+            <details>
+              <summary className="cursor-pointer text-gray-500 text-sm hover:text-gray-300">View SQL Query</summary>
+              <pre className="mt-2 text-xs text-green-400 overflow-x-auto p-2 bg-black/50 rounded">
+                {results.config.sql}
+              </pre>
+            </details>
           </div>
         </motion.div>
       )}
