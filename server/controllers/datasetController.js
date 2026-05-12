@@ -87,15 +87,35 @@ exports.analyzeQuery = async (req, res) => {
       where: { id: datasetId },
     });
     if (!dataset) return res.status(404).json({ error: "Dataset not found" });
-    // if (dataset.userId !== req.user.id) return res.status(403).json({ error: "Unauthorized" });
 
     const aiConfig = await aiService.generateQuery(datasetId, query);
 
-    const { rows } = await pool.query(aiConfig.sql);
+    let { rows } = await pool.query(aiConfig.sql);
 
-    res.json({ data: coerceNumericValues(rows), config: aiConfig });
+    // If the AI query returned no rows, fall back to a raw table preview.
+    // This happens when the user's dataset has sparse/null data and the AI
+    // generates over-restrictive WHERE clauses.
+    let emptyResult = false;
+    let fallbackMessage = null;
+    if (!rows || rows.length === 0) {
+      emptyResult = true;
+      fallbackMessage = "The query returned no results — here's a preview of your data instead.";
+      const fallback = await pool.query(
+        `SELECT * FROM ${dataset.tableName} LIMIT 50`
+      );
+      rows = fallback.rows;
+      aiConfig.chartType = "table"; // table is the only sensible fallback
+    }
+
+    res.json({
+      data: coerceNumericValues(rows),
+      config: aiConfig,
+      emptyResult,
+      fallbackMessage,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error.message });
   }
 };
+
