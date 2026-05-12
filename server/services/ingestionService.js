@@ -11,10 +11,13 @@ const sanitizeHeader = (header) => {
     .replace(/[^a-z0-9]/g, "_"); // Replace non-alphanumeric chars with underscores
 };
 
-// To prevent single quote errors in SQL
-const escapeSqlString = (value) => {
+// Sanitize a cell value for SQL insertion.
+// Empty or whitespace-only strings become NULL so that IS NOT NULL filters work correctly.
+const sanitizeValue = (value) => {
   if (value === null || value === undefined) return null;
-  return value.replace(/'/g, "''");
+  const trimmed = String(value).trim();
+  if (trimmed === '') return null;          // treat blank cells as NULL
+  return trimmed.replace(/'/g, "''");       // escape single quotes
 };
 
 // Parses Csv and returns headers and rows
@@ -80,17 +83,13 @@ exports.ingestFile = async (filePath, userId, originalName) => {
     let batchValues = [];
 
     for (const row of rows) {
-      // Get values in the same order as headers
-      // We explicitly map using the original headers to ensure order matches safeHeaders
-      const rawValues = headers.map((header) => row[header]);
-
-      // Clean the values (escape quotes)
-      const escapedValues = rawValues.map(escapeSqlString);
-
-      // Format for SQL: NULL if empty, otherwise wrap in single quotes
-      const sqlRow = escapedValues
-        .map((val) => (val === null ? "NULL" : `'${val}'`))
-        .join(", ");
+      // Map original headers -> sanitized values in safeHeaders order
+      const sqlRow = headers
+        .map((header) => {
+          const sanitized = sanitizeValue(row[header]);
+          return sanitized === null ? 'NULL' : `'${sanitized}'`;
+        })
+        .join(', ');
 
       batchValues.push(`(${sqlRow})`);
 
