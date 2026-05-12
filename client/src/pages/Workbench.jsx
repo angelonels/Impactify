@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { PromptInputBasic } from '../components/PromptInputBasic';
-import BarChart from '../components/charts/BarChart';
-import LineChart from '../components/charts/LineChart';
-import PieChart from '../components/charts/PieChart';
+import VizRenderer from '../components/VizRenderer';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AlertCircle, X } from 'lucide-react';
+import '../styles/Workbench.css';
 
 const Workbench = () => {
   const { id } = useParams();
@@ -22,13 +21,10 @@ const Workbench = () => {
     setQuery(inputQuery);
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL.replace(/\/$/, '');
+      const apiUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/$/, '');
       const response = await fetch(`${apiUrl}/api/dataset/analyze`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // 'Authorization': `Bearer ${localStorage.getItem('token')}` // Auth removed for now
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ datasetId: id, query: inputQuery }),
       });
 
@@ -37,8 +33,10 @@ const Workbench = () => {
       try {
         data = JSON.parse(responseText);
       } catch (e) {
-        console.error("Non-JSON Response:", responseText);
-        throw new Error(`Server returned non-JSON response (${response.status} ${response.statusText}): ${responseText.substring(0, 100)}...`);
+        console.error('Non-JSON Response:', responseText);
+        throw new Error(
+          `Server returned non-JSON response (${response.status} ${response.statusText}): ${responseText.substring(0, 100)}...`
+        );
       }
 
       if (response.ok) {
@@ -54,112 +52,48 @@ const Workbench = () => {
     }
   };
 
-  const renderVisualization = () => {
-    if (!results || !results.data || results.data.length === 0) return null;
-
-    const { config, data } = results;
-    const chartType = config.chartType;
-
-    // Helper to find keys
-    const keys = Object.keys(data[0]);
-    const stringKeys = keys.filter(k => typeof data[0][k] === 'string');
-    const numberKeys = keys.filter(k => typeof data[0][k] === 'number');
-
-    // Default heuristics
-    const indexBy = stringKeys.length > 0 ? stringKeys[0] : keys[0];
-    const xKey = indexBy;
-    const yKey = numberKeys.length > 0 ? numberKeys[0] : keys[1] || keys[0];
-    const barKeys = numberKeys.length > 0 ? numberKeys : [keys[1]];
-
-    switch (chartType) {
-      case 'bar':
-        return (
-          <div className="h-[500px] w-full bg-white/5 rounded-xl p-4 border border-white/10">
-            <BarChart data={data} keys={barKeys} indexBy={indexBy} />
-          </div>
-        );
-      case 'line':
-        return (
-          <div className="h-[500px] w-full bg-white/5 rounded-xl p-4 border border-white/10">
-            <LineChart data={data} xKey={xKey} yKey={yKey} />
-          </div>
-        );
-      case 'pie':
-        return (
-          <div className="h-[500px] w-full bg-white/5 rounded-xl p-4 border border-white/10">
-            <PieChart data={data} idKey={indexBy} valueKey={barKeys[0]} />
-          </div>
-        );
-      case 'table':
-      default:
-        return (
-          <div className="overflow-x-auto bg-white/5 rounded-xl border border-white/10">
-            <table className="w-full text-left text-sm text-gray-300">
-              <thead className="bg-white/10 text-xs uppercase text-white">
-                <tr>
-                  {keys.map((key) => (
-                    <th key={key} className="px-6 py-3">{key}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {data.map((row, i) => (
-                  <tr key={i} className="border-b border-white/5 hover:bg-white/5">
-                    {keys.map((key) => (
-                      <td key={key} className="px-6 py-4">{row[key]}</td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        );
-    }
-  };
-
   return (
-    <div className="min-h-screen pt-24 px-4 pb-12 max-w-7xl mx-auto">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-white mb-4">Analysis Workbench</h1>
-        <p className="text-gray-400 max-w-2xl mx-auto">
-          Ask questions about your data in plain English. Impactify will generate SQL queries and visualizations for you.
+    <div className="workbench-container">
+      <div className="workbench-header">
+        <h1>Analysis Workbench</h1>
+        <p>
+          Ask questions about your data in plain English. Impactify will
+          generate SQL queries and visualizations for you.
         </p>
       </div>
 
-      <div className="max-w-3xl mx-auto mb-12">
+      <div className="workbench-prompt-wrapper">
         <PromptInputBasic onSubmit={handleQuerySubmit} />
       </div>
 
       {loading && (
-        <div className="text-center text-white animate-pulse">
-          Analyzing your data...
-        </div>
+        <div className="workbench-loading">Analyzing your data...</div>
       )}
 
       <AnimatePresence>
         {error && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -20 }}
-            animate={{ 
-              opacity: 1, 
+            animate={{
+              opacity: 1,
               x: [0, -10, 10, -10, 10, 0],
-              transition: { duration: 0.5 }
+              transition: { duration: 0.5 },
             }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="flex items-center gap-4 text-red-400 bg-red-400/10 backdrop-blur-md p-4 rounded-2xl border border-red-400/20 max-w-2xl mx-auto mb-12"
+            className="workbench-error"
           >
-            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-400/20 flex items-center justify-center">
-              <AlertCircle className="w-6 h-6" />
+            <div className="workbench-error-icon">
+              <AlertCircle style={{ width: 24, height: 24 }} />
             </div>
-            <div className="flex-grow">
-              <h4 className="font-semibold text-red-200">Analysis Error</h4>
-              <p className="text-sm opacity-80">{error}</p>
+            <div className="workbench-error-body">
+              <h4>Analysis Error</h4>
+              <p>{error}</p>
             </div>
-            <button 
+            <button
+              className="workbench-error-dismiss"
               onClick={() => setError(null)}
-              className="p-2 hover:bg-white/5 rounded-full transition-colors"
             >
-              <X className="w-5 h-5 opacity-50 hover:opacity-100" />
+              <X style={{ width: 20, height: 20 }} />
             </button>
           </motion.div>
         )}
@@ -169,25 +103,30 @@ const Workbench = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="space-y-8"
+          className="workbench-results"
         >
-          {results.config.overview && (
-            <div className="bg-indigo-500/10 border border-indigo-500/20 p-6 rounded-xl">
-              <h3 className="text-indigo-400 font-semibold mb-2">Insight</h3>
-              <p className="text-gray-300">{results.config.overview}</p>
+          {results.config?.overview && (
+            <div className="workbench-insight">
+              <h3>Insight</h3>
+              <p>{results.config.overview}</p>
             </div>
           )}
 
-          <div className="space-y-4">
-            <h2 className="text-2xl font-bold text-white">Results</h2>
-            {renderVisualization()}
+          <div className="workbench-chart-section">
+            <h2>Results</h2>
+            <div className="workbench-chart-wrapper">
+              <VizRenderer
+                data={results.data}
+                chartType={results.config?.chartType}
+              />
+            </div>
           </div>
 
-          <div className="bg-black/30 border border-white/10 p-4 rounded-xl">
+          <div className="workbench-sql-box">
             <details>
-              <summary className="cursor-pointer text-gray-500 text-sm hover:text-gray-300">View SQL Query</summary>
-              <pre className="mt-2 text-xs text-green-400 overflow-x-auto p-2 bg-black/50 rounded">
-                {results.config.sql}
+              <summary>View SQL Query</summary>
+              <pre className="workbench-sql-code">
+                {results.config?.sql}
               </pre>
             </details>
           </div>
@@ -198,3 +137,4 @@ const Workbench = () => {
 };
 
 export default Workbench;
+

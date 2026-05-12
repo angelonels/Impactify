@@ -1,0 +1,195 @@
+.workbench-container {
+    min-height: 100vh;
+    padding-top: 120px;
+    padding-bottom: 60px;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.workbench-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.workbench-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 1rem;
+    background: linear-gradient(to right, #ffffff, #a0a0a0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.workbench-header p {
+    color: rgba(255, 255, 255, 0.5);
+    max-width: 640px;
+    margin: 0 auto;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+.workbench-prompt-wrapper {
+    max-width: 768px;
+    margin: 0 auto 3rem auto;
+}
+
+.workbench-loading {
+    text-align: center;
+    color: #fff;
+    font-size: 1rem;
+    padding: 2rem 0;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Error banner */
+.workbench-error {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: #f87171;
+    background: rgba(248, 113, 113, 0.1);
+    backdrop-filter: blur(12px);
+    padding: 1rem 1.5rem;
+    border-radius: 16px;
+    border: 1px solid rgba(248, 113, 113, 0.2);
+    max-width: 640px;
+    margin: 0 auto 3rem auto;
+}
+
+.workbench-error-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(248, 113, 113, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.workbench-error-body {
+    flex-grow: 1;
+}
+
+.workbench-error-body h4 {
+    font-weight: 600;
+    color: #fca5a5;
+    margin: 0 0 0.25rem 0;
+    font-size: 0.95rem;
+}
+
+.workbench-error-body p {
+    margin: 0;
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.workbench-error-dismiss {
+    background: transparent;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 50%;
+    color: rgba(248, 113, 113, 0.5);
+    transition: all 0.2s ease;
+}
+
+.workbench-error-dismiss:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(248, 113, 113, 1);
+}
+
+/* Results area */
+.workbench-results {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.workbench-insight {
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    padding: 1.5rem;
+    border-radius: 16px;
+}
+
+.workbench-insight h3 {
+    color: #818cf8;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+}
+
+.workbench-insight p {
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Chart wrapper */
+.workbench-chart-section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.workbench-chart-wrapper {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 1.5rem;
+    backdrop-filter: blur(8px);
+}
+
+/* SQL accordion */
+.workbench-sql-box {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 12px;
+}
+
+.workbench-sql-box summary {
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.85rem;
+    transition: color 0.3s ease;
+    user-select: none;
+}
+
+.workbench-sql-box summary:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.workbench-sql-code {
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    color: #4ade80;
+    overflow-x: auto;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    white-space: pre-wrap;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+}
+
+@media (max-width: 768px) {
+    .workbench-container {
+        padding-top: 100px;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .workbench-header h1 {
+        font-size: 2rem;
+    }
+}
