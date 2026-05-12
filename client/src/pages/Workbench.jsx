@@ -114,10 +114,24 @@ const Workbench = () => {
 
           <div className="workbench-chart-section">
             <h2>Results</h2>
+            {results.emptyResult && results.fallbackMessage && (
+              <div style={{
+                marginBottom: '1rem',
+                padding: '0.75rem 1.25rem',
+                borderRadius: '10px',
+                background: 'rgba(251, 191, 36, 0.08)',
+                border: '1px solid rgba(251, 191, 36, 0.25)',
+                color: 'rgba(251, 191, 36, 0.9)',
+                fontSize: '0.88rem',
+              }}>
+                ⚠ {results.fallbackMessage}
+              </div>
+            )}
             <div className="workbench-chart-wrapper">
               <VizRenderer
                 data={results.data}
                 chartType={results.config?.chartType}
+                emptyMessage={results.fallbackMessage}
               />
             </div>
           </div>
