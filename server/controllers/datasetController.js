@@ -4,6 +4,36 @@ const aiService = require("../services/aiService");
 const pool = require("../config/pg");
 const prisma = require("../config/db");
 
+/**
+ * Coerces stringified numeric values from PostgreSQL into actual JS numbers.
+ *
+ * The node-postgres driver returns bigint, numeric, and aggregate results
+ * (SUM, COUNT, AVG) as strings to avoid floating-point precision loss.
+ * This is correct behavior for the driver, but it breaks every frontend
+ * chart component that relies on `typeof value === 'number'` to detect
+ * which columns are plottable axes vs. category labels.
+ *
+ * @param {Object[]} rows - Raw rows from pg query result.
+ * @returns {Object[]} Rows with numeric strings parsed into JS numbers.
+ */
+const coerceNumericValues = (rows) => {
+  if (!rows || rows.length === 0) return rows;
+
+  return rows.map((row) => {
+    const coerced = {};
+    for (const [key, value] of Object.entries(row)) {
+      if (value === null || value === undefined) {
+        coerced[key] = value;
+      } else if (typeof value === "string" && value.trim() !== "" && !isNaN(value)) {
+        coerced[key] = Number(value);
+      } else {
+        coerced[key] = value;
+      }
+    }
+    return coerced;
+  });
+};
+
 exports.uploadDataset = async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: "No file uploaded" });
@@ -63,7 +93,7 @@ exports.analyzeQuery = async (req, res) => {
 
     const { rows } = await pool.query(aiConfig.sql);
 
-    res.json({ data: rows, config: aiConfig });
+    res.json({ data: coerceNumericValues(rows), config: aiConfig });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error.message });
