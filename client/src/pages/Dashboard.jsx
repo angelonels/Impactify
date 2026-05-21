@@ -39,6 +39,27 @@ const Dashboard = () => {
         try { return new Date(iso).toLocaleDateString(); } catch { return iso; }
     };
 
+    /**
+     * Turn a raw upload filename into a clean human title.
+     *  "sales_sample.csv"     → "Sales Sample"
+     *  "Customer-Churn.xlsx"  → "Customer Churn"
+     *  "Q4 KPIs"              → "Q4 KPIs" (untouched)
+     */
+    const prettyName = (raw) => {
+        if (!raw) return 'Untitled dataset';
+        let name = String(raw).trim();
+        name = name.replace(/\.(csv|xlsx|xls|tsv|json|txt)$/i, '');
+        const messy = /[_\-.]|^[a-z]/.test(name) && !/\s/.test(name);
+        if (messy) {
+            name = name.replace(/[_\-.]+/g, ' ').replace(/\s+/g, ' ').trim();
+            name = name
+                .split(' ')
+                .map((w) => w.length > 0 ? w[0].toUpperCase() + w.slice(1) : w)
+                .join(' ');
+        }
+        return name || 'Untitled dataset';
+    };
+
     const submitRename = async (newName) => {
         if (!renaming || newName === renaming.datasetName) {
             setRenaming(null);
@@ -159,11 +180,11 @@ const Dashboard = () => {
                                     </span>
                                 </div>
 
-                                <h3 className="dataset-card-title">{dataset.datasetName}</h3>
+                                <h3 className="dataset-card-title">{prettyName(dataset.datasetName)}</h3>
+                                <p className="dataset-card-filename">{dataset.datasetName}</p>
 
                                 <div className="dataset-card-meta">
                                     <span><Calendar size={13} /> {formatDate(dataset.createdAt)}</span>
-                                    <span className="dataset-card-meta-table"><Activity size={13} /> {dataset.tableName}</span>
                                 </div>
 
                                 <div className="dataset-card-actions">

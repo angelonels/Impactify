@@ -72,6 +72,17 @@
 }
 .dataset-card-link:hover .dataset-card-title { color: #c7d2fe; }
 
+.dataset-card-filename {
+    margin: 0 0 0.5rem;
+    font-size: 0.72rem;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    color: var(--fg);
+    opacity: 0.45;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .dataset-card-meta {
     display: flex;
     flex-wrap: wrap;
