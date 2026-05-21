@@ -1,26 +1,28 @@
 const fs = require("fs");
+const path = require("path");
 const csv = require("csv-parser");
+const XLSX = require("xlsx");
 const pool = require("../config/pg");
 const prisma = require("../config/db");
 
-// Funtion to properly clean and format column name for use
+// Postgres caps parameters per query at 65535; stay well below.
+const MAX_PARAMS_PER_INSERT = 30000;
+
 const sanitizeHeader = (header) => {
   return header
     .trim()
     .toLowerCase()
-    .replace(/[^a-z0-9]/g, "_"); // Replace non-alphanumeric chars with underscores
+    .replace(/[^a-z0-9]/g, "_");
 };
 
-// Sanitize a cell value for SQL insertion.
-// Empty or whitespace-only strings become NULL so that IS NOT NULL filters work correctly.
-const sanitizeValue = (value) => {
+// Normalize a cell value: blank strings → NULL so IS NOT NULL filters work.
+const normalizeCell = (value) => {
   if (value === null || value === undefined) return null;
   const trimmed = String(value).trim();
-  if (trimmed === '') return null;          // treat blank cells as NULL
-  return trimmed.replace(/'/g, "''");       // escape single quotes
+  return trimmed === "" ? null : trimmed;
 };
 
-// Parses Csv and returns headers and rows
+// Parses CSV and returns sanitized headers + rows (rows keyed by ORIGINAL header).
 const parseCsvFile = (filePath) => {
   return new Promise((resolve, reject) => {
     const rows = [];
@@ -37,10 +39,40 @@ const parseCsvFile = (filePath) => {
       .on("end", () => {
         resolve({ headers, rows });
       })
-      .on("error", (error) => {
-        reject(error);
-      });
+      .on("error", reject);
   });
+};
+
+// Parses XLSX. Uses the first non-empty sheet. Returns the same shape as parseCsvFile.
+const parseXlsxFile = (filePath) => {
+  const wb = XLSX.readFile(filePath, { cellDates: true });
+  const sheetName = wb.SheetNames.find((n) => wb.Sheets[n] && Object.keys(wb.Sheets[n]).length > 1) || wb.SheetNames[0];
+  if (!sheetName) throw new Error("Workbook contains no sheets.");
+  const sheet = wb.Sheets[sheetName];
+
+  // header:1 gives array-of-arrays; first row = headers.
+  const rowsArr = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "", blankrows: false, raw: false });
+  if (rowsArr.length === 0) throw new Error(`Sheet "${sheetName}" is empty.`);
+
+  const rawHeaders = (rowsArr[0] || []).map((h) => String(h ?? ""));
+  const headers = rawHeaders.map(sanitizeHeader);
+
+  // Build row objects keyed by original headers so rest of pipeline works.
+  const rows = rowsArr.slice(1).map((arr) => {
+    const o = {};
+    rawHeaders.forEach((h, i) => { o[h] = arr[i] === undefined ? "" : arr[i]; });
+    return o;
+  });
+
+  return { headers, rows, rawHeaders };
+};
+
+const parseAny = async (filePath, originalName) => {
+  const ext = (path.extname(originalName || filePath) || "").toLowerCase();
+  if (ext === ".xlsx" || ext === ".xls") {
+    return parseXlsxFile(filePath);
+  }
+  return parseCsvFile(filePath);
 };
 
 exports.ingestFile = async (filePath, userId, originalName) => {
@@ -52,8 +84,11 @@ exports.ingestFile = async (filePath, userId, originalName) => {
   const client = await pool.connect();
 
   try {
-    // Get the headers and rows from the CSV file
-    const { headers, rows } = await parseCsvFile(filePath);
+    // Get the headers and rows from the CSV or XLSX file
+    const parsed = await parseAny(filePath, originalName);
+    const { headers, rows } = parsed;
+    // For XLSX we keyed rows by original headers; for CSV csv-parser uses raw headers too.
+    // Both shapes are consumed below via `headers.map((header) => row[header])`.
 
     // Rename 'id' column if it exists to avoid conflict with system primary key
     const safeHeaders = headers.map((h) => (h === "id" ? "csv_id" : h));
@@ -78,36 +113,30 @@ exports.ingestFile = async (filePath, userId, originalName) => {
 
     await client.query(createTableQuery);
 
-    // Insert Data (Batch Insert)
-    const BATCH_SIZE = 500;
-    let batchValues = [];
+    // Parameterized batch insert. Size each batch so we stay under Postgres'
+    // 65535 param cap regardless of column count.
+    const colsPerRow = safeHeaders.length;
+    const rowsPerBatch = Math.max(1, Math.floor(MAX_PARAMS_PER_INSERT / Math.max(colsPerRow, 1)));
+    const colList = safeHeaders.join(", ");
 
-    for (const row of rows) {
-      // Map original headers -> sanitized values in safeHeaders order
-      const sqlRow = headers
-        .map((header) => {
-          const sanitized = sanitizeValue(row[header]);
-          return sanitized === null ? 'NULL' : `'${sanitized}'`;
-        })
-        .join(', ');
+    const flushBatch = async (batchRows) => {
+      if (batchRows.length === 0) return;
+      const params = [];
+      const valueGroups = batchRows.map((row) => {
+        const placeholders = headers.map((h) => {
+          params.push(normalizeCell(row[h]));
+          return `$${params.length}`;
+        });
+        return `(${placeholders.join(", ")})`;
+      });
+      await client.query(
+        `INSERT INTO ${tableName} (${colList}) VALUES ${valueGroups.join(", ")}`,
+        params
+      );
+    };
 
-      batchValues.push(`(${sqlRow})`);
-
-      if (batchValues.length >= BATCH_SIZE) {
-        const insertQuery = `INSERT INTO ${tableName} (${safeHeaders.join(
-          ","
-        )}) VALUES ${batchValues.join(",")}`;
-        await client.query(insertQuery);
-        batchValues = [];
-      }
-    }
-
-    // Insert remaining rows
-    if (batchValues.length > 0) {
-      const insertQuery = `INSERT INTO ${tableName} (${safeHeaders.join(
-        ","
-      )}) VALUES ${batchValues.join(",")}`;
-      await client.query(insertQuery);
+    for (let i = 0; i < rows.length; i += rowsPerBatch) {
+      await flushBatch(rows.slice(i, i + rowsPerBatch));
     }
 
     // Commit the transaction.
