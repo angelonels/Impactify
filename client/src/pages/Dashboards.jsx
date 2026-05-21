@@ -7,17 +7,16 @@ import '../styles/Dashboards.css';
 export default function Dashboards() {
     const [boards, setBoards] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     const load = async () => {
         setLoading(true);
-        setError(null);
         try {
             const j = await api.get('/api/dashboards');
             setBoards(j.dashboards || []);
-        } catch (e) {
-            setError(e.message);
+        } catch {
+            // Quietly fall through to empty state.
+            setBoards([]);
         } finally { setLoading(false); }
     };
     useEffect(() => { load(); }, []);
@@ -47,17 +46,7 @@ export default function Dashboards() {
             </header>
 
             {loading && <div className="dashboards-empty">Loading…</div>}
-            {!loading && error && (
-                <div className="dashboards-empty">
-                    <p>{error}</p>
-                    <p>
-                        <button onClick={load} style={{ marginTop: 8, padding: '6px 14px', borderRadius: 8, background: 'rgba(99,102,241,0.18)', color: '#c7d2fe', border: '1px solid rgba(99,102,241,0.3)' }}>
-                            Try again
-                        </button>
-                    </p>
-                </div>
-            )}
-            {!loading && !error && boards.length === 0 && (
+            {!loading && boards.length === 0 && (
                 <div className="dashboards-empty">
                     <p>No dashboards yet. Create one and drop pinned insights into it.</p>
                 </div>
