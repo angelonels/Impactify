@@ -40,6 +40,7 @@ const Navbar = ({ onOpenPalette }) => {
                 <li><a href="/dashboards" onClick={(e) => { e.preventDefault(); navigate('/dashboards'); }} className="navbar-link">Dashboards</a></li>
                 <li><a href="/gallery" onClick={(e) => { e.preventDefault(); navigate('/gallery'); }} className="navbar-link">Demo</a></li>
                 <li><a href="#capabilities" onClick={(e) => handleScroll(e, 'capabilities')} className="navbar-link">Features</a></li>
+                <li><a href="/about" onClick={(e) => { e.preventDefault(); navigate('/about'); }} className="navbar-link">About</a></li>
             </ul>
             <div className="navbar-actions">
                 {onOpenPalette && (

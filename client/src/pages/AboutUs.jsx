@@ -1,6 +1,6 @@
 import React from 'react';
+import { Heart } from 'lucide-react';
 import ChromaGrid from '../components/ChromaGrid';
-import Navbar from '../components/Navbar';
 
 const AboutUs = () => {
     const teamMembers = [
@@ -44,9 +44,8 @@ const AboutUs = () => {
 
     return (
         <div className="min-h-screen flex flex-col" style={{ color: 'var(--fg)' }}>
-            <Navbar />
             <div className="flex-grow flex flex-col items-center justify-center p-8 pt-40">
-                <h1 className="text-4xl font-bold text-center mb-8 mt-24">Meet the Team!</h1>
+                <h1 className="text-4xl font-bold text-center mb-8 mt-24">Meet the Team</h1>
                 <div style={{ width: '100%', maxWidth: '1200px', height: '600px', position: 'relative' }}>
                     <ChromaGrid
                         items={teamMembers}
@@ -59,26 +58,48 @@ const AboutUs = () => {
                 </div>
 
                 {/* Donation Section */}
-                <div className="mt-24 mb-12 w-full max-w-2xl bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 text-center">
-                    <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 mb-4">
-                        Support Our Mission
-                    </h2>
-                    <p className="text-gray-300 mb-8 text-lg">
-                        Help us continue building innovative tools for data analysis. Your contribution powers our servers and fuels future development.
+                <div
+                    className="mt-24 mb-12 w-full max-w-2xl rounded-2xl p-8 text-center backdrop-blur-lg"
+                    style={{
+                        background: 'var(--surface-soft)',
+                        border: '1px solid var(--border)',
+                    }}
+                >
+                    <div className="flex items-center justify-center gap-2 mb-4">
+                        <Heart size={24} style={{ color: '#f472b6' }} />
+                        <h2
+                            className="text-3xl font-bold text-transparent bg-clip-text"
+                            style={{ backgroundImage: 'linear-gradient(90deg,#60a5fa,#a855f7)' }}
+                        >
+                            Support our mission
+                        </h2>
+                    </div>
+                    <p className="mb-8 text-lg" style={{ color: 'var(--fg)', opacity: 0.75 }}>
+                        Help us keep Impactify free and growing. Your contribution
+                        powers our servers and fuels future development.
                     </p>
-                    
+
                     <div className="relative group inline-block">
-                        <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-                        <div className="relative bg-black p-4 rounded-xl border border-white/10">
-                            <img 
-                                src="/donation_qr_code.jpeg" 
-                                alt="Donation QR Code" 
+                        <div
+                            className="absolute -inset-1 rounded-xl blur opacity-25 group-hover:opacity-75 transition duration-700"
+                            style={{ background: 'linear-gradient(90deg,#3b82f6,#8b5cf6)' }}
+                        />
+                        <div
+                            className="relative p-4 rounded-xl"
+                            style={{
+                                background: 'var(--surface)',
+                                border: '1px solid var(--border)',
+                            }}
+                        >
+                            <img
+                                src="/donation_qr_code.jpeg"
+                                alt="Donation QR Code"
                                 className="w-48 h-48 object-contain rounded-lg"
                             />
                         </div>
                     </div>
-                    
-                    <p className="text-sm text-gray-500 mt-6">
+
+                    <p className="text-sm mt-6" style={{ color: 'var(--fg)', opacity: 0.5 }}>
                         Scan to donate via UPI
                     </p>
                 </div>

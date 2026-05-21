@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Command } from 'cmdk';
 import { useNavigate } from 'react-router-dom';
-import { Database, Sparkles, LayoutDashboard, Upload, Home, Sun, Moon } from 'lucide-react';
+import { Database, Sparkles, LayoutDashboard, Upload, Home, Sun, Moon, Heart, Image } from 'lucide-react';
 import { api } from '../lib/api';
 import { useTheme } from '../context/ThemeContext';
 import '../styles/CommandPalette.css';
@@ -44,6 +44,8 @@ export default function CommandPalette({ open, onClose }) {
                             <Command.Item onSelect={() => go('/upload')}><Upload size={14} /> Upload new</Command.Item>
                             <Command.Item onSelect={() => go('/insights')}><Sparkles size={14} /> Insights</Command.Item>
                             <Command.Item onSelect={() => go('/dashboards')}><LayoutDashboard size={14} /> Dashboards</Command.Item>
+                            <Command.Item onSelect={() => go('/gallery')}><Image size={14} /> Demo gallery</Command.Item>
+                            <Command.Item onSelect={() => go('/about')}><Heart size={14} /> About / Donate</Command.Item>
                         </Command.Group>
 
                         <Command.Group heading="Actions">
