@@ -4,41 +4,57 @@
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #000000;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --bg: #000000;
+  --fg: rgba(255, 255, 255, 0.87);
+  --surface: #1a1a1a;
+  --surface-soft: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="dark"], :root {
+  color-scheme: dark;
+  --bg: #000000;
+  --fg: rgba(255, 255, 255, 0.87);
+  --surface: #1a1a1a;
+  --surface-soft: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+  --bg: #fafafa;
+  --fg: #111111;
+  --surface: #ffffff;
+  --surface-soft: rgba(0, 0, 0, 0.03);
+  --border: rgba(0, 0, 0, 0.08);
 }
 
 a {
   font-weight: 500;
-  color: #fff;
+  color: var(--fg);
   text-decoration: inherit;
   transition: color 0.3s ease;
 }
-
-a:hover {
-  color: rgba(255, 255, 255, 0.7);
-}
+a:hover { opacity: 0.8; }
 
 body {
   margin: 0;
   display: flex;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #000000;
-  color: #ffffff;
+  background-color: var(--bg);
+  color: var(--fg);
+  transition: background-color 0.25s, color 0.25s;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
+html[data-theme="light"] body { background-color: var(--bg); color: var(--fg); }
+
+h1 { font-size: 3.2em; line-height: 1.1; }
 
 button {
   border-radius: 8px;
@@ -47,16 +63,10 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--surface);
+  color: var(--fg);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.25s, background-color 0.25s;
 }
-
-button:hover {
-  border-color: #fff;
-}
-
-button:focus,
-button:focus-visible {
-  outline: 4px auto #fff;
-}
+button:hover { border-color: var(--fg); }
+button:focus, button:focus-visible { outline: 2px solid var(--fg); }

@@ -1,30 +1,57 @@
-import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import React, { Suspense, lazy, useEffect, useState } from 'react'
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
+import { AuthProvider } from './context/AuthContext'
+import { ThemeProvider } from './context/ThemeContext'
 import Navbar from './components/Navbar'
-import Home from './pages/Home'
-import Login from './pages/Login'
-import Signup from './pages/Signup'
-import ForgotPassword from './pages/ForgotPassword'
-import TermsOfService from './pages/TermsOfService'
-import PrivacyPolicy from './pages/PrivacyPolicy'
-import Dashboard from './pages/Dashboard'
-import Upload from './pages/Upload'
-import DataCleaning from './pages/DataCleaning'
-import Workbench from './pages/Workbench'
-import AuthSuccess from './pages/AuthSuccess'
-import Contact from './pages/Contact'
-import AboutUs from './pages/AboutUs'
-import DemoGallery from './pages/DemoGallery'
+import CommandPalette from './components/CommandPalette'
 import Footer from './components/Footer'
 import LiquidEther from './components/LiquidEther'
 import './App.css'
 
-import { useLocation } from 'react-router-dom';
+// Eagerly load only the landing page; lazy-load everything else
+import Home from './pages/Home'
+
+const Login            = lazy(() => import('./pages/Login'))
+const Signup           = lazy(() => import('./pages/Signup'))
+const ForgotPassword   = lazy(() => import('./pages/ForgotPassword'))
+const TermsOfService   = lazy(() => import('./pages/TermsOfService'))
+const PrivacyPolicy    = lazy(() => import('./pages/PrivacyPolicy'))
+const Dashboard        = lazy(() => import('./pages/Dashboard'))
+const Upload           = lazy(() => import('./pages/Upload'))
+const DataCleaning     = lazy(() => import('./pages/DataCleaning'))
+const Workbench        = lazy(() => import('./pages/Workbench'))
+const AuthSuccess      = lazy(() => import('./pages/AuthSuccess'))
+const Contact          = lazy(() => import('./pages/Contact'))
+const AboutUs          = lazy(() => import('./pages/AboutUs'))
+const DemoGallery      = lazy(() => import('./pages/DemoGallery'))
+const Insights         = lazy(() => import('./pages/Insights'))
+const Dashboards       = lazy(() => import('./pages/Dashboards'))
+const DashboardView    = lazy(() => import('./pages/DashboardView'))
+
+const PageFallback = () => (
+  <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(128,128,128,0.7)' }}>
+    Loading…
+  </div>
+);
 
 function AppContent() {
   const location = useLocation();
   const hideNavbarRoutes = ['/login', '/signup', '/forgot-password', '/terms', '/privacy'];
   const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
+  const [paletteOpen, setPaletteOpen] = useState(false);
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setPaletteOpen((v) => !v);
+      } else if (e.key === 'Escape') {
+        setPaletteOpen(false);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
   return (
     <div className="app-container">
@@ -48,22 +75,29 @@ function AppContent() {
         />
       </div>
       <div style={{ position: 'relative', zIndex: 1 }}>
-        {!shouldHideNavbar && <Navbar />}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/terms" element={<TermsOfService />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/about" element={<AboutUs />} />
-          <Route path="/gallery" element={<DemoGallery />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/upload" element={<Upload />} />
-          <Route path="/dataset/:id/analyze" element={<Workbench />} />
-          <Route path="/auth/success" element={<AuthSuccess />} />
-        </Routes>
+        {!shouldHideNavbar && <Navbar onOpenPalette={() => setPaletteOpen(true)} />}
+        <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
+        <Suspense fallback={<PageFallback />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/terms" element={<TermsOfService />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/gallery" element={<DemoGallery />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/upload" element={<Upload />} />
+            <Route path="/dataset/:id/clean" element={<DataCleaning />} />
+            <Route path="/dataset/:id/analyze" element={<Workbench />} />
+            <Route path="/insights" element={<Insights />} />
+            <Route path="/dashboards" element={<Dashboards />} />
+            <Route path="/dashboards/:id" element={<DashboardView />} />
+            <Route path="/auth/success" element={<AuthSuccess />} />
+          </Routes>
+        </Suspense>
         <Footer />
       </div>
     </div>
@@ -73,7 +107,11 @@ function AppContent() {
 function App() {
   return (
     <Router>
-      <AppContent />
+      <ThemeProvider>
+        <AuthProvider>
+          <AppContent />
+        </AuthProvider>
+      </ThemeProvider>
     </Router>
   )
 }
