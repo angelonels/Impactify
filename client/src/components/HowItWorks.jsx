@@ -5,18 +5,18 @@ import '../styles/HowItWorks.css'
 const steps = [
     {
         number: "01",
-        title: "Upload Data",
-        description: "Drag & drop your CSV file. We'll handle the parsing."
+        title: "Upload",
+        description: "Drop a CSV or Excel file. The cleaner infers column types in seconds."
     },
     {
         number: "02",
-        title: "Ask Questions",
-        description: "Type what you want to know in plain English. No SQL knowledge required."
+        title: "Chat",
+        description: "Ask anything in English or Hindi. Follow up naturally — the assistant remembers context."
     },
     {
         number: "03",
-        title: "Get Insights",
-        description: "Receive instant, interactive visualizations and actionable data."
+        title: "Pin + Compose",
+        description: "Save the charts you love to Insights. Drag them onto Dashboards. Open them later; data refreshes live."
     }
 ]
 
@@ -31,8 +31,8 @@ const HowItWorks = () => {
                     viewport={{ once: false, amount: 0.5 }}
                     transition={{ duration: 0.8 }}
                 >
-                    <h2>How It Works</h2>
-                    <p>Three simple steps to data mastery.</p>
+                    <h2>How it works</h2>
+                    <p>Three steps. No SQL. No setup.</p>
                 </motion.div>
 
                 <div className="steps-wrapper">
