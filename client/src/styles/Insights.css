@@ -1,0 +1,96 @@
+.insights-page {
+    min-height: 100vh;
+    padding: 100px 2rem 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    color: #fff;
+}
+.insights-header h1 {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 2rem;
+    margin-bottom: 0.4rem;
+}
+.insights-header p { color: rgba(255,255,255,0.5); margin-bottom: 2rem; }
+
+.insights-empty {
+    text-align: center;
+    color: rgba(255,255,255,0.5);
+    padding: 4rem 1rem;
+    font-size: 0.95rem;
+}
+.insights-empty p { margin: 0.3rem 0; }
+
+.insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 1.5rem;
+}
+
+.insight-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.15s;
+}
+.insight-card:hover { border-color: rgba(99, 102, 241, 0.4); }
+
+.insight-card-header {
+    padding: 1rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.insight-card-header h3 {
+    font-size: 1.05rem;
+    color: #fff;
+    margin: 0 0 0.2rem;
+    line-height: 1.3;
+}
+.insight-card-sub {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+.insight-card-actions { display: flex; gap: 0.3rem; }
+.insight-card-icon {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.6);
+    padding: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+}
+.insight-card-icon:hover { color: #fff; border-color: rgba(255, 255, 255, 0.2); }
+.insight-card-icon.danger:hover { color: #fca5a5; border-color: rgba(248, 113, 113, 0.4); }
+
+.insight-card-body { padding: 1rem; min-height: 360px; }
+.insight-card-loading {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.4);
+    padding: 4rem 1rem;
+}
+.insight-card-error {
+    padding: 1rem;
+    color: #fca5a5;
+    background: rgba(248, 113, 113, 0.08);
+    border-radius: 8px;
+}
+
+[data-theme="light"] .insights-page { color: #111; }
+[data-theme="light"] .insights-header p { color: rgba(0,0,0,0.5); }
+[data-theme="light"] .insights-empty { color: rgba(0,0,0,0.5); }
+[data-theme="light"] .insight-card {
+    background: #fff;
+    border-color: rgba(0, 0, 0, 0.08);
+}
+[data-theme="light"] .insight-card-header { border-bottom-color: rgba(0, 0, 0, 0.06); }
+[data-theme="light"] .insight-card-header h3 { color: #111; }
+[data-theme="light"] .insight-card-sub { color: rgba(0,0,0,0.5); }
+[data-theme="light"] .insight-card-icon { border-color: rgba(0,0,0,0.08); color: rgba(0,0,0,0.6); }
+[data-theme="light"] .insight-card-icon:hover { color: #111; }
