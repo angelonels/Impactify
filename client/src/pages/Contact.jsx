@@ -24,15 +24,24 @@ const Contact = () => {
         });
     };
 
-    const handleSubmit = async (e) => {
+    const CONTACT_EMAIL = 'primekarman@gmail.com';
+
+    const handleSubmit = (e) => {
         e.preventDefault();
         setIsSubmitting(true);
 
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        // Open user's mail client with pre-filled fields.
+        const subject = encodeURIComponent(formData.subject || 'Hello from Impactify');
+        const body = encodeURIComponent(
+            `From: ${formData.name} <${formData.email}>\n\n${formData.message}`
+        );
+        window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
 
-        setIsSubmitting(false);
-        setIsSubmitted(true);
-        setFormData({ name: '', email: '', subject: '', message: '' });
+        setTimeout(() => {
+            setIsSubmitting(false);
+            setIsSubmitted(true);
+            setFormData({ name: '', email: '', subject: '', message: '' });
+        }, 400);
     };
 
     return (
@@ -142,10 +151,10 @@ const Contact = () => {
                                         <Send className="w-8 h-8" />
                                     </div>
                                     <h3 className="text-2xl font-bold text-white">
-                                        Message Sent!
+                                        Your email client should have opened.
                                     </h3>
                                     <p className="text-gray-400">
-                                        Thank you for reaching out. We'll get back to you as soon as possible.
+                                        If nothing happened, email us directly at <a href="mailto:primekarman@gmail.com" className="text-indigo-400 underline">primekarman@gmail.com</a>.
                                     </p>
                                     <button
                                         onClick={() => setIsSubmitted(false)}

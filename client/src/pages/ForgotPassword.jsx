@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Mail, ArrowRight, ArrowLeft } from 'lucide-react';
+import { api } from '../lib/api';
 
 const INPUT_CLASSES = "w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400/50 focus:border-indigo-400/50 transition-all";
 const BUTTON_CLASSES = "w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3.5 rounded-xl transition-all shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-2 group";
@@ -14,19 +15,11 @@ const ForgotPassword = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/forgot-password`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    email
-                }),
-            });
-
-            setIsSubmitted(true);
+            await api.post('/api/auth/forgot-password', { email }, { auth: false });
         } catch (error) {
             console.error('Auth error:', error);
+            // Always show "submitted" state to prevent email enumeration
+        } finally {
             setIsSubmitted(true);
         }
     };

@@ -2,7 +2,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Mail, Lock, User, ArrowRight, Eye, EyeOff, Github } from 'lucide-react';
+import { Mail, Lock, User, ArrowRight, Eye, EyeOff } from 'lucide-react';
+import { api, API_URL } from '../lib/api';
+import { useAuth } from '../context/AuthContext';
 
 const INPUT_CLASSES = "w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400/50 focus:border-indigo-400/50 transition-all";
 const PRIMARY_BUTTON_CLASSES = "w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3.5 rounded-xl transition-all shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-2 group";
@@ -40,6 +42,7 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,37 +51,19 @@ const Signup = () => {
       return;
     }
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password
-        }),
-      });
-      const data = await response.json();
-
-      if (response.ok) {
-        localStorage.setItem('token', data.token);
-        navigate('/');
-      } else {
-        alert(data.message);
-      }
+      const data = await api.post('/api/auth/register', { name, email, password }, { auth: false });
+      login(data.token, data.user);
+      navigate('/dashboard');
     } catch (error) {
       console.error('Auth error:', error);
+      alert(error.message || 'Signup failed');
     }
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google`;
+    window.location.href = `${API_URL}/api/auth/google`;
   };
 
-  const handleGithubLogin = () => {
-    window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/github`;
-  };
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
@@ -222,13 +207,6 @@ const Signup = () => {
             Continue with Google
           </button>
 
-          <button
-            onClick={handleGithubLogin}
-            className={SOCIAL_BUTTON_CLASSES}
-          >
-            <Github className="w-5 h-5" />
-            Continue with GitHub
-          </button>
         </div>
 
         <p className="mt-8 text-center text-gray-400 text-sm">

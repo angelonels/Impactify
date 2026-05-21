@@ -50,3 +50,6 @@
         font-size: 3rem;
     }
 }
+[data-theme="light"] .scroller, [data-theme="light"] .scroll-velocity-text {
+    color: rgba(0, 0, 0, 0.08);
+}
