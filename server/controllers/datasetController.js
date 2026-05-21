@@ -248,6 +248,10 @@ exports.listDatasets = async (req, res, next) => {
         tableName: true,
         status: true,
         createdAt: true,
+        schema: {
+          select: { columnName: true, dataType: true },
+          orderBy: { columnName: "asc" },
+        },
       },
     });
     res.json({ datasets });
