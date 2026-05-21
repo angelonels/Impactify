@@ -3,15 +3,22 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Plus, Database, Calendar, Activity, AlertCircle, Loader2, Trash2, Edit2, Sliders } from 'lucide-react';
 import { api } from '../lib/api';
+import { useToast } from '../context/ToastContext';
+import InputDialog from '../components/InputDialog';
+import ConfirmDialog from '../components/ConfirmDialog';
 
 const Dashboard = () => {
     const [datasets, setDatasets] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [renaming, setRenaming] = useState(null);   // { id, datasetName }
+    const [busyRename, setBusyRename] = useState(false);
+    const [deleting, setDeleting] = useState(null);   // { id, datasetName }
+    const [busyDelete, setBusyDelete] = useState(false);
+    const toast = useToast();
 
     useEffect(() => {
         let cancelled = false;
-
         const load = async () => {
             try {
                 const json = await api.get('/api/dataset/list');
@@ -22,7 +29,6 @@ const Dashboard = () => {
                 if (!cancelled) setLoading(false);
             }
         };
-
         load();
         return () => { cancelled = true; };
     }, []);
@@ -43,18 +49,52 @@ const Dashboard = () => {
         }
     };
 
+    const submitRename = async (newName) => {
+        if (!renaming || newName === renaming.datasetName) {
+            setRenaming(null);
+            return;
+        }
+        setBusyRename(true);
+        try {
+            const j = await api.patch(`/api/dataset/${renaming.id}`, { datasetName: newName });
+            setDatasets((ds) => ds.map((d) => d.id === renaming.id ? { ...d, datasetName: j.dataset.datasetName } : d));
+            toast.success('Dataset renamed.');
+            setRenaming(null);
+        } catch (e) {
+            toast.error(e.message || 'Could not rename dataset.');
+        } finally {
+            setBusyRename(false);
+        }
+    };
+
+    const confirmDelete = async () => {
+        if (!deleting) return;
+        setBusyDelete(true);
+        try {
+            await api.del(`/api/dataset/${deleting.id}`);
+            setDatasets((ds) => ds.filter((d) => d.id !== deleting.id));
+            toast.success(`Deleted "${deleting.datasetName}".`);
+            setDeleting(null);
+        } catch (e) {
+            toast.error(e.message || 'Could not delete dataset.');
+        } finally {
+            setBusyDelete(false);
+        }
+    };
+
     return (
-        <div className="min-h-screen pt-24 px-6 md:px-12 max-w-7xl mx-auto">
+        <div className="min-h-screen pt-24 px-6 md:px-12 max-w-7xl mx-auto" style={{ color: 'var(--fg)' }}>
             <div className="flex justify-between items-center mb-12">
                 <div>
                     <h1 className="text-4xl font-bold mb-2">Your Projects</h1>
-                    <p className="text-gray-500">Manage and analyze your datasets.</p>
+                    <p style={{ color: 'var(--fg)', opacity: 0.6 }}>Manage and analyze your datasets.</p>
                 </div>
                 <Link to="/upload">
                     <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="bg-black text-white px-6 py-3 rounded-lg flex items-center gap-2 font-medium shadow-lg hover:shadow-xl transition-all"
+                        className="px-6 py-3 rounded-lg flex items-center gap-2 font-medium shadow-lg hover:shadow-xl transition-all"
+                        style={{ background: 'linear-gradient(135deg,#6366f1,#8b5cf6)', color: '#fff' }}
                     >
                         <Plus size={20} />
                         New Project
@@ -63,7 +103,7 @@ const Dashboard = () => {
             </div>
 
             {loading && (
-                <div className="flex items-center gap-2 text-gray-500 py-8">
+                <div className="flex items-center gap-2 py-8" style={{ color: 'var(--fg)', opacity: 0.6 }}>
                     <Loader2 className="animate-spin" size={20} />
                     <span>Loading your datasets…</span>
                 </div>
@@ -112,30 +152,21 @@ const Dashboard = () => {
                     {datasets.map((dataset, index) => {
                         const ready = (dataset.status || '').toUpperCase() === 'READY';
 
-                        const handleRename = async (e) => {
-                            e.preventDefault(); e.stopPropagation();
-                            const name = prompt('Rename dataset:', dataset.datasetName);
-                            if (!name || name === dataset.datasetName) return;
-                            const j = await api.patch(`/api/dataset/${dataset.id}`, { datasetName: name });
-                            setDatasets((ds) => ds.map((d) => d.id === dataset.id ? { ...d, datasetName: j.dataset.datasetName } : d));
-                        };
-                        const handleDelete = async (e) => {
-                            e.preventDefault(); e.stopPropagation();
-                            if (!confirm(`Delete "${dataset.datasetName}"? This is permanent.`)) return;
-                            await api.del(`/api/dataset/${dataset.id}`);
-                            setDatasets((ds) => ds.filter((d) => d.id !== dataset.id));
-                        };
-
                         const card = (
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.05 }}
                                 whileHover={ready ? { y: -5, boxShadow: '0 10px 30px -10px rgba(0,0,0,0.1)' } : {}}
-                                className={`bg-white border border-gray-200 rounded-xl p-6 h-full transition-colors relative overflow-hidden group ${ready ? 'cursor-pointer hover:border-black' : 'cursor-not-allowed opacity-75'}`}
+                                className={`rounded-xl p-6 h-full transition-colors relative overflow-hidden group ${ready ? 'cursor-pointer' : 'cursor-not-allowed opacity-75'}`}
+                                style={{
+                                    background: 'var(--surface)',
+                                    border: '1px solid var(--border)',
+                                    color: 'var(--fg)',
+                                }}
                             >
                                 <div className="flex justify-between items-start mb-4">
-                                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-black group-hover:text-white transition-colors">
+                                    <div className="p-2 rounded-lg transition-colors" style={{ background: 'var(--surface-soft)' }}>
                                         <Database size={24} />
                                     </div>
                                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusClass(dataset.status)}`}>
@@ -147,7 +178,7 @@ const Dashboard = () => {
                                     {dataset.datasetName}
                                 </h3>
 
-                                <div className="flex items-center gap-4 text-sm text-gray-500 mt-4">
+                                <div className="flex items-center gap-4 text-sm mt-4" style={{ opacity: 0.6 }}>
                                     <div className="flex items-center gap-1">
                                         <Calendar size={14} />
                                         <span>{formatDate(dataset.createdAt)}</span>
@@ -159,13 +190,29 @@ const Dashboard = () => {
                                 </div>
 
                                 <div className="absolute top-3 right-3 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <Link to={`/dataset/${dataset.id}/clean`} onClick={(e) => e.stopPropagation()} className="p-1.5 rounded bg-white/80 backdrop-blur border border-gray-200 hover:bg-gray-50" title="Schema">
+                                    <Link
+                                        to={`/dataset/${dataset.id}/clean`}
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="p-1.5 rounded backdrop-blur"
+                                        style={{ background: 'rgba(255,255,255,0.85)', border: '1px solid rgba(0,0,0,0.08)', color: '#111' }}
+                                        title="Edit schema"
+                                    >
                                         <Sliders size={12} />
                                     </Link>
-                                    <button onClick={handleRename} className="p-1.5 rounded bg-white/80 backdrop-blur border border-gray-200 hover:bg-gray-50" title="Rename">
+                                    <button
+                                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); setRenaming({ id: dataset.id, datasetName: dataset.datasetName }); }}
+                                        className="p-1.5 rounded backdrop-blur"
+                                        style={{ background: 'rgba(255,255,255,0.85)', border: '1px solid rgba(0,0,0,0.08)', color: '#111' }}
+                                        title="Rename"
+                                    >
                                         <Edit2 size={12} />
                                     </button>
-                                    <button onClick={handleDelete} className="p-1.5 rounded bg-white/80 backdrop-blur border border-gray-200 text-red-500 hover:bg-red-50" title="Delete">
+                                    <button
+                                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); setDeleting({ id: dataset.id, datasetName: dataset.datasetName }); }}
+                                        className="p-1.5 rounded backdrop-blur"
+                                        style={{ background: 'rgba(255,255,255,0.85)', border: '1px solid rgba(0,0,0,0.08)', color: '#dc2626' }}
+                                        title="Delete"
+                                    >
                                         <Trash2 size={12} />
                                     </button>
                                 </div>
@@ -180,12 +227,34 @@ const Dashboard = () => {
                     })}
 
                     {datasets.length === 0 && !error && (
-                        <div className="md:col-span-2 lg:col-span-3 text-center text-gray-400 py-12">
+                        <div className="md:col-span-2 lg:col-span-3 text-center py-12" style={{ color: 'var(--fg)', opacity: 0.5 }}>
                             No datasets yet. Upload one to get started.
                         </div>
                     )}
                 </div>
             )}
+
+            <InputDialog
+                open={!!renaming}
+                onClose={() => !busyRename && setRenaming(null)}
+                onConfirm={submitRename}
+                title="Rename dataset"
+                label="New name"
+                defaultValue={renaming?.datasetName || ''}
+                confirmLabel="Save"
+                busy={busyRename}
+                maxLength={120}
+            />
+            <ConfirmDialog
+                open={!!deleting}
+                onClose={() => !busyDelete && setDeleting(null)}
+                onConfirm={confirmDelete}
+                title="Delete dataset?"
+                message={`"${deleting?.datasetName || ''}" and its underlying data table will be permanently removed.`}
+                confirmLabel="Delete"
+                danger
+                busy={busyDelete}
+            />
         </div>
     );
 };

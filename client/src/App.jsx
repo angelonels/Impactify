@@ -2,6 +2,7 @@ import React, { Suspense, lazy, useEffect, useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import { ThemeProvider } from './context/ThemeContext'
+import { ToastProvider } from './context/ToastContext'
 import Navbar from './components/Navbar'
 import CommandPalette from './components/CommandPalette'
 import Footer from './components/Footer'
@@ -108,9 +109,11 @@ function App() {
   return (
     <Router>
       <ThemeProvider>
-        <AuthProvider>
-          <AppContent />
-        </AuthProvider>
+        <ToastProvider>
+          <AuthProvider>
+            <AppContent />
+          </AuthProvider>
+        </ToastProvider>
       </ThemeProvider>
     </Router>
   )

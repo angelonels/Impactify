@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaCloudUploadAlt, FaFileCsv } from 'react-icons/fa';
 import { api } from '../lib/api';
+import { useToast } from '../context/ToastContext';
 import '../styles/Upload.css';
 
 const Upload = () => {
@@ -10,6 +11,7 @@ const Upload = () => {
     const [file, setFile] = useState(null);
     const [isDragging, setIsDragging] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
+    const toast = useToast();
 
     const handleDragOver = (e) => {
         e.preventDefault();
@@ -40,7 +42,7 @@ const Upload = () => {
             file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
             file.type === 'application/vnd.ms-excel';
         if (ok) setFile(file);
-        else alert('Please upload a CSV, XLSX, or XLS file.');
+        else toast.error('Please upload a CSV, XLSX, or XLS file.');
     };
 
     const handleUpload = async () => {
@@ -52,10 +54,11 @@ const Upload = () => {
 
         try {
             const data = await api.post('/api/dataset/upload', formData);
+            toast.success('Upload complete. Cleaning your data now…');
             navigate(`/dataset/${data.datasetId}/analyze`);
         } catch (error) {
-            console.error("Upload error:", error);
-            alert(`Upload Failed: ${error.message}`);
+            console.error('Upload error:', error);
+            toast.error(error.message || 'Upload failed.');
         } finally {
             setIsUploading(false);
         }

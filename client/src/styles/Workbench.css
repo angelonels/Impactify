@@ -571,3 +571,20 @@
 }
 [data-theme="light"] .kpi-label { color: rgba(0, 0, 0, 0.55); }
 [data-theme="light"] .kpi-value { color: #111; }
+
+.conv-item-icon-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+}
+.conv-item:hover .conv-item-icon-btn { opacity: 1; }
+.conv-item-icon-btn:hover { color: #fff; }
+.conv-item-icon-btn.danger:hover { color: #fca5a5; }
+[data-theme="light"] .conv-item-icon-btn { color: rgba(0, 0, 0, 0.4); }
+[data-theme="light"] .conv-item-icon-btn:hover { color: #111; }
+[data-theme="light"] .conv-item-icon-btn.danger:hover { color: #dc2626; }

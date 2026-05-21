@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Database, Edit2, Check, X } from 'lucide-react';
 import { api } from '../lib/api';
+import { useToast } from '../context/ToastContext';
 import '../styles/DataCleaning.css';
 
 const typeColor = (t) => {
@@ -19,15 +20,17 @@ const ColumnCard = ({ datasetId, column, onSaved }) => {
     const [editing, setEditing] = useState(false);
     const [desc, setDesc] = useState(column.description || '');
     const [saving, setSaving] = useState(false);
+    const toast = useToast();
 
     const save = async () => {
         setSaving(true);
         try {
             await api.patch(`/api/dataset/${datasetId}/schema/${column.id}`, { description: desc });
             onSaved(column.id, desc);
+            toast.success(`Saved description for "${column.columnName}".`);
             setEditing(false);
         } catch (e) {
-            alert(e.message);
+            toast.error(e.message || 'Could not save description.');
         } finally {
             setSaving(false);
         }

@@ -1,18 +1,19 @@
 import { useState } from 'react';
 import { User, Sparkles, AlertTriangle, Pin } from 'lucide-react';
 import VizRenderer from './VizRenderer';
+import InputDialog from './InputDialog';
 import { api } from '../lib/api';
+import { useToast } from '../context/ToastContext';
 
 export default function ChatMessage({ message, liveResult, datasetId }) {
     const [pinned, setPinned] = useState(false);
     const [pinning, setPinning] = useState(false);
+    const [pinOpen, setPinOpen] = useState(false);
+    const toast = useToast();
 
     const isUser = message.role === 'user';
 
-    const handlePin = async () => {
-        if (pinned || !message.sql || !datasetId) return;
-        const title = prompt('Insight title:', (message.content || '').slice(0, 60) || 'Untitled');
-        if (!title) return;
+    const submitPin = async (title) => {
         setPinning(true);
         try {
             await api.post('/api/insights', {
@@ -23,8 +24,10 @@ export default function ChatMessage({ message, liveResult, datasetId }) {
                 overview: message.content,
             });
             setPinned(true);
+            setPinOpen(false);
+            toast.success(`Pinned "${title}" to Insights.`);
         } catch (e) {
-            alert(`Pin failed: ${e.message}`);
+            toast.error(e.message || 'Could not pin insight.');
         } finally {
             setPinning(false);
         }
@@ -46,6 +49,8 @@ export default function ChatMessage({ message, liveResult, datasetId }) {
     const data = liveResult?.data;
     const fallback = liveResult?.fallbackMessage;
     const canPin = sql && datasetId && !error;
+
+    const defaultTitle = (message.content || '').slice(0, 60) || 'Untitled';
 
     return (
         <div className={`chat-msg assistant ${error ? 'error' : ''}`}>
@@ -71,7 +76,11 @@ export default function ChatMessage({ message, liveResult, datasetId }) {
                 )}
 
                 {canPin && (
-                    <button className="chat-msg-pin" onClick={handlePin} disabled={pinning || pinned}>
+                    <button
+                        className="chat-msg-pin"
+                        onClick={() => !pinned && setPinOpen(true)}
+                        disabled={pinning || pinned}
+                    >
                         <Pin size={12} /> {pinned ? 'Pinned' : pinning ? 'Pinning…' : 'Pin to insights'}
                     </button>
                 )}
@@ -82,6 +91,19 @@ export default function ChatMessage({ message, liveResult, datasetId }) {
                         <pre>{sql}</pre>
                     </details>
                 )}
+
+                <InputDialog
+                    open={pinOpen}
+                    onClose={() => !pinning && setPinOpen(false)}
+                    onConfirm={submitPin}
+                    title="Pin to Insights"
+                    label="Title"
+                    placeholder="e.g. Q4 top cities"
+                    defaultValue={defaultTitle}
+                    confirmLabel="Pin"
+                    busy={pinning}
+                    maxLength={120}
+                />
             </div>
         </div>
     );

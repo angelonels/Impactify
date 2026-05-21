@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Mail, Lock, User, ArrowRight, Eye, EyeOff } from 'lucide-react';
 import { api, API_URL } from '../lib/api';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 
 const INPUT_CLASSES = "w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400/50 focus:border-indigo-400/50 transition-all";
 const PRIMARY_BUTTON_CLASSES = "w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3.5 rounded-xl transition-all shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-2 group";
@@ -41,22 +42,29 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
+  const toast = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
     if (!termsAccepted) {
-      alert("Please accept the Terms and Privacy Policy to continue.");
+      toast.error('Please accept the Terms and Privacy Policy to continue.');
       return;
     }
+    setSubmitting(true);
     try {
       const data = await api.post('/api/auth/register', { name, email, password }, { auth: false });
       login(data.token, data.user);
+      toast.success('Account created. Welcome!');
       navigate('/dashboard');
     } catch (error) {
       console.error('Auth error:', error);
-      alert(error.message || 'Signup failed');
+      toast.error(error.message || 'Signup failed.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -183,10 +191,11 @@ const Signup = () => {
 
           <button
             type="submit"
-            className={PRIMARY_BUTTON_CLASSES}
+            className={PRIMARY_BUTTON_CLASSES + ' disabled:opacity-60 disabled:cursor-not-allowed'}
+            disabled={submitting}
           >
-            Sign Up
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            {submitting ? 'Creating account…' : 'Sign Up'}
+            {!submitting && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
           </button>
         </form>
 

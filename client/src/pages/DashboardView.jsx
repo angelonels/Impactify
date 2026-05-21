@@ -4,6 +4,8 @@ import GridLayout from 'react-grid-layout';
 import { Plus, ArrowLeft, X } from 'lucide-react';
 import VizRenderer from '../components/VizRenderer';
 import { api } from '../lib/api';
+import { useToast } from '../context/ToastContext';
+import ConfirmDialog from '../components/ConfirmDialog';
 import 'react-grid-layout/css/styles.css';
 import '../styles/Dashboards.css';
 
@@ -28,16 +30,24 @@ export default function DashboardView() {
     const [dashboard, setDashboard] = useState(null);
     const [insights, setInsights] = useState([]);
     const [picker, setPicker] = useState(false);
+    const [adding, setAdding] = useState(false);
+    const [removingTile, setRemovingTile] = useState(null);
+    const [busyRemove, setBusyRemove] = useState(false);
     const [width, setWidth] = useState(typeof window !== 'undefined' ? window.innerWidth - 80 : 1200);
+    const toast = useToast();
 
     const load = useCallback(async () => {
-        const [d, i] = await Promise.all([
-            api.get(`/api/dashboards/${id}`),
-            api.get('/api/insights'),
-        ]);
-        setDashboard(d.dashboard);
-        setInsights(i.insights || []);
-    }, [id]);
+        try {
+            const [d, i] = await Promise.all([
+                api.get(`/api/dashboards/${id}`),
+                api.get('/api/insights'),
+            ]);
+            setDashboard(d.dashboard);
+            setInsights(i.insights || []);
+        } catch (e) {
+            toast.error(e.message || 'Could not load dashboard.');
+        }
+    }, [id, toast]);
 
     useEffect(() => { load(); }, [load]);
     useEffect(() => {
@@ -47,14 +57,32 @@ export default function DashboardView() {
     }, []);
 
     const handleAdd = async (insightId) => {
-        await api.post(`/api/dashboards/${id}/items`, { savedInsightId: insightId, w: 6, h: 4 });
-        setPicker(false);
-        await load();
+        setAdding(true);
+        try {
+            await api.post(`/api/dashboards/${id}/items`, { savedInsightId: insightId, w: 6, h: 4 });
+            setPicker(false);
+            toast.success('Tile added.');
+            await load();
+        } catch (e) {
+            toast.error(e.message || 'Could not add tile.');
+        } finally {
+            setAdding(false);
+        }
     };
 
-    const handleRemove = async (itemId) => {
-        await api.del(`/api/dashboards/${id}/items/${itemId}`);
-        await load();
+    const confirmRemoveTile = async () => {
+        if (!removingTile) return;
+        setBusyRemove(true);
+        try {
+            await api.del(`/api/dashboards/${id}/items/${removingTile.id}`);
+            toast.success('Tile removed.');
+            setRemovingTile(null);
+            await load();
+        } catch (e) {
+            toast.error(e.message || 'Could not remove tile.');
+        } finally {
+            setBusyRemove(false);
+        }
     };
 
     const onLayoutChange = async (layout) => {
@@ -62,7 +90,9 @@ export default function DashboardView() {
         const items = layout.map((l) => ({ id: l.i, x: l.x, y: l.y, w: l.w, h: l.h }));
         try {
             await api.patch(`/api/dashboards/${id}/layout`, { items });
-        } catch {}
+        } catch (e) {
+            toast.error('Layout couldn\'t save. We\'ll keep trying.');
+        }
     };
 
     if (!dashboard) return <div className="dashboards-page"><p className="dashboard-view-muted">Loading…</p></div>;
@@ -98,7 +128,7 @@ export default function DashboardView() {
                         <div key={it.id} className="dash-tile">
                             <div className="dash-tile-header">
                                 <span className="dash-tile-handle">⋮⋮ {it.savedInsight.title}</span>
-                                <button onClick={() => handleRemove(it.id)} className="dash-tile-remove" title="Remove">
+                                <button onClick={() => setRemovingTile(it)} className="dash-tile-remove" title="Remove">
                                     <X size={14} />
                                 </button>
                             </div>
@@ -111,7 +141,7 @@ export default function DashboardView() {
             )}
 
             {picker && (
-                <div className="picker-overlay" onClick={() => setPicker(false)}>
+                <div className="picker-overlay" onClick={() => !adding && setPicker(false)}>
                     <div className="picker-modal" onClick={(e) => e.stopPropagation()}>
                         <h3>Pick an insight</h3>
                         {insights.length === 0 ? (
@@ -119,7 +149,12 @@ export default function DashboardView() {
                         ) : (
                             <div className="picker-list">
                                 {insights.map((i) => (
-                                    <button className="picker-item" key={i.id} onClick={() => handleAdd(i.id)}>
+                                    <button
+                                        className="picker-item"
+                                        key={i.id}
+                                        onClick={() => handleAdd(i.id)}
+                                        disabled={adding}
+                                    >
                                         <div>
                                             <strong>{i.title}</strong>
                                             <div className="picker-meta">{i.chartType} · {i.dataset?.datasetName}</div>
@@ -132,6 +167,17 @@ export default function DashboardView() {
                     </div>
                 </div>
             )}
+
+            <ConfirmDialog
+                open={!!removingTile}
+                onClose={() => !busyRemove && setRemovingTile(null)}
+                onConfirm={confirmRemoveTile}
+                title="Remove tile?"
+                message={`"${removingTile?.savedInsight?.title || ''}" will be removed from this dashboard. The insight stays pinned.`}
+                confirmLabel="Remove"
+                danger
+                busy={busyRemove}
+            />
         </div>
     );
 }

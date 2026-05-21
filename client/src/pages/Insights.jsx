@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Trash2, Sparkles, ExternalLink } from 'lucide-react';
 import VizRenderer from '../components/VizRenderer';
 import { api } from '../lib/api';
+import { useToast } from '../context/ToastContext';
+import ConfirmDialog from '../components/ConfirmDialog';
 import '../styles/Insights.css';
 
 const InsightCard = ({ insight, onDelete }) => {
@@ -28,7 +30,7 @@ const InsightCard = ({ insight, onDelete }) => {
                     <Link to={`/dataset/${insight.datasetId}/analyze`} className="insight-card-icon" title="Open in workbench">
                         <ExternalLink size={14} />
                     </Link>
-                    <button className="insight-card-icon danger" onClick={() => onDelete(insight.id)} title="Delete">
+                    <button className="insight-card-icon danger" onClick={onDelete} title="Delete">
                         <Trash2 size={14} />
                     </button>
                 </div>
@@ -45,6 +47,9 @@ const InsightCard = ({ insight, onDelete }) => {
 export default function Insights() {
     const [insights, setInsights] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [toDelete, setToDelete] = useState(null);
+    const [busy, setBusy] = useState(false);
+    const toast = useToast();
 
     const load = async () => {
         setLoading(true);
@@ -52,16 +57,24 @@ export default function Insights() {
             const j = await api.get('/api/insights');
             setInsights(j.insights || []);
         } catch {
-            // Quietly fall through to empty state — no scary error UI.
             setInsights([]);
         } finally { setLoading(false); }
     };
     useEffect(() => { load(); }, []);
 
-    const handleDelete = async (id) => {
-        if (!confirm('Delete this insight?')) return;
-        await api.del(`/api/insights/${id}`);
-        setInsights((prev) => prev.filter((i) => i.id !== id));
+    const confirmDelete = async () => {
+        if (!toDelete) return;
+        setBusy(true);
+        try {
+            await api.del(`/api/insights/${toDelete.id}`);
+            setInsights((prev) => prev.filter((i) => i.id !== toDelete.id));
+            toast.success('Insight deleted.');
+            setToDelete(null);
+        } catch (e) {
+            toast.error(e.message || 'Could not delete insight.');
+        } finally {
+            setBusy(false);
+        }
     };
 
     return (
@@ -78,8 +91,25 @@ export default function Insights() {
                 </div>
             )}
             <div className="insights-grid">
-                {insights.map((i) => <InsightCard key={i.id} insight={i} onDelete={handleDelete} />)}
+                {insights.map((i) => (
+                    <InsightCard
+                        key={i.id}
+                        insight={i}
+                        onDelete={() => setToDelete(i)}
+                    />
+                ))}
             </div>
+
+            <ConfirmDialog
+                open={!!toDelete}
+                onClose={() => !busy && setToDelete(null)}
+                onConfirm={confirmDelete}
+                title="Delete insight?"
+                message={`"${toDelete?.title || ''}" will be removed from your insights. Dashboard tiles using it will be removed too.`}
+                confirmLabel="Delete"
+                danger
+                busy={busy}
+            />
         </div>
     );
 }

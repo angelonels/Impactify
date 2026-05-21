@@ -10,16 +10,20 @@ const BUTTON_CLASSES = "w-full bg-indigo-500 hover:bg-indigo-600 text-white font
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (submitting) return;
+        setSubmitting(true);
         try {
             await api.post('/api/auth/forgot-password', { email }, { auth: false });
         } catch (error) {
             console.error('Auth error:', error);
             // Always show "submitted" state to prevent email enumeration
         } finally {
+            setSubmitting(false);
             setIsSubmitted(true);
         }
     };
@@ -68,10 +72,11 @@ const ForgotPassword = () => {
 
                         <button
                             type="submit"
-                            className={BUTTON_CLASSES}
+                            className={BUTTON_CLASSES + ' disabled:opacity-60 disabled:cursor-not-allowed'}
+                            disabled={submitting}
                         >
-                            Send Reset Link
-                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            {submitting ? 'Sending…' : 'Send Reset Link'}
+                            {!submitting && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
                         </button>
                     </form>
                 ) : (
