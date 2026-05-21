@@ -70,13 +70,28 @@ const Dashboard = () => {
             )}
 
             {error && !loading && (
-                <div className="flex items-center gap-3 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 mb-8">
-                    <AlertCircle size={20} />
-                    <span>{error}</span>
+                <div
+                    className="flex flex-col items-center justify-center text-center gap-3 p-10 rounded-xl mb-8"
+                    style={{
+                        background: 'var(--surface-soft)',
+                        border: '1px solid var(--border)',
+                        color: 'var(--fg)',
+                    }}
+                >
+                    <AlertCircle size={28} className="opacity-60" />
+                    <h3 className="text-lg font-semibold">We couldn't load your datasets.</h3>
+                    <p className="text-sm opacity-70 max-w-md">{error}</p>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="mt-2 px-4 py-2 rounded-lg text-sm font-medium"
+                        style={{ background: 'rgba(99,102,241,0.18)', color: '#c7d2fe', border: '1px solid rgba(99,102,241,0.3)' }}
+                    >
+                        Try again
+                    </button>
                 </div>
             )}
 
-            {!loading && (
+            {!loading && !error && (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <Link to="/upload">
                         <motion.div

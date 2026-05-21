@@ -45,12 +45,16 @@ const InsightCard = ({ insight, onDelete }) => {
 export default function Insights() {
     const [insights, setInsights] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const load = async () => {
         setLoading(true);
+        setError(null);
         try {
             const j = await api.get('/api/insights');
             setInsights(j.insights || []);
+        } catch (e) {
+            setError(e.message);
         } finally { setLoading(false); }
     };
     useEffect(() => { load(); }, []);
@@ -68,7 +72,17 @@ export default function Insights() {
                 <p>Pinned charts from your conversations.</p>
             </header>
             {loading && <div className="insights-empty">Loading…</div>}
-            {!loading && insights.length === 0 && (
+            {!loading && error && (
+                <div className="insights-empty">
+                    <p><AlertCircle size={20} style={{ display: 'inline', marginRight: 8 }} />{error}</p>
+                    <p>
+                        <button onClick={load} style={{ marginTop: 8, padding: '6px 14px', borderRadius: 8, background: 'rgba(99,102,241,0.18)', color: '#c7d2fe', border: '1px solid rgba(99,102,241,0.3)' }}>
+                            Try again
+                        </button>
+                    </p>
+                </div>
+            )}
+            {!loading && !error && insights.length === 0 && (
                 <div className="insights-empty">
                     <p>No saved insights yet.</p>
                     <p>Open a dataset, ask a question, and click the pin icon to save a chart here.</p>
