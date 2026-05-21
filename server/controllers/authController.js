@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const prisma = require('../config/db');
+const { issueCode, consumeCode } = require('../utils/oauthExchange');
 
 const register = async (req, res) => {
     try {
@@ -65,13 +66,29 @@ const login = async (req, res) => {
 };
 
 const googleCallback = (req, res) => {
-
     const user = req.user;
     const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
-
+    const code = issueCode(token);
 
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-    res.redirect(`${frontendUrl}/auth/success?token=${token}`);
+    res.redirect(`${frontendUrl}/auth/success?code=${code}`);
+};
+
+const exchangeCode = async (req, res) => {
+    const { code } = req.body;
+    if (!code) return res.status(400).json({ message: "Missing code" });
+
+    const token = consumeCode(code);
+    if (!token) return res.status(400).json({ message: "Invalid or expired code" });
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const user = await prisma.user.findUnique({ where: { id: decoded.id } });
+        if (!user) return res.status(404).json({ message: "User not found" });
+        res.json({ token, user: { id: user.id, email: user.email, name: user.name, role: user.role } });
+    } catch (e) {
+        res.status(400).json({ message: "Invalid token" });
+    }
 };
 
 const getMe = async (req, res) => {
@@ -86,4 +103,4 @@ const getMe = async (req, res) => {
     }
 };
 
-module.exports = { register, login, googleCallback, getMe };
+module.exports = { register, login, googleCallback, exchangeCode, getMe };
