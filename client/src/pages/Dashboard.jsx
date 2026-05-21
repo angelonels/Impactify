@@ -6,6 +6,7 @@ import { api } from '../lib/api';
 import { useToast } from '../context/ToastContext';
 import InputDialog from '../components/InputDialog';
 import ConfirmDialog from '../components/ConfirmDialog';
+import '../styles/Dashboard.css';
 
 const Dashboard = () => {
     const [datasets, setDatasets] = useState([]);
@@ -36,17 +37,6 @@ const Dashboard = () => {
     const formatDate = (iso) => {
         if (!iso) return '';
         try { return new Date(iso).toLocaleDateString(); } catch { return iso; }
-    };
-
-    const statusClass = (status) => {
-        switch ((status || '').toUpperCase()) {
-            case 'READY':      return 'bg-green-100 text-green-800';
-            case 'ERROR':      return 'bg-red-100 text-red-800';
-            case 'PROFILING':
-            case 'CLEANING':
-            case 'PROCESSING': return 'bg-yellow-100 text-yellow-800';
-            default:           return 'bg-gray-100 text-gray-700';
-        }
     };
 
     const submitRename = async (newName) => {
@@ -156,73 +146,60 @@ const Dashboard = () => {
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.05 }}
-                                whileHover={ready ? { y: -5, boxShadow: '0 10px 30px -10px rgba(0,0,0,0.1)' } : {}}
-                                className={`rounded-xl p-6 h-full transition-colors relative overflow-hidden group ${ready ? 'cursor-pointer' : 'cursor-not-allowed opacity-75'}`}
-                                style={{
-                                    background: 'var(--surface)',
-                                    border: '1px solid var(--border)',
-                                    color: 'var(--fg)',
-                                }}
+                                transition={{ delay: index * 0.04 }}
+                                whileHover={ready ? { y: -4 } : {}}
+                                className={`dataset-card ${ready ? '' : 'is-pending'}`}
                             >
-                                <div className="flex justify-between items-start mb-4">
-                                    <div className="p-2 rounded-lg transition-colors" style={{ background: 'var(--surface-soft)' }}>
-                                        <Database size={24} />
+                                <div className="dataset-card-top">
+                                    <div className="dataset-card-icon">
+                                        <Database size={22} />
                                     </div>
-                                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusClass(dataset.status)}`}>
+                                    <span className={`dataset-status status-${(dataset.status || 'unknown').toLowerCase()}`}>
                                         {dataset.status}
                                     </span>
                                 </div>
 
-                                <h3 className="text-xl font-bold mb-2 group-hover:underline truncate">
-                                    {dataset.datasetName}
-                                </h3>
+                                <h3 className="dataset-card-title">{dataset.datasetName}</h3>
 
-                                <div className="flex items-center gap-4 text-sm mt-4" style={{ opacity: 0.6 }}>
-                                    <div className="flex items-center gap-1">
-                                        <Calendar size={14} />
-                                        <span>{formatDate(dataset.createdAt)}</span>
-                                    </div>
-                                    <div className="flex items-center gap-1">
-                                        <Activity size={14} />
-                                        <span className="truncate">{dataset.tableName}</span>
-                                    </div>
+                                <div className="dataset-card-meta">
+                                    <span><Calendar size={13} /> {formatDate(dataset.createdAt)}</span>
+                                    <span className="dataset-card-meta-table"><Activity size={13} /> {dataset.tableName}</span>
                                 </div>
 
-                                <div className="absolute top-3 right-3 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div className="dataset-card-actions">
                                     <Link
                                         to={`/dataset/${dataset.id}/clean`}
                                         onClick={(e) => e.stopPropagation()}
-                                        className="p-1.5 rounded backdrop-blur"
-                                        style={{ background: 'rgba(255,255,255,0.85)', border: '1px solid rgba(0,0,0,0.08)', color: '#111' }}
+                                        className="dataset-action"
                                         title="Edit schema"
+                                        aria-label="Edit schema"
                                     >
-                                        <Sliders size={12} />
+                                        <Sliders size={14} />
                                     </Link>
                                     <button
                                         onClick={(e) => { e.preventDefault(); e.stopPropagation(); setRenaming({ id: dataset.id, datasetName: dataset.datasetName }); }}
-                                        className="p-1.5 rounded backdrop-blur"
-                                        style={{ background: 'rgba(255,255,255,0.85)', border: '1px solid rgba(0,0,0,0.08)', color: '#111' }}
+                                        className="dataset-action"
                                         title="Rename"
+                                        aria-label="Rename"
                                     >
-                                        <Edit2 size={12} />
+                                        <Edit2 size={14} />
                                     </button>
                                     <button
                                         onClick={(e) => { e.preventDefault(); e.stopPropagation(); setDeleting({ id: dataset.id, datasetName: dataset.datasetName }); }}
-                                        className="p-1.5 rounded backdrop-blur"
-                                        style={{ background: 'rgba(255,255,255,0.85)', border: '1px solid rgba(0,0,0,0.08)', color: '#dc2626' }}
+                                        className="dataset-action danger"
                                         title="Delete"
+                                        aria-label="Delete"
                                     >
-                                        <Trash2 size={12} />
+                                        <Trash2 size={14} />
                                     </button>
                                 </div>
                             </motion.div>
                         );
 
                         return ready ? (
-                            <Link to={`/dataset/${dataset.id}/analyze`} key={dataset.id}>{card}</Link>
+                            <Link to={`/dataset/${dataset.id}/analyze`} key={dataset.id} className="dataset-card-link">{card}</Link>
                         ) : (
-                            <div key={dataset.id}>{card}</div>
+                            <div key={dataset.id} className="dataset-card-link">{card}</div>
                         );
                     })}
 
