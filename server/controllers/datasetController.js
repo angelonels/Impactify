@@ -1,24 +1,22 @@
 const ingestionService = require("../services/ingestionService");
 const cleanerService = require("../services/cleanerService");
 const aiService = require("../services/aiService");
+const conversationService = require("../services/conversationService");
+const { explainSql } = require("../services/sqlExplainer");
 const pool = require("../config/pg");
 const prisma = require("../config/db");
+const { validateReadOnlySql } = require("../utils/sqlGuard");
+const { runReadOnlyQuery } = require("../services/sqlRunner");
+
+const ANALYZE_ROW_CAP = parseInt(process.env.ANALYZE_ROW_CAP || "5000", 10);
 
 /**
  * Coerces stringified numeric values from PostgreSQL into actual JS numbers.
- *
- * The node-postgres driver returns bigint, numeric, and aggregate results
- * (SUM, COUNT, AVG) as strings to avoid floating-point precision loss.
- * This is correct behavior for the driver, but it breaks every frontend
- * chart component that relies on `typeof value === 'number'` to detect
- * which columns are plottable axes vs. category labels.
- *
- * @param {Object[]} rows - Raw rows from pg query result.
- * @returns {Object[]} Rows with numeric strings parsed into JS numbers.
+ * node-postgres returns bigint/numeric/aggregate results as strings to avoid
+ * precision loss; the frontend chart components rely on `typeof === 'number'`.
  */
 const coerceNumericValues = (rows) => {
   if (!rows || rows.length === 0) return rows;
-
   return rows.map((row) => {
     const coerced = {};
     for (const [key, value] of Object.entries(row)) {
@@ -34,31 +32,19 @@ const coerceNumericValues = (rows) => {
   });
 };
 
-exports.uploadDataset = async (req, res) => {
-  try {
-    if (!req.file) return res.status(400).json({ error: "No file uploaded" });
+const requireUser = (req, res) => {
+  if (!req.user || !req.user.id) {
+    res.status(401).json({ error: "Authentication required" });
+    return null;
+  }
+  return req.user.id;
+};
 
-    let userId;
-    if (req.user) {
-      userId = req.user.id;
-    } else {
-      // Default to the first user in the database for unauthenticated uploads
-      const defaultUser = await prisma.user.findFirst();
-      if (!defaultUser) {
-        // If no user exists, create a temporary guest user
-        const guestUser = await prisma.user.create({
-          data: {
-            email: `guest_${Date.now()}@example.com`,
-            name: "Guest User",
-            role: "GUEST",
-            authProvider: "EMAIL",
-          },
-        });
-        userId = guestUser.id;
-      } else {
-        userId = defaultUser.id;
-      }
-    }
+exports.uploadDataset = async (req, res, next) => {
+  try {
+    const userId = requireUser(req, res);
+    if (!userId) return;
+    if (!req.file) return res.status(400).json({ error: "No file uploaded" });
 
     const dataset = await ingestionService.ingestFile(
       req.file.path,
@@ -66,7 +52,9 @@ exports.uploadDataset = async (req, res) => {
       req.file.originalname
     );
 
-    cleanerService.cleanDataset(dataset.id).catch(console.error);
+    cleanerService.cleanDataset(dataset.id).catch((e) =>
+      console.error("[cleanerService] background error:", e)
+    );
 
     res.json({
       success: true,
@@ -74,48 +62,281 @@ exports.uploadDataset = async (req, res) => {
       message: "Dataset uploaded and processing started.",
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 };
 
-exports.analyzeQuery = async (req, res) => {
+exports.analyzeQuery = async (req, res, next) => {
   try {
-    const { datasetId, query } = req.body;
+    const userId = requireUser(req, res);
+    if (!userId) return;
+
+    const { datasetId, query, conversationId: incomingConvId } = req.body;
+    if (!datasetId || !query) {
+      return res.status(400).json({ error: "datasetId and query are required." });
+    }
 
     const dataset = await prisma.dataset.findUnique({
       where: { id: datasetId },
+      include: { schema: true },
     });
     if (!dataset) return res.status(404).json({ error: "Dataset not found" });
+    if (dataset.userId !== userId) {
+      return res.status(403).json({ error: "You do not have access to this dataset." });
+    }
+    if (dataset.status !== "READY") {
+      return res.status(409).json({
+        error: "Dataset is not ready yet. Cleaning still in progress.",
+        status: dataset.status,
+      });
+    }
 
-    const aiConfig = await aiService.generateQuery(datasetId, query);
+    // --- Resolve / create conversation, load history ---
+    let conversation;
+    let history = [];
+    if (incomingConvId) {
+      conversation = await conversationService.getConversation({
+        conversationId: incomingConvId,
+        userId,
+      });
+      if (conversation.datasetId !== datasetId) {
+        return res.status(400).json({ error: "Conversation belongs to a different dataset." });
+      }
+      history = await conversationService.getHistoryForLLM(conversation.id);
+    } else {
+      conversation = await conversationService.createConversation({
+        userId,
+        datasetId,
+        firstPrompt: query,
+      });
+    }
 
-    let { rows } = await pool.query(aiConfig.sql);
+    // Persist the user turn up front so it shows in history even if AI fails
+    await conversationService.appendMessage(conversation.id, {
+      role: "user",
+      content: query,
+    });
 
-    // If the AI query returned no rows, fall back to a raw table preview.
-    // This happens when the user's dataset has sparse/null data and the AI
-    // generates over-restrictive WHERE clauses.
+    // --- Run AI with multi-turn history ---
+    let aiConfig;
+    try {
+      aiConfig = await aiService.generateQuery(datasetId, query, { history });
+    } catch (aiErr) {
+      await conversationService.appendMessage(conversation.id, {
+        role: "assistant",
+        content: aiErr.message || "AI failed to respond.",
+        errorMessage: aiErr.message,
+      });
+      throw aiErr;
+    }
+
+    const guard = validateReadOnlySql(aiConfig.sql);
+    if (!guard.ok) {
+      await conversationService.appendMessage(conversation.id, {
+        role: "assistant",
+        content: `Generated query was rejected: ${guard.reason}`,
+        sql: aiConfig.sql,
+        errorMessage: guard.reason,
+      });
+      return res.status(400).json({
+        error: `Generated query rejected by SQL guard: ${guard.reason}`,
+        sql: aiConfig.sql,
+        conversationId: conversation.id,
+      });
+    }
+
+    let rows;
+    let usedRepair = false;
+    try {
+      rows = await runReadOnlyQuery(aiConfig.sql, { rowCap: ANALYZE_ROW_CAP });
+    } catch (qErr) {
+      // Single retry: ask Gemini to repair using the error message.
+      // Skip retry on timeout (57014) — that's a perf issue, not a syntax one.
+      if (qErr.code !== "57014") {
+        try {
+          const repaired = await aiService.repairQuery(
+            datasetId,
+            query,
+            aiConfig.sql,
+            qErr.message,
+            { history }
+          );
+          const repairGuard = validateReadOnlySql(repaired.sql);
+          if (repairGuard.ok) {
+            rows = await runReadOnlyQuery(repaired.sql, { rowCap: ANALYZE_ROW_CAP });
+            aiConfig = repaired;
+            usedRepair = true;
+          } else {
+            throw qErr;
+          }
+        } catch (_repairErr) {
+          await conversationService.appendMessage(conversation.id, {
+            role: "assistant",
+            content: `SQL execution failed: ${qErr.message}`,
+            sql: aiConfig.sql,
+            errorMessage: qErr.message,
+          });
+          return res.status(400).json({
+            error: `SQL execution failed: ${qErr.message}`,
+            sql: aiConfig.sql,
+            conversationId: conversation.id,
+          });
+        }
+      } else {
+        await conversationService.appendMessage(conversation.id, {
+          role: "assistant",
+          content: `SQL execution timed out: ${qErr.message}`,
+          sql: aiConfig.sql,
+          errorMessage: qErr.message,
+        });
+        return res.status(504).json({
+          error: `SQL execution failed: ${qErr.message}`,
+          sql: aiConfig.sql,
+          conversationId: conversation.id,
+        });
+      }
+    }
+
     let emptyResult = false;
     let fallbackMessage = null;
     if (!rows || rows.length === 0) {
       emptyResult = true;
       fallbackMessage = "The query returned no results — here's a preview of your data instead.";
-      const fallback = await pool.query(
-        `SELECT * FROM ${dataset.tableName} LIMIT 50`
+      rows = await runReadOnlyQuery(
+        `SELECT * FROM ${dataset.tableName} LIMIT 50`,
+        { rowCap: 50 }
       );
-      rows = fallback.rows;
-      aiConfig.chartType = "table"; // table is the only sensible fallback
+      aiConfig.chartType = "table";
     }
+
+    const explanation = explainSql(aiConfig.sql);
+
+    // Persist assistant turn
+    await conversationService.appendMessage(conversation.id, {
+      role: "assistant",
+      content: aiConfig.overview || explanation,
+      sql: aiConfig.sql,
+      chartType: aiConfig.chartType,
+      rowCount: rows.length,
+    });
 
     res.json({
       data: coerceNumericValues(rows),
       config: aiConfig,
+      explanation,
       emptyResult,
       fallbackMessage,
+      conversationId: conversation.id,
+      repaired: usedRepair,
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 };
 
+exports.listDatasets = async (req, res, next) => {
+  try {
+    const userId = requireUser(req, res);
+    if (!userId) return;
+
+    const datasets = await prisma.dataset.findMany({
+      where: { userId },
+      orderBy: { createdAt: "desc" },
+      select: {
+        id: true,
+        datasetName: true,
+        tableName: true,
+        status: true,
+        createdAt: true,
+      },
+    });
+    res.json({ datasets });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getDataset = async (req, res, next) => {
+  try {
+    const userId = requireUser(req, res);
+    if (!userId) return;
+
+    const dataset = await prisma.dataset.findUnique({
+      where: { id: req.params.id },
+      include: { schema: { orderBy: { columnName: "asc" } } },
+    });
+    if (!dataset) return res.status(404).json({ error: "Dataset not found" });
+    if (dataset.userId !== userId) {
+      return res.status(403).json({ error: "You do not have access to this dataset." });
+    }
+    res.json({ dataset });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.renameDataset = async (req, res, next) => {
+  try {
+    const userId = requireUser(req, res);
+    if (!userId) return;
+    const { datasetName } = req.body;
+    if (!datasetName || !datasetName.trim()) {
+      return res.status(400).json({ error: "datasetName required" });
+    }
+    const dataset = await prisma.dataset.findUnique({ where: { id: req.params.id } });
+    if (!dataset) return res.status(404).json({ error: "Dataset not found" });
+    if (dataset.userId !== userId) return res.status(403).json({ error: "Forbidden" });
+    const updated = await prisma.dataset.update({
+      where: { id: req.params.id },
+      data: { datasetName: datasetName.trim() },
+    });
+    res.json({ dataset: updated });
+  } catch (e) { next(e); }
+};
+
+exports.deleteDataset = async (req, res, next) => {
+  try {
+    const userId = requireUser(req, res);
+    if (!userId) return;
+    const dataset = await prisma.dataset.findUnique({ where: { id: req.params.id } });
+    if (!dataset) return res.status(404).json({ error: "Dataset not found" });
+    if (dataset.userId !== userId) return res.status(403).json({ error: "Forbidden" });
+
+    // Drop physical table, then prisma cascade removes the metadata.
+    // tableName is generated server-side and matches ^ds_\d+_[a-z0-9]+$, so it's safe to inline.
+    if (/^ds_\d+_[a-z0-9]+$/.test(dataset.tableName)) {
+      await pool.query(`DROP TABLE IF EXISTS "${dataset.tableName}"`);
+    }
+    await prisma.dataset.delete({ where: { id: req.params.id } });
+    res.json({ success: true });
+  } catch (e) { next(e); }
+};
+
+exports.updateColumnDescription = async (req, res, next) => {
+  try {
+    const userId = requireUser(req, res);
+    if (!userId) return;
+
+    const { id: datasetId, colId } = req.params;
+    const { description } = req.body;
+
+    const dataset = await prisma.dataset.findUnique({ where: { id: datasetId } });
+    if (!dataset) return res.status(404).json({ error: "Dataset not found" });
+    if (dataset.userId !== userId) {
+      return res.status(403).json({ error: "You do not have access to this dataset." });
+    }
+
+    const col = await prisma.datasetSchema.findUnique({ where: { id: colId } });
+    if (!col || col.datasetId !== datasetId) {
+      return res.status(404).json({ error: "Column not found" });
+    }
+
+    const updated = await prisma.datasetSchema.update({
+      where: { id: colId },
+      data: { description: (description || "").trim() || null },
+    });
+    res.json({ column: updated });
+  } catch (error) {
+    next(error);
+  }
+};
