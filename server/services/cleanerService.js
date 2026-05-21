@@ -4,13 +4,24 @@ const prisma = require('../config/db');
 const TYPE_THRESHOLD  = 0.8;
 const REGEX_BOOLEAN   = /^(true|false|yes|no|1|0)$/i;
 const REGEX_INTEGER   = /^-?\d+$/;
-const REGEX_FLOAT     = /^-?\d+(\.\d+)?$/;
+// Accept plain decimals, scientific notation, and accounting-style with commas/currency.
+const REGEX_FLOAT     = /^-?\d+(\.\d+)?([eE][-+]?\d+)?$/;
+const REGEX_CURRENCY  = /^[\$£€¥]?-?\d{1,3}(,\d{3})*(\.\d+)?$|^-?\d+(\.\d+)?\s*%$/;
+const REGEX_ISO_DATE  = /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:?\d{2})?)?$/;
 const REGEX_NON_DIGITS = '[^0-9-]';
-const REGEX_NON_FLOAT  = '[^0-9.-]';
+const REGEX_NON_FLOAT  = '[^0-9.eE+-]';
 
+const looksLikeDate = (s) => {
+    if (REGEX_ISO_DATE.test(s)) return true;
+    // Require letters or two separators to dodge Date.parse() coercing bare numbers ("20" → 2001).
+    if (!/[a-zA-Z]/.test(s) && (s.match(/[-\/:]/g) || []).length < 2) return false;
+    const t = Date.parse(s);
+    if (Number.isNaN(t)) return false;
+    const yr = new Date(t).getFullYear();
+    return yr >= 1900 && yr <= 2100;
+};
 
-// Analyze a sample of non-null values and infer their SQL type
-const inferType = (values) => {
+exports.inferType = (values) => {
     const counts = { INTEGER: 0, FLOAT: 0, BOOLEAN: 0, TIMESTAMP: 0, TOTAL: 0 };
 
     for (const value of values) {
@@ -21,11 +32,10 @@ const inferType = (values) => {
 
         if (REGEX_BOOLEAN.test(strVal)) counts.BOOLEAN++;
         if (REGEX_INTEGER.test(strVal)) counts.INTEGER++;
-        if (REGEX_FLOAT.test(strVal))   counts.FLOAT++;
+        if (REGEX_FLOAT.test(strVal) || REGEX_CURRENCY.test(strVal)) counts.FLOAT++;
 
-        const isDate      = !isNaN(Date.parse(strVal));
         const isNotNumber = !REGEX_INTEGER.test(strVal);
-        if (isDate && strVal.length > 5 && isNotNumber) counts.TIMESTAMP++;
+        if (isNotNumber && looksLikeDate(strVal)) counts.TIMESTAMP++;
     }
 
     if (counts.TOTAL === 0) return 'TEXT';
@@ -37,6 +47,7 @@ const inferType = (values) => {
     if (ratio(counts.TIMESTAMP) > TYPE_THRESHOLD) return 'TIMESTAMP';
     return 'TEXT';
 };
+const inferType = exports.inferType;
 
 
 // Generate the ALTER TABLE … TYPE statement to cast a single column
