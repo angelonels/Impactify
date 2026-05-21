@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaCloudUploadAlt, FaFileCsv } from 'react-icons/fa';
+import { api } from '../lib/api';
 import '../styles/Upload.css';
 
 const Upload = () => {
@@ -32,11 +33,14 @@ const Upload = () => {
     };
 
     const validateAndSetFile = (file) => {
-        if (file && file.type === "text/csv") {
-            setFile(file);
-        } else {
-            alert("Please upload a valid CSV file.");
-        }
+        if (!file) return;
+        const name = (file.name || '').toLowerCase();
+        const ok = /\.(csv|xlsx|xls)$/.test(name) ||
+            file.type === 'text/csv' ||
+            file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+            file.type === 'application/vnd.ms-excel';
+        if (ok) setFile(file);
+        else alert('Please upload a CSV, XLSX, or XLS file.');
     };
 
     const handleUpload = async () => {
@@ -47,40 +51,11 @@ const Upload = () => {
         formData.append('file', file);
 
         try {
-
-
-            // const apiUrl = import.meta.env.VITE_API_URL.replace(/\/$/, '');
-
-            const apiUrl = (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/$/, '')
-
-            if (!apiUrl) {
-            console.warn("VITE_API_URL is missing in .env file, upload might fail.")
-        }
-
-            const response = await fetch(`${apiUrl}/api/dataset/upload`, {
-                method: 'POST',
-                headers: {},
-                body: formData
-            });
-
-            const responseText = await response.text();
-            let data;
-            try {
-                data = JSON.parse(responseText);
-            } catch (e) {
-                console.error("Non-JSON Response:", responseText);
-                throw new Error(`Server returned non-JSON response (${response.status} ${response.statusText}): ${responseText.substring(0, 100)}...`);
-            }
-
-            if (response.ok) {
-                navigate(`/dataset/${data.datasetId}/analyze`);
-            } else {
-                console.error("Server Error Detail:", data);
-                alert(`Upload Failed: ${data.error || data.message || "Unknown error"}`);
-            }
+            const data = await api.post('/api/dataset/upload', formData);
+            navigate(`/dataset/${data.datasetId}/analyze`);
         } catch (error) {
-            console.error("Network/Client Error:", error);
-            alert(`Network Error: ${error.message}\nTarget API: ${import.meta.env.VITE_API_URL}`);
+            console.error("Upload error:", error);
+            alert(`Upload Failed: ${error.message}`);
         } finally {
             setIsUploading(false);
         }
@@ -90,7 +65,7 @@ const Upload = () => {
         <div className="upload-container">
             <div className="upload-header">
                 <h2>Upload Your Data</h2>
-                <p>Drag and drop your CSV file to begin analysis.</p>
+                <p>Drag and drop a CSV or Excel file to begin analysis.</p>
             </div>
 
             <div
@@ -104,13 +79,13 @@ const Upload = () => {
                     type="file"
                     ref={fileInputRef}
                     onChange={handleFileSelect}
-                    accept=".csv"
+                    accept=".csv,.xlsx,.xls"
                     hidden
                 />
 
                 {file ? (
                     <div className="file-info">
-                        <FaFileCsv className="upload-icon" style={{ color: '#41D1FF' }} />
+                        <FaFileCsv className="upload-icon upload-icon-active" />
                         <h3>{file.name}</h3>
                         <p>{(file.size / 1024).toFixed(2)} KB</p>
                     </div>
@@ -118,7 +93,7 @@ const Upload = () => {
                     <>
                         <FaCloudUploadAlt className="upload-icon" />
                         <h3>Click to upload or drag and drop</h3>
-                        <p style={{ color: '#666' }}>CSV files only (Max 10MB)</p>
+                        <p className="upload-hint">CSV, XLSX, or XLS · up to 25 MB</p>
                     </>
                 )}
             </div>
@@ -132,7 +107,7 @@ const Upload = () => {
             </button>
             
             {isUploading && (
-                <p style={{ marginTop: '1rem', color: '#888', fontSize: '0.9rem' }}>
+                <p className="upload-note">
                     Please wait, this may take a moment due to server latency...
                 </p>
             )}
