@@ -24,35 +24,128 @@ enum AuthProvider {
 model User {
   id            String       @id @default(uuid())
   email         String       @unique
-  passwordHash  String?      
+  passwordHash  String?
   name          String?
   role          Role         @default(USER)
   authProvider  AuthProvider @default(EMAIL)
   googleId      String?      @unique
   createdAt     DateTime     @default(now())
-  
+
   datasets      Dataset[]
+  conversations Conversation[]
+  savedInsights SavedInsight[]
+  dashboards    Dashboard[]
 }
 
 // Dataset Model
 model Dataset {
   id            String   @id @default(uuid())
   userId        String
-  user          User     @relation(fields: [userId], references: [id])
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   datasetName   String
-  tableName     String   // The private SQL table name
+  tableName     String   @unique // The private SQL table name
   status        String   // uploading, profiling, cleaning, ready, error
   createdAt     DateTime @default(now())
-  
+
   schema        DatasetSchema[]
+  conversations Conversation[]
+  savedInsights SavedInsight[]
+
+  @@index([userId])
+  @@index([userId, createdAt])
+}
+
+// Conversation Model — threads of NL queries per (user, dataset)
+model Conversation {
+  id         String   @id @default(uuid())
+  userId     String
+  datasetId  String
+  title      String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dataset    Dataset  @relation(fields: [datasetId], references: [id], onDelete: Cascade)
+  messages   Message[]
+
+  @@index([userId, updatedAt])
+  @@index([datasetId])
+}
+
+// Message Model — single user prompt OR assistant response within a Conversation
+model Message {
+  id              String   @id @default(uuid())
+  conversationId  String
+  role            String   // "user" | "assistant"
+  content         String   // user prompt OR assistant overview
+  sql             String?
+  chartType       String?
+  rowCount        Int?
+  errorMessage    String?
+  createdAt       DateTime @default(now())
+
+  conversation    Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId, createdAt])
+}
+
+// SavedInsight — a pinned chart that re-executes its SQL on load.
+model SavedInsight {
+  id          String   @id @default(uuid())
+  userId      String
+  datasetId   String
+  title       String
+  sql         String
+  chartType   String
+  overview    String?
+  createdAt   DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dataset     Dataset  @relation(fields: [datasetId], references: [id], onDelete: Cascade)
+  dashboardItems DashboardItem[]
+
+  @@index([userId, createdAt])
+  @@index([datasetId])
+}
+
+// Dashboard — a named collection of SavedInsight tiles laid out on a grid.
+model Dashboard {
+  id        String   @id @default(uuid())
+  userId    String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     DashboardItem[]
+
+  @@index([userId, updatedAt])
+}
+
+model DashboardItem {
+  id            String   @id @default(uuid())
+  dashboardId   String
+  savedInsightId String
+  x             Int      @default(0)
+  y             Int      @default(0)
+  w             Int      @default(6)
+  h             Int      @default(4)
+
+  dashboard     Dashboard    @relation(fields: [dashboardId], references: [id], onDelete: Cascade)
+  savedInsight  SavedInsight @relation(fields: [savedInsightId], references: [id], onDelete: Cascade)
+
+  @@index([dashboardId])
 }
 
 // Dataset Schema Model (For AI Context)
 model DatasetSchema {
   id          String   @id @default(uuid())
   datasetId   String
-  dataset     Dataset  @relation(fields: [datasetId], references: [id])
+  dataset     Dataset  @relation(fields: [datasetId], references: [id], onDelete: Cascade)
   columnName  String
   dataType    String   // FLOAT, TEXT, TIMESTAMP
   description String?
+
+  @@index([datasetId])
+  @@unique([datasetId, columnName])
 }
