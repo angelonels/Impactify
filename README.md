@@ -1,221 +1,128 @@
-<h1 align="center"> Impactify — Your AI-Powered Data Analyst</h1>
-<p align="center">
-  <img src="https://media.giphy.com/media/qgQUggAC3Pfv687qPC/giphy.gif" width="400" alt="AI animation" />
-</p>
-
-<h3 align="center">
-  <em>Empowering everyone to become a data analyst — without writing a single line of SQL.</em>
-</h3>
-
-<br/>
+<h1 align="center">Impactify — Your AI-Powered Data Analyst</h1>
+<p align="center"><em>Upload a CSV. Chat with it. Get charts.</em></p>
 
 <p align="center">
-  <a href="https://github.com/angelonels/Impactify/stargazers">
-    <img src="https://img.shields.io/github/stars/angelonels/Impactify?color=gold&style=for-the-badge" alt="Stars Badge"/>
-  </a>
-  <a href="https://github.com/angelonels/Impactify/forks">
-    <img src="https://img.shields.io/github/forks/angelonels/Impactify?color=teal&style=for-the-badge" alt="Forks Badge"/>
-  </a>
-  <a href="https://github.com/angelonels/Impactify/issues">
-    <img src="https://img.shields.io/github/issues/angelonels/Impactify?color=orange&style=for-the-badge" alt="Issues Badge"/>
-  </a>
-  <a href="https://github.com/angelonels/Impactify/pulls">
-    <img src="https://img.shields.io/github/issues-pr/angelonels/Impactify?color=brightgreen&style=for-the-badge" alt="Pull Requests Badge"/>
-  </a>
-  <a href="https://github.com/angelonels/Impactify/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/angelonels/Impactify?color=purple&style=for-the-badge" alt="Contributors Badge"/>
-  </a>
-<a href="https://github.com/angelonels/Impactify/commits/main">
-  <img src="https://img.shields.io/github/commit-activity/m/angelonels/Impactify?color=ff69b4&style=for-the-badge" alt="Commit Activity Badge"/>
-</a>
-
-  <a href="https://github.com/angelonels/Impactify/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/angelonels/Impactify?color=blue&style=for-the-badge" alt="License Badge"/>
-  </a>
-  <img src="https://img.shields.io/badge/Frontend-React-blue?style=for-the-badge&logo=react&logoColor=white" alt="React Badge"/>
-  <img src="https://img.shields.io/badge/Backend-Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js Badge"/>
-  <img src="https://img.shields.io/badge/Database-PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL Badge"/>
-  <img src="https://img.shields.io/badge/AI-Google%20Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Gemini Badge"/>
-  <img src="https://img.shields.io/badge/Deployed%20On-Vercel%20%26%20Render-black?style=for-the-badge&logo=vercel&logoColor=white" alt="Deploy Badge"/>
+  <strong>Live:</strong> <a href="https://impactify-alpha.vercel.app">impactify-alpha.vercel.app</a>
 </p>
 
 ---
 
-<p align="center">
-Impactify is a <b>full-stack AI-powered web application</b> that bridges the gap between raw data and actionable insights.  
-Users can <b>upload datasets</b> and <b>ask questions in plain English</b> — Impactify automatically converts them into <b>SQL queries</b> and renders <b>dynamic visualizations</b> like bar, line, or pie charts instantly. No login required!
-</p>
+## What it does
 
----
+Upload a CSV or Excel file. Ask questions in plain English (or Hindi). Impactify writes SQL, runs it safely, and renders the answer as one of **22 chart types** — bar, line, pie, area, scatter, heatmap, treemap, sunburst, funnel, waffle, radar, calendar, boxplot, stream, bump, KPI cards, and more. Follow-ups remember context. Pin charts you love. Compose dashboards. Open them later and tiles re-execute live.
 
-## 📖 **Table of Contents**
+## The 30-second tour
 
-<div align="center">
+1. **Upload** — drop a `.csv` / `.xlsx` (≤25 MB).
+2. **Wait ~2s** while the cleaner infers column types (INTEGER, FLOAT, BOOLEAN, TIMESTAMP, TEXT).
+3. **Chat** — *"show monthly sales over time"*, *"now break it down by city"*, *"top 5 cities"*, *"what's total revenue?"*.
+4. **Switch chart** — chip row above every chart lets you re-render in any compatible code.
+5. **Pin** — save a chart to Insights.
+6. **Compose** — drop pinned insights onto a Dashboard, drag/resize.
+7. **⌘K** — jump anywhere instantly.
 
-|     | Section                                               | Description                                     |
-| :-: | :---------------------------------------------------- | :---------------------------------------------- |
-| 1️⃣  | [ **Overview**](#-overview)                         | Learn what this project is all about            |
-| 2️⃣  | [ **Key Features**](#-key-features)                 | Explore the unique and powerful functionalities |
-| 3️⃣  | [ **Tech Stack**](#-tech-stack)                     | Discover the technologies powering this project |
-| 4️⃣  | [ **Installation & Setup**](#️-installation--setup) | How to run the project locally                  |
-| 5️⃣  | [ **Usage Guide**](#-usage-guide)                   | Step-by-step guide to using the app             |
-| 6️⃣  | [ **Our Team**](#our-team)                          | Meet the developers behind the project          |
+## Architecture
 
-</div>
-
----
-
-##  Overview
-
-**Impactify** is a next-generation data analysis platform designed to simplify how people interact with data.  
-Instead of learning SQL or data visualization tools, users can **ask questions in natural language**.  
-The backend then securely converts these questions into SQL queries and visualizes the results dynamically.
-
-### Mission
-
-> To make data-driven decision-making accessible to everyone — not just data scientists.
-
----
-
-##  Key Features
-
-### 1. Seamless File Ingestion
-
-- **Drag & Drop Upload:** Easily upload CSV files.
-- **Automatic Schema Detection:** The system automatically detects columns and data types.
-- **Robust Error Handling:** Automatically fixes common CSV issues like conflicting IDs.
-
-### 2. Natural Language → SQL
-
-- **AI-Powered:** Uses Google Gemini to translate plain English into optimized SQL queries.
-- **Example:** _“Show me the top 10 customers by sales last quarter as a bar chart.”_
-- **Secure:** Queries are generated and executed safely on your private dataset table.
-
-### 3.  AI-Driven Visualization Workbench
-
-- **Dynamic Charts:** Automatically selects the best chart type (Bar, Line, Pie) based on your data.
-- **Interactive:** Hover over data points for details.
-- **Table View:** View raw data in a clean, paginated table.
-- **SQL Transparency:** View the generated SQL query for verification.
-
-### 4.  Frictionless Access
-
-- **No Login Required:** Start analyzing immediately as a guest.
-- **Privacy Focused:** Your data is isolated and secure.
-
----
-
-##  Tech Stack
-
-| Layer          | Technologies                                                    |
-| -------------- | --------------------------------------------------------------- |
-| **Frontend**   | React, Tailwind CSS, Framer Motion, Recharts/Nivo, React Router |
-| **Backend**    | Node.js, Express, Prisma ORM                                    |
-| **AI / LLM**   | Google Gemini API (Schema-Aware Prompting)                      |
-| **Database**   | PostgreSQL                                                      |
-| **Deployment** | Vercel (Frontend), Render (Backend), Neon.tech (DB)             |
-
----
-
-## Installation & Setup
-
-Follow these steps to run Impactify on your local machine.
-
-### Prerequisites
-
-- Node.js (v18+)
-- PostgreSQL installed and running
-- Git
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/angelonels/Impactify.git
-cd Impactify
+```
+Client (Vite + React)          ↔   Server (Express + Prisma)        ↔   Postgres (Neon)
+─ AuthContext + Bearer JWT          ─ helmet, rate-limit, CORS           ─ User-data tables (ds_*)
+─ ThemeContext (dark/light)         ─ sqlGuard (AST validator)            ─ Metadata via Prisma
+─ ⌘K palette (cmdk)                 ─ sqlRunner (READ ONLY txn,
+─ Lazy routes (React.lazy)             10s timeout, 5000 row cap)
+─ Nivo charts (22 types)            ─ aiService (Gemini 2.5 Flash,
+─ react-grid-layout dashboards         multi-turn, self-correcting)
+                                    ─ conversationService (chat memory)
 ```
 
-### 2. Setup Backend
+## Stack
+
+- **Frontend**: Vite, React 19, React Router, Tailwind, Nivo (22 chart packages), framer-motion, cmdk, react-grid-layout.
+- **Backend**: Express 5, Prisma 5, pg, helmet, express-rate-limit, node-sql-parser, @google/genai, multer, xlsx, passport-google-oauth20, bcryptjs, jsonwebtoken, morgan.
+- **DB**: Postgres (Neon in prod, local Homebrew for dev).
+- **AI**: Gemini 2.5 Flash (`@google/genai`).
+- **Tests**: Vitest (server). 30+ tests for sqlGuard, sqlExplainer, cleaner inference, conversation utils.
+- **CI**: GitHub Actions — server test + client build on PR / push.
+- **Deploy**: Vercel (FE), Render (BE, `render.yaml` with `/healthz` + `prisma migrate deploy`), Neon (DB).
+
+## Local development
 
 ```bash
+# Postgres (one-time)
+brew install postgresql@15 && brew services start postgresql@15
+createdb impactify
+
+# Server
 cd server
+cp .env.example .env             # edit DATABASE_URL, JWT_SECRET, GEMINI_API_KEY
 npm install
-```
+npx prisma migrate deploy
+npm run dev                      # http://localhost:5001
 
-Create a `.env` file in the `server` directory:
-
-```env
-PORT=5000
-DATABASE_URL="postgresql://user:password@localhost:5432/impactify"
-GEMINI_API_KEY="your_google_gemini_api_key"
-FRONTEND_URL="http://localhost:5173"
-```
-
-Run Database Migrations:
-
-```bash
-npx prisma migrate dev --name init
-```
-
-Start the Server:
-
-```bash
-npm run dev
-```
-
-### 3. Setup Frontend
-
-Open a new terminal and navigate to the client directory:
-
-```bash
+# Client (new terminal)
 cd client
+echo "VITE_API_URL=http://localhost:5001" > .env.local
 npm install
+npm run dev                      # http://localhost:5173
 ```
 
-Create a `.env.local` file in the `client` directory:
+Set `AUTH_REQUIRED=false` in `server/.env` for a no-login local demo (auth code stays in place behind the flag).
 
-```env
-VITE_API_URL="http://localhost:5000"
+## Required env (server)
+
+| Key | Required | Notes |
+|---|---|---|
+| `DATABASE_URL` | yes | Postgres connection string |
+| `JWT_SECRET` | yes | ≥24 chars recommended |
+| `FRONTEND_URL` | yes | For OAuth callback redirect |
+| `GEMINI_API_KEY` | rec. | `/analyze` returns 503 without it (no silent fallback) |
+| `GOOGLE_CLIENT_ID` / `_SECRET` | rec. | For Google OAuth |
+| `AUTH_REQUIRED` | opt. | `false` to disable auth gates in dev |
+| `CORS_ORIGINS` | opt. | Comma-separated whitelist |
+| `ANALYZE_ROW_CAP` | opt. | Default 5000 |
+| `ANALYZE_STATEMENT_TIMEOUT_MS` | opt. | Default 10000 |
+
+## Project structure
+
+```
+server/
+  controllers/         analyze, insights, dashboards, conversations, datasets, auth
+  services/            aiService, cleanerService, ingestionService, sqlRunner, sqlExplainer,
+                       conversationService
+  routes/              datasetRoutes, conversationRoutes, insightsRoutes, dashboardsRoutes, authRoutes
+  utils/               sqlGuard (node-sql-parser AST validator), oauthExchange
+  middleware/          authMiddleware, errorHandler
+  prisma/              schema.prisma + 4 migrations
+  tests/               *.test.mjs (Vitest)
+
+client/
+  src/
+    pages/             Home, Dashboard, Upload, Workbench (chat), Insights, Dashboards,
+                       DashboardView, DemoGallery, Login, Signup, AuthSuccess
+    components/        VizRenderer, ConversationSidebar, ChatMessage, CommandPalette, RequireAuth, Navbar
+    components/charts/ 21 chart components + registry.js + theme.js
+    context/           AuthContext, ThemeContext
+    lib/               api (Bearer auto-attach), chartShape (data-shape helpers)
+    styles/            *.css (dark + light variants)
+
+samples/sales_sample.csv  # 48-row demo dataset for exercising all chart types
 ```
 
-Start the Client:
+## Demo data
 
-```bash
-npm run dev
-```
+`samples/sales_sample.csv` — 48 rows × 7 columns (order_date, city, product_category, customer_segment, sales, units_sold, discount_pct). Used by `pages/DemoGallery.jsx` to render a complete UX walkthrough offline. Try queries:
 
-Visit `http://localhost:5173` in your browser!
+- `"show monthly total sales trend"` → **line**
+- `"top 5 cities by total sales"` → **bar**
+- `"market share by product category"` → **pie**
+- `"scatter plot of sales vs units_sold"` → **scatter**
+- `"heatmap of sales by city and product category"` → **heatmap**
+- `"what is the total revenue?"` → **kpi**
+- `"मुंबई की कुल बिक्री दिखाओ"` → still produces valid SQL; overview in Hindi.
 
----
+## Roadmap
 
-## Usage Guide
+See [`idea.md`](./idea.md) — milestones M3 (Data Report Card), M2-advanced (few-shot from history), query/LLM cache, Google Sheets connector, derived columns, SSE streaming.
 
-1.  **Upload Data:** Go to the Upload page and drag & drop your CSV file.
-2.  **Analyze:** You will be redirected to the Workbench.
-3.  **Ask Questions:** Type questions like:
-    - "Show me a pie chart of sales by category"
-    - "Plot the monthly revenue as a line chart"
-    - "List the top 5 products"
-4.  **View Results:** See the AI-generated charts and insights instantly.
+## License
 
----
-
-<a id="our-team"></a>
-
-## ☕ Team CodeBrewers
-
-###  Our Team
-
-Thanks to these amazing people for contributing to **Impactify** 🔥
-
-<p align="center">
-  <a href="https://github.com/angelonels/Impactify/graphs/contributors">
-    <img src="https://contrib.rocks/image?repo=angelonels/Impactify" />
-  </a>
-</p>
-<p align="center">
-  <b>Ayush Kumar Singh</b> • <b>Angelo Nelson</b> • <b>Rohit Nair P</b> • <b>Isha Singh</b>
-</p>
-
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=100&section=footer" />
-</p>
+MIT.

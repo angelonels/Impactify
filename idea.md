@@ -1,117 +1,110 @@
-# **Project Title & Overview**
+# Impactify — Your AI-Powered Data Analyst
 
-**Project Title:** Impactify \- Your AI-Powered Data Analyst
+## Overview
 
-Overview:  
-Impactify is a full-stack web application designed to bridge the gap between raw data and clear, actionable insights. Its core mission is to empower users to become data analysts. Users can upload their datasets, guide the system through an intelligent data cleaning process, and then—most importantly—ask questions in plain English. Impactify's AI engine will translate these natural language queries into the necessary SQL, retrieve the data, and present the answer as the requested interactive visualization. This project focuses on removing technical barriers, such as learning SQL, to make data-driven decisions accessible to a wider audience.
+Impactify is a full-stack web application that turns raw spreadsheets into clear, actionable insights. Upload a CSV or Excel file. Ask questions in plain English (or Hindi). The AI translates each question into validated SQL, executes it safely against your private data, and renders the answer as a chart picked from a 22-chart catalog. Conversation memory lets you ask follow-ups — "now break that down by city" — without restating context. Pin charts you love. Compose dashboards. Open them later; tiles re-execute live.
 
-# **Key Features / Modules**
+The mission: remove technical barriers — schema knowledge, SQL fluency, viz tooling — so non-technical decision-makers can self-serve answers from their own data.
 
-1. **File Ingestion:**  
-   * **In-Browser Parsing:** To ensure a smooth upload experience, the application will parse text-based files (like CSV) directly in the browser, chunk by chunk, using a library like Papa Parse.  
-   * **Streaming API:** The frontend will then send these manageable JSON chunks to the backend, allowing for reliable data ingestion.  
-2. **Automated Data Profiling:**  
-   * After the data is staged, the backend will automatically profile it.  
-   * **Data Report Card:** This process generates a summary for the user, noting things like columns with missing values, inferred data types, or potential text inconsistencies (e.g., "USA" vs. "U.S.A.").  
-3. **Interactive Data Cleaning:**  
-   * A user-friendly interface that presents the "Data Report Card."  
-   * **Simple Fixes:** Users will be provided with simple tools to:  
-     * Fill missing values (e.g., with the average, median, or a custom value).  
-     * Group and merge inconsistent text entries.  
-     * Correct data types that the profiler may have inferred incorrectly.  
-4. **Natural Language to SQL :**  
-   * **The Query Bar:** The primary interface for visualization will be a simple text bar.  
-   * **AI Translation:** A user can type, "Show me the top 10 customers by sales last quarter as a bar chart." The backend will securely combine this query with the schema of the user's dataset and send it to an LLM (e.g., Gemini). This schema-aware prompting ensures the AI understands the data structure.  
-   * **Intelligent Response:** The LLM will return a JSON object containing the validated SQL query and the requested chart type (e.g., {"sql": "SELECT ...", "chartType": "bar"}).  
-   * **Secure Execution:** The backend will validate this SQL to prevent unauthorized actions and then execute it against the user's database.  
-5. **AI-Driven Visualization Workbench:**  
-   * **Dynamic Rendering:** The frontend will be able to take the data from the AI-generated query and instantly render the correct chart (Bar, Line, Pie, etc.) using D3.js.
+---
 
-# **User Roles**
+## Core capabilities (as built)
 
-1. **Admin:**  
-   * **Permissions:** System-level administrator. Can manage user accounts (e.g., delete users, reset passwords), view system-wide usage statistics, and manage public gallery content (if the Guest feature is implemented).  
-   * **Data Access:** Read-only access to system metadata. **No access** to private user-uploaded data to ensure user privacy.  
-2. **Registered User:**  
-   * **Permissions:** The core user. They can upload, profile, clean, and manage their own private datasets. They can perform AI-driven queries and view visualizations.  
-   * **Data Access:** Full and exclusive read, write, and delete access to their *own* data.  
-3. **Guest:**  
-   * **Permissions:** Could be allowed to browse a public "gallery" of interesting datasets or analyses that other users have chosen to share.  
-   * **Data Access:** Read-only.
+### 1. Ingestion
+- **CSV and Excel** (`.csv`, `.xlsx`, `.xls`) up to 25 MB.
+- Headers sanitized (`Sales by Year` → `sales_by_year`). Blank cells stored as `NULL` so `IS NOT NULL` filters work.
+- Parameterized batch inserts (under Postgres' 65k-param limit), no SQLi surface from raw cell values.
 
-# **Page / Screen List (Frontend)**
+### 2. Auto-cleaning + type inference
+Background job (per dataset) infers the SQL type of every column from a sample:
+- INTEGER, FLOAT (incl. scientific notation `1.2e-4`, currency `$1,200`, percent `33%`)
+- BOOLEAN (`true/false/yes/no/1/0`)
+- TIMESTAMP (ISO `2024-05-21`, English `May 21 2024`, robust against false positives — "20" is NOT a date)
+- TEXT fallback when no type dominates (80% threshold)
 
-* /login & /signup (Authentication pages)  
-* /admin/dashboard (Admin Panel: User management, system stats)  
-* /dashboard (Dashboard Home): The main hub, listing the user's "Data Projects."  
-* /upload (Data Upload Page): The interface for file selection to begin the ingestion process.  
-* /dataset/{id}/clean (Data Cleaning Page): The interactive interface for data preprocessing.  
-* /dataset/{id}/analyze (The "Impact" Workbench): The main analysis page, featuring the natural language query bar and the visualization canvas.  
-* /profile (User Profile Page): For managing account details.
+Failed casts roll back per-column via SAVEPOINT — the column stays TEXT instead of nuking the whole dataset. Dataset status flips to `READY` when done.
 
-# **Database Schema**
+### 3. Conversational NL→SQL (Gemini 2.5 Flash)
+- Each chat thread is a `Conversation` with its own message history.
+- Last 6 turns injected into Gemini prompt. Follow-ups like *"now break that down by city"* reuse the prior SQL.
+- Multilingual: ask in English, Hindi, or transliterated Hinglish. SQL stays English; overview answers in your language.
+- **Self-correcting retry**: if Postgres rejects the generated SQL (column missing, etc.), the controller re-prompts Gemini with the failing SQL + Postgres error and retries once.
+- **Per-column descriptions**: edit `"sales"` → "total revenue in INR" once; every future query benefits.
 
-This schema separates application metadata from the user's ingested data, which is crucial for security and organization.
+### 4. Defense-in-depth SQL execution
+- **Validator** (`node-sql-parser`): rejects anything but a single SELECT. No DROP/DELETE/UPDATE/INSERT, no multi-statement.
+- **Sandboxed runner**: every analyze query runs inside `BEGIN READ ONLY` with a 10-second `statement_timeout` and an outer `LIMIT 5000` row cap. Timeouts surface as HTTP 504.
 
-### **App Metadata (PostgreSQL)**
+### 5. Plain-English SQL explainer
+Every generated SQL is parsed AST-side (no extra LLM call) into a human summary:
+> *Selects "city", SUM of "sales" (aliased "total_sales"), from ds_…, grouped by "city", ordered by "total_sales" DESC, limited to 5 rows.*
 
-**User**
+### 6. Visualization catalog — 22 codes
+**Comparison**: bar, radial-bar, marimekko, radar, funnel, heatmap
+**Time**: line, area, stream, bump, calendar
+**Part-to-whole**: pie, donut, treemap, sunburst, circle-packing, waffle
+**Distribution**: scatter, boxplot, swarmplot
+**Single value**: kpi
+**Tabular**: table
 
-* id (UUID, Primary Key)  
-* email (String, Unique, Indexed)  
-* password\_hash (String, Nullable)  
-* created\_at (Timestamp)  
-* role (Enum: ADMIN, USER)  
-* auth\_provider (Enum: EMAIL, GOOGLE, Default: EMAIL)  
-* google\_id (String, Nullable, Unique)
+Each chart auto-fits the data shape (numeric vs categorical vs temporal columns). The Gemini prompt encodes a decision tree per category. A chip row above every chart lets the user override the AI's pick and re-render without re-querying.
 
-**Dataset**
+### 7. Insights + Dashboards
+- **Pin** any assistant message → `SavedInsight`. Title, SQL, chartType, overview, dataset link.
+- **Insights gallery** page lists all pinned charts; each tile re-executes its SQL on load (never stale).
+- **Dashboards**: drag-and-drop layouts using `react-grid-layout`. Resize, rearrange, persist. Compose multi-chart views from any combination of pinned insights.
 
-* id (UUID, Primary Key)  
-* user\_id (UUID, Foreign Key to User.id)  
-* dataset\_name (String)  
-* status (Enum: uploading, profiling, cleaning, ready, error)  
-* data\_table\_name (String): The unique, private table created for their data (e.g., data\_user\_abc\_dataset\_xyz).
+### 8. UX
+- **Dark + Light themes**, persisted, toggleable from navbar (every chart, panel, and surface re-tints).
+- **Cmd+K command palette** (`cmdk`): jump to any dataset, insight, dashboard, or action. Pages list is searchable.
+- **Mobile-responsive**: sidebar collapses on narrow viewports.
+- **Code-split bundle**: every page is lazy-loaded.
 
-**Dataset\_Schema (Critical for AI)**
+### 9. Production hardening
+- Authentication: JWT (email/password + Google OAuth, exchange-code flow — no token in URL).
+- `helmet`, `express-rate-limit` (30/15 min auth, 20/min analyze), central error handler, `/healthz`.
+- Prisma schema with cascade deletes + FK indexes; migrations applied via `prisma migrate deploy` in build.
+- Auth bypass flag (`AUTH_REQUIRED=false`) for local demo; flip to true for production.
+- Vitest unit tests for `sqlGuard`, `sqlExplainer`, `cleanerService.inferType`, `conversationService.titleFromPrompt`.
+- GitHub Actions CI: server tests + client build on PR / push.
+- `render.yaml` for declarative Render deploy with `/healthz` healthcheck.
 
-* id (UUID, Primary Key)  
-* dataset\_id (UUID, Foreign Key to Dataset.id)  
-* column\_name (String)  
-* data\_type (String, e.g., "FLOAT", "TEXT", "TIMESTAMP")  
-* description (Text, Nullable): A hint for the AI (e.g., "Main sales column").
+---
 
-# **Tech Stack**
+## Architecture
 
-* **Frontend:**  
-  * **Framework:** React  
-  * **Data Visualization:** D3.js (for rendering)  
-  * **State Management:** Zustand  
-  * **File Parsing:** Papa Parse  
-  * **UI/Layout:** CSS/Tailwind CSS  
-* **Backend:**  
-  * **Framework:** Node.js with **Express**  
-  * **AI / LLM:** **Google Gemini API** (for natural language-to-SQL)  
-  * **Authentication:** JWT (JSON Web Tokens), **Google OAuth 2.0**  
-* **Database:**  
-  * **Primary DB:** PostgreSQL
+```
+[ React + Vite ]  ←HTTP→  [ Express + Prisma ]  ←pg pool→  [ Neon Postgres ]
+   ↑ Bearer JWT             ↑ helmet + rate-limit
+   ↑ ⌘K palette              ↑ sqlGuard validates AI SQL
+   ↑ AuthContext             ↑ sqlRunner: BEGIN READ ONLY + timeout
+   ↑ ThemeContext            ↑ aiService → Gemini 2.5 Flash
+                                ↑ history-aware multi-turn
+```
 
-# **Workflow**
+User data tables (`ds_<ts>_<random>`) live in the same Postgres as metadata; metadata (datasets, conversations, messages, insights, dashboards) is managed by Prisma. AI SQL only runs in a read-only transaction with hard caps.
 
-1. **Login/Upload:** A user signs up or logs in (using email/password or Google OAuth) and uploads a CSV file.  
-2. **Parse & Stream:** The browser parses the file chunk by chunk (via Papa Parse) and streams the JSON to the backend.  
-3. **Stage & Profile:** The backend saves the data to a staging\_table and begins profiling it. This job profiles the data and saves the findings (column types, etc.) into the Dataset\_Schema table. The Dataset status is set to cleaning.  
-4. **Cleaning:** The user is directed to the /clean page, where they see the profiler's report and can use tools to clean the data.  
-5. **Commit:** When finished, the backend cleans the staging\_table based on the user's choices, creates the permanent data\_... table, and applies necessary indexes. The Dataset status is set to ready.  
-6. **Analyze:** The user proceeds to the /analyze workbench.  
-7. **Ask in English:** The user types: "What was our total revenue by month for last year? Make it a line chart."  
-8. **AI Translation:** The backend takes this query, retrieves the schema from the Dataset\_Schema table, and builds a prompt for the Gemini LLM.  
-9. **AI Response:** The LLM returns {"sql": "SELECT ...", "chartType": "line"}.  
-10. **Execute & Send:** The backend validates the SQL, runs it against the user's private data\_... table, and sends the resulting data and chartType to the frontend.  
-11. **Render:** The frontend receives the payload and dynamically renders a \<LineChart\> component (using React \+ D3).
+---
 
-# **Expected Outcomes**
+## What's intentionally NOT here (scope decisions)
 
-* A functional and scalable web application that provides a seamless, end-to-end experience for users, from data upload to final visualization.  
-* A genuinely useful tool that empowers non-technical users to query their data and gain insights simply by asking questions in plain English.  
-* A clear demonstration of how AI can be securely and effectively integrated into an application to automate complex tasks, like data analysis and SQL generation.
+- Multi-tenant orgs, sharing links, real-time collaboration → out of scope (solo / portfolio).
+- Row-level security, audit logs, PII masking → out of scope.
+- Background forecasting / anomaly cron → deferred (would need a job runner).
+- Multi-model AI routing (Gemini Flash only).
+- Embed iframe / public chart links.
+- Voice input → deliberately removed (would not survive cross-browser).
+- Sankey, chord, network charts → need `{nodes, links}` shape Gemini won't produce raw.
+
+---
+
+## Roadmap (next milestones)
+
+- **M3 — Data Report Card**: per-column null %, distinct count, histogram, sample-row drill-through from chart click.
+- **M2-advanced — Few-shot from history**: embed past successful prompts (`text-embedding-004`), inject top-3 similar examples per new query.
+- **Query / LLM cache**: `(schemaHash, normalizedPrompt, history-hash)` → response cache. Saves Gemini calls and shaves latency for repeat questions.
+- **Google Sheets connector**: live import via OAuth Sheets scope.
+- **Derived columns**: Postgres `GENERATED ALWAYS AS (<expr>) STORED` with a node-sql-parser expression validator.
+- **Streaming responses**: SSE for `{stage: thinking → sql → executing → done}` so the user sees progress on slow queries.
+
+Tech bet: stay on Gemini 2.5 Flash, Express, Vite, Neon. No stack rewrite — instead, layer features one milestone at a time.
